@@ -1,7 +1,6 @@
 
 package org.mixdrinks.mixdrinks.activities
 
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,8 +10,7 @@ import org.mixdrinks.mixdrinks.CocktailsAdapter
 import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.api.RetrofitClient
 import org.mixdrinks.mixdrinks.databinding.ActivityMainBinding
-import org.mixdrinks.mixdrinks.models.Cocktail
-import org.mixdrinks.mixdrinks.models.cocktailsResponse
+import org.mixdrinks.mixdrinks.models.CocktailsResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,10 +28,10 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
 
         RetrofitClient.instance.getCocktails().enqueue(object:
-            Callback<cocktailsResponse> {
+            Callback<CocktailsResponse> {
             override fun onResponse(
-                call: Call<cocktailsResponse>,
-                response: Response<cocktailsResponse>,
+                call: Call<CocktailsResponse>,
+                response: Response<CocktailsResponse>,
             ) {
                 Log.d("MyLog", "onResponse")
 
@@ -43,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }
-            override fun onFailure(call: Call<cocktailsResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CocktailsResponse>, t: Throwable) {
                 Toast.makeText(this@MainActivity, R.string.failure_connecting, Toast.LENGTH_LONG).show()
             }
         })

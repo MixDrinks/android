@@ -14,19 +14,20 @@ class CocktailsAdapter : RecyclerView.Adapter<CocktailsAdapter.CocktailHolder>()
 
     class CocktailHolder(item: View): RecyclerView.ViewHolder(item) {
         private val binding = CocktailItemBinding.bind(item)
-        fun bind(coctail: Cocktail) = with(binding){
-            nameTextView.text = coctail.name
-            Picasso.get().load(coctail.images.first().srcset).into(contentImageView);
-            if(coctail.rating == null) {
-                ratingImageView.visibility = ImageView.GONE
+        fun bind(cocktail: Cocktail) = with(binding){
+            nameTextView.text = cocktail.name
+            Picasso.get().load(cocktail.images.first().srcset).into(contentImageView);
+            if(cocktail.rating == null) {
+                ratingImageView.visibility = ImageView.INVISIBLE
             } else {
-                ratingTextView.text = coctail.rating.toString()
+                ratingImageView.visibility = ImageView.VISIBLE
+                ratingTextView.text = cocktail.rating.toString()
             }
-            if(coctail.visitCount == null) {
+            if(cocktail.visitCount == null) {
                 visitCountImageView.visibility = ImageView.GONE
             }
              else {
-                visitCountTextView.text = coctail.visitCount.toString()
+                visitCountTextView.text = cocktail.visitCount.toString()
             }
         }
     }
@@ -38,7 +39,6 @@ class CocktailsAdapter : RecyclerView.Adapter<CocktailsAdapter.CocktailHolder>()
 
     override fun onBindViewHolder(holder: CocktailHolder, position: Int) {
         holder.bind(cocktailList[position])
-
     }
 
     override fun getItemCount(): Int {
