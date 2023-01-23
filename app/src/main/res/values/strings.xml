@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">MixDrinks</string>
+    <string name="app_name" translatable="false">MixDrinks</string>
+
+    <string name="failure_connecting" >Failure connecting</string>
 </resources>

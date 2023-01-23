@@ -1,16 +1,48 @@
 
 package org.mixdrinks.mixdrinks.activities
 
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
+import org.mixdrinks.mixdrinks.CocktailsAdapter
+import org.mixdrinks.mixdrinks.R
+import org.mixdrinks.mixdrinks.api.RetrofitClient
 import org.mixdrinks.mixdrinks.databinding.ActivityMainBinding
+import org.mixdrinks.mixdrinks.models.Cocktail
+import org.mixdrinks.mixdrinks.models.cocktailsResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private var adapter = CocktailsAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.recyclerView.layoutManager = GridLayoutManager(this@MainActivity, 1)
+        binding.recyclerView.adapter = adapter
+
+        RetrofitClient.instance.getCocktails().enqueue(object:
+            Callback<cocktailsResponse> {
+            override fun onResponse(
+                call: Call<cocktailsResponse>,
+                response: Response<cocktailsResponse>,
+            ) {
+                Log.d("MyLog", "onResponse")
+
+                response.body()?.cocktails?.let { adapter.setData(it) }
+
+            }
+            override fun onFailure(call: Call<cocktailsResponse>, t: Throwable) {
+                Toast.makeText(this@MainActivity, R.string.failure_connecting, Toast.LENGTH_LONG).show()
+            }
+        })
     }
 }
