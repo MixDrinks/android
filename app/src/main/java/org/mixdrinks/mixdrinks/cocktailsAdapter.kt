@@ -3,6 +3,7 @@ package org.mixdrinks.mixdrinks
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import org.mixdrinks.mixdrinks.databinding.CocktailItemBinding
@@ -14,8 +15,19 @@ class CocktailsAdapter : RecyclerView.Adapter<CocktailsAdapter.CocktailHolder>()
     class CocktailHolder(item: View): RecyclerView.ViewHolder(item) {
         private val binding = CocktailItemBinding.bind(item)
         fun bind(coctail: Cocktail) = with(binding){
-            Picasso.get().load(coctail.images.first().srcset).into(imageView);
-            textView.text = coctail.name
+            nameTextView.text = coctail.name
+            Picasso.get().load(coctail.images.first().srcset).into(contentImageView);
+            if(coctail.rating == null) {
+                ratingImageView.visibility = ImageView.GONE
+            } else {
+                ratingTextView.text = coctail.rating.toString()
+            }
+            if(coctail.visitCount == null) {
+                visitCountImageView.visibility = ImageView.GONE
+            }
+             else {
+                visitCountTextView.text = coctail.visitCount.toString()
+            }
         }
     }
 
