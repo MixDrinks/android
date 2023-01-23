@@ -37,7 +37,10 @@ class MainActivity : AppCompatActivity() {
             ) {
                 Log.d("MyLog", "onResponse")
 
-                response.body()?.cocktails?.let { adapter.setData(it) }
+                response.body()?.cocktails?.let {
+                    adapter.cocktailList = it
+                    adapter.notifyDataSetChanged()
+                }
 
             }
             override fun onFailure(call: Call<cocktailsResponse>, t: Throwable) {

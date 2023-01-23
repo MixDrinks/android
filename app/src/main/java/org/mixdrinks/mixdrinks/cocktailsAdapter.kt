@@ -44,10 +44,4 @@ class CocktailsAdapter : RecyclerView.Adapter<CocktailsAdapter.CocktailHolder>()
     override fun getItemCount(): Int {
         return cocktailList.size
     }
-
-    fun setData(c: ArrayList<Cocktail>) {
-        cocktailList.addAll(c)
-        notifyDataSetChanged();
-
-    }
 }
