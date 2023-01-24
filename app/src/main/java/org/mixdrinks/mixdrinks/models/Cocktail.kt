@@ -8,5 +8,4 @@ data class Cocktail (
     @SerializedName("rating"     ) var rating     : Float?              = null,
     @SerializedName("visitCount" ) var visitCount : Int?              = null,
     @SerializedName("images"     ) var images     : ArrayList<Image> = arrayListOf()
-
 )

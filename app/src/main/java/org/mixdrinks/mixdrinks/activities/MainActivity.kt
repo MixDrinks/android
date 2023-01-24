@@ -17,32 +17,37 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private var adapter = CocktailsAdapter()
+    private val adapter = CocktailsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         binding.recyclerView.layoutManager = GridLayoutManager(this@MainActivity, 1)
         binding.recyclerView.adapter = adapter
 
-        RetrofitClient.instance.getCocktails().enqueue(object:
+        getData()
+
+    }
+
+    private fun getData() {
+        RetrofitClient.instance.getCocktails(0).enqueue(object:
             Callback<CocktailsResponse> {
-            override fun onResponse(
-                call: Call<CocktailsResponse>,
-                response: Response<CocktailsResponse>,
-            ) {
-                Log.d("MyLog", "onResponse")
+                override fun onResponse(
+                    call: Call<CocktailsResponse>,
+                    response: Response<CocktailsResponse>,
+                ) {
+                    Log.d("MyLog", "onResponse")
 
-                response.body()?.cocktails?.let {
-                    adapter.cocktailList = it
-                    adapter.notifyDataSetChanged()
+                    response.body()?.cocktails?.let {
+                        adapter.cocktailList = it
+                        adapter.notifyDataSetChanged()
+                    }
                 }
-
-            }
-            override fun onFailure(call: Call<CocktailsResponse>, t: Throwable) {
-                Toast.makeText(this@MainActivity, R.string.failure_connecting, Toast.LENGTH_LONG).show()
+                override fun onFailure(call: Call<CocktailsResponse>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, R.string.failure_connecting, Toast.LENGTH_LONG).show()
             }
         })
     }
