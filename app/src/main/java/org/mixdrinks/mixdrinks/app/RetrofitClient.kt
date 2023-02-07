@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.api
+package org.mixdrinks.mixdrinks.app
 
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -22,14 +22,9 @@ object RetrofitClient {
         .addInterceptor(logging)
         .build()
 
-
-    val instance: Api by lazy {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-        retrofit.create(Api::class.java)
-    }
-
+    val retrofit: Retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .client(okHttpClient)
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .build()
 }
