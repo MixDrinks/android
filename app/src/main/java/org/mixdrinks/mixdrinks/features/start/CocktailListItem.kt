@@ -67,7 +67,7 @@ private fun Header(rating: Float? = null, visitCount: Int? = null) {
                 modifier = Modifier.size(20.dp)
             )
             Text(
-                text = it.toString(),
+                text = it.toString().substring(0, 3),
                 modifier = Modifier.padding(start = 5.dp, end = 7.dp)
             )
         }
