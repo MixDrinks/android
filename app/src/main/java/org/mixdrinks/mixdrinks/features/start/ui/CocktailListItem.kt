@@ -1,8 +1,6 @@
 package org.mixdrinks.mixdrinks.features.start.ui
 
-import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,12 +28,15 @@ fun CocktailListItem(item: Cocktail) {
             ItemHeader(item.rating, item.visitCount)
             ItemImage(item.images.first())
             item.name?.let {
-                Text(text = it, style = typography.h6, modifier = Modifier.align(Alignment.CenterHorizontally))
+                Text(
+                    text = it,
+                    style = typography.h6,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
             }
         }
     }
 }
-
 @Composable
 private fun ItemImage(image: DataImage) {
     Box(
@@ -54,7 +55,6 @@ private fun ItemImage(image: DataImage) {
     }
 
 }
-
 @Composable
 private fun ItemHeader(rating: Float? = null, visitCount: Int? = null) {
     Row(
@@ -74,7 +74,6 @@ private fun ItemHeader(rating: Float? = null, visitCount: Int? = null) {
         }
     }
 }
-
 @Composable
 private fun ItemHeaderImage(imageId: Int, text: String) {
     Image(
