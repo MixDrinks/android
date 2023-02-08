@@ -1,6 +1,8 @@
-package org.mixdrinks.mixdrinks.features.start
+package org.mixdrinks.mixdrinks.features.start.ui
 
+import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,17 +17,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import org.mixdrinks.mixdrinks.data.Cocktail
-import org.mixdrinks.mixdrinks.data.DataImage
+import org.mixdrinks.mixdrinks.features.start.data.Cocktail
+import org.mixdrinks.mixdrinks.features.start.data.DataImage
 import coil.compose.AsyncImage
 
 @Composable
 fun CocktailListItem(item: Cocktail) {
-    Card(modifier = Modifier.padding(5.dp)) {
+    Card(
+        modifier = Modifier.padding(5.dp)
+    ) {
         Column {
             ItemHeader(item.rating, item.visitCount)
-
-            // запитати по отримані зображень з API
             ItemImage(item.images.first())
             item.name?.let {
                 Text(text = it, style = typography.h6, modifier = Modifier.align(Alignment.CenterHorizontally))

@@ -5,5 +5,5 @@ import retrofit2.http.Query
 
 interface CocktailProvider {
     @GET("search/cocktails")
-    suspend fun getCocktails(@Query("page") p: Int):  CocktailsResponse
+    suspend fun getCocktails(@Query("page") p: Int): CocktailsResponse
 }
