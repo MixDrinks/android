@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MixDrinksTheme {
-                StartScreen(mainViewModel.cocktailResponse.cocktails)
+                StartScreen(mainViewModel.cocktailListResponse)
                 mainViewModel.getCocktail(0)
             }
         }
