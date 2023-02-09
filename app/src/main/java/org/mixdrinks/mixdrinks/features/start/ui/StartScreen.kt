@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
 import androidx.compose.ui.unit.dp
 import org.mixdrinks.mixdrinks.features.start.data.Cocktail
-
 @Composable
 fun StartScreen(cocktail: List<Cocktail>) {
     LazyColumn(

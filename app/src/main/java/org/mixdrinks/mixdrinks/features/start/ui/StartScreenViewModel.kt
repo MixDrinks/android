@@ -11,7 +11,7 @@ import org.mixdrinks.mixdrinks.app.RetrofitClient
 import org.mixdrinks.mixdrinks.features.start.data.Cocktail
 import org.mixdrinks.mixdrinks.features.start.data.CocktailProvider
 
-class MainViewModel : ViewModel() {
+class StartScreenViewModel : ViewModel() {
     var cocktailListResponse: List<Cocktail> by mutableStateOf(listOf())
     private val cocktailProvider = RetrofitClient.retrofit.create(CocktailProvider::class.java)
 
@@ -25,6 +25,7 @@ class MainViewModel : ViewModel() {
             } catch (e: Exception) {
                 Log.d("MyLog", "Exception: $e")
             }
+            Log.d("MyLog", cocktailListResponse.size.toString())
         }
     }
 
