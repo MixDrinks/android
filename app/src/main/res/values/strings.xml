@@ -3,4 +3,8 @@
 
     <string name="failure_connecting">Failure connecting</string>
     <string name="title_activity_main" translatable="false">MainActivity</string>
+
+    <string name="cocktail_recipe">Cocktail recipe</string>
+    <string name="cocktail_ingredients">Ingredients of the cocktail</string>
+    <string name="need_tools">Need tools for cooking cocktail</string>
 </resources>
