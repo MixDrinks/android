@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.start.data
+package org.mixdrinks.mixdrinks.features.data
 
 import com.google.gson.annotations.SerializedName
 
