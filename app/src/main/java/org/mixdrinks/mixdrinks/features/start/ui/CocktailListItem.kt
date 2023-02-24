@@ -1,12 +1,13 @@
 package org.mixdrinks.mixdrinks.features.start.ui
 
+
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme.typography
-import org.mixdrinks.mixdrinks.R
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,49 +15,64 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import org.mixdrinks.mixdrinks.features.start.data.Cocktail
-import org.mixdrinks.mixdrinks.features.start.data.DataImage
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import org.mixdrinks.mixdrinks.R
+import org.mixdrinks.mixdrinks.features.data.Cocktail
+import org.mixdrinks.mixdrinks.features.data.DataImage
 
 @Composable
-fun CocktailListItem(item: Cocktail) {
+fun CocktailListItem(modifier: Modifier, item: Cocktail, onClickAction: (id: Int) -> Unit) {
     Card(
-        modifier = Modifier.padding(5.dp)
+        modifier = modifier
+            .clickable { item.id?.let { onClickAction(it) } }
     ) {
-        Column {
-            ItemHeader(item.rating, item.visitCount)
-            ItemImage(item.images.first())
+        Row(
+            modifier = modifier.padding(10.dp),
+        ) {
+            ListItemImage(item.images.first())
+            ListItemInfo(modifier = modifier, item = item)
+        }
+    }
+}
+@Composable
+private fun ListItemImage(image: DataImage) {
+    AsyncImage(
+        model = image.srcset,
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .clip(RoundedCornerShape(corner = CornerSize(16.dp)))
+            .size(200.dp),
+    )
+}
+
+@Composable
+private fun ListItemInfo(modifier: Modifier, item: Cocktail) {
+    Box {
+        UserInfo(item.rating, item.visitCount)
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = modifier
+                .height(200.dp)
+                .padding(start = 10.dp)
+        ) {
             item.name?.let {
                 Text(
                     text = it,
-                    style = typography.h6,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    fontWeight = FontWeight.W700,
+                    fontSize = 18.sp,
+                    color = MaterialTheme.colors.primaryVariant,
                 )
             }
         }
     }
 }
-@Composable
-private fun ItemImage(image: DataImage) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        AsyncImage(
-            model = image.srcset,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .padding(8.dp)
-                .clip(RoundedCornerShape(corner = CornerSize(16.dp)))
-                .size(200.dp),
-            )
-    }
 
-}
 @Composable
-private fun ItemHeader(rating: Float? = null, visitCount: Int? = null) {
+fun UserInfo(rating: Float? = null, visitCount: Int? = null) {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -66,16 +82,16 @@ private fun ItemHeader(rating: Float? = null, visitCount: Int? = null) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         rating?.let {
-            ItemHeaderImage(R.drawable.ic_baseline_star_24, it.toString().substring(0, 3))
-            Spacer(modifier = Modifier.width(10.dp))
+            UserInfoImage(R.drawable.ic_baseline_star_24, it.toString().substring(0, 3))
+            Spacer(modifier = Modifier.width(12.dp))
         }
         visitCount?.let {
-            ItemHeaderImage(R.drawable.ic_baseline_remove_red_eye_24, it.toString())
+            UserInfoImage(R.drawable.ic_baseline_eye_24, it.toString())
         }
     }
 }
 @Composable
-private fun ItemHeaderImage(imageId: Int, text: String) {
+private fun UserInfoImage(imageId: Int, text: String) {
     Image(
         painter = painterResource(id = imageId),
         contentDescription = null,
