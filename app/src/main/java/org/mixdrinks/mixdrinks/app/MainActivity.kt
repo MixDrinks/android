@@ -31,7 +31,6 @@ fun MixDrinksApp(
 ) {
     MixDrinksTheme {
         val navController = rememberNavController()
-
         NavHost(
             navController = navController,
             startDestination = "start"
