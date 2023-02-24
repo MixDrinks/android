@@ -8,12 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.mixdrinks.mixdrinks.app.RetrofitClient
-import org.mixdrinks.mixdrinks.features.start.data.Cocktail
-import org.mixdrinks.mixdrinks.features.start.data.CocktailProvider
+import org.mixdrinks.mixdrinks.features.data.Cocktail
+import org.mixdrinks.mixdrinks.features.data.CocktailProvider
 
-class StartScreenViewModel : ViewModel() {
+class StartScreenViewModel(
+    private val cocktailProvider: CocktailProvider = RetrofitClient.retrofit.create(CocktailProvider::class.java)
+) : ViewModel() {
     var cocktailListResponse: List<Cocktail> by mutableStateOf(listOf())
-    private val cocktailProvider = RetrofitClient.retrofit.create(CocktailProvider::class.java)
 
     fun getCocktail(page: Int = 0) {
         viewModelScope.launch {
