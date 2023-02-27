@@ -1,5 +1,6 @@
 package org.mixdrinks.mixdrinks.features.detail.ui
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -26,7 +27,6 @@ import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.currentCompositeKeyHash
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,34 +38,44 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.app.ui.theme.Green700
+import org.mixdrinks.mixdrinks.features.common.ui.widget.ErrorWidget
+import org.mixdrinks.mixdrinks.features.common.ui.widget.LoaderIndicator
 import org.mixdrinks.mixdrinks.features.data.DetailCocktailResponse
 import org.mixdrinks.mixdrinks.features.data.Goods
 import org.mixdrinks.mixdrinks.features.start.ui.UserInfo
-import org.koin.androidx.compose.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 @Preview(showBackground = true)
 @Composable
 fun DetailScreenPreview() {
-  DetailScreen(modifier = Modifier)
+  DetailScreen(modifier = Modifier, 22)
 }
 
 @Composable
 fun DetailScreen(
     modifier: Modifier,
-    cocktailId: Int = 1187,
+    cocktailId: Int,
     viewModel: DetailScreenViewModel = koinViewModel { parametersOf(cocktailId) },
 ) {
-  val cocktail by viewModel.uiState.collectAsState()
+    val cocktail by viewModel.uiState.collectAsState()
 
-  if (cocktail is DetailScreenViewModel.DetailUiState.Loaded) {
-    val data = (cocktail as DetailScreenViewModel.DetailUiState.Loaded).itemState
-    DetailsScreenData(modifier, data.schedules)
-  } else {
-    Text(text = "Error or loading")
-  }
+    when(cocktail) {
+        is DetailScreenViewModel.DetailUiState.Loaded -> {
+            val data = (cocktail as DetailScreenViewModel.DetailUiState.Loaded).itemState
+            DetailsScreenData(modifier, data.cocktail)
+        }
+        is DetailScreenViewModel.DetailUiState.Loading -> {
+            LoaderIndicator(modifier)
+        }
+        else -> {
+            val errorText = cocktail as DetailScreenViewModel.DetailUiState.Error
+            Log.d("MyLog", errorText.message)
+            ErrorWidget(modifier = modifier, text = "Error loading data")
+        }
+    }
 }
 
 @Composable

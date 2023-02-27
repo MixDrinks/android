@@ -1,14 +1,10 @@
 package org.mixdrinks.mixdrinks.features.detail.ui
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.CreationExtras
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.mixdrinks.mixdrinks.app.RetrofitClient
 import org.mixdrinks.mixdrinks.features.data.CocktailProvider
 import org.mixdrinks.mixdrinks.features.data.DetailCocktailResponse
 
@@ -26,12 +22,10 @@ class DetailScreenViewModel(
         viewModelScope.launch {
             try {
                 val result = cocktailProvider.getCoktail(cocktailId)
-
                 _uiState.value = DetailUiState.Loaded(DetailItemUiState(result))
             } catch (error: Exception) {
                 _uiState.value = DetailUiState.Error(error.toString())
             }
-
         }
     }
 
