@@ -1,26 +1,12 @@
 package org.mixdrinks.mixdrinks.features.detail.ui
 
 import android.util.Log
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TabRowDefaults.Divider
@@ -88,87 +74,73 @@ fun DetailsScreenData(modifier: Modifier, cocktail: DetailCocktailResponse) {
           .padding(10.dp)
 
   ) {
-    cocktail.name?.let {
       HeaderText(
           modifier = modifier,
-          text = it,
+          text = cocktail.name,
           textStyle = MaterialTheme.typography.h1
       )
+        UserInfo(visitCount = 300, rating = 5f)
+        AsyncImage(
+            model = cocktail.images.first().srcset,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxWidth(1f)
+                .size(width = 300.dp, height = 200.dp),
+        )
+        Spacer(modifier = modifier.padding(top = 20.dp))
+        CocktailRecipe(
+            modifier = modifier,
+            cocktailName = cocktail.name,
+            cocktailReceipt = cocktail.receipt
+        )
+        Spacer(modifier = modifier.padding(top = 10.dp))
+        CocktailIngredients(
+            modifier = modifier,
+            cocktailName = cocktail.name,
+            cocktailGoods = cocktail.goods
+        )
+        Spacer(modifier = modifier.padding(top = 15.dp))
+        CocktailNeedTools(
+            modifier = modifier,
+            cocktailName = cocktail.name,
+            cocktailTools = cocktail.tools
+        )
     }
-    UserInfo(visitCount = 300, rating = 5f)
-    AsyncImage(
-        model = cocktail.images.first().srcset,
-        contentDescription = null,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .fillMaxWidth(1f)
-            .size(width = 300.dp, height = 200.dp),
-    )
-    Spacer(modifier = modifier.padding(top = 20.dp))
-    HeaderText(
-        modifier = modifier,
-        text = "${stringResource(R.string.cocktail_recipe)} ${cocktail.name}",
-        textStyle = MaterialTheme.typography.h2
-    )
-    Spacer(modifier = modifier.padding(top = 5.dp))
-    cocktail.receipt?.let {
-      RecipeContent(
-          modifier = modifier,
-          receipt = it
-      )
-    }
-
-    Spacer(modifier = modifier.padding(top = 10.dp))
-    HeaderText(
-        modifier = modifier,
-        text = "${stringResource(R.string.cocktail_ingredients)} ${cocktail.name}",
-        textStyle = MaterialTheme.typography.h2
-    )
-    Spacer(modifier = modifier.padding(top = 15.dp))
-    CocktailPortions(modifier = modifier, {}, {})
-    Spacer(modifier = modifier.padding(bottom = 15.dp))
-    ListItems(
-        modifier = modifier,
-        goods = cocktail.goods,
-        onCLick = { }
-    )
-
-    Spacer(modifier = modifier.padding(top = 15.dp))
-    HeaderText(
-        modifier = modifier,
-        text = "${stringResource(R.string.need_tools)} ${cocktail.name}",
-        textStyle = MaterialTheme.typography.h2
-    )
-    Spacer(modifier = modifier.padding(bottom = 15.dp))
-    ListItems(
-        modifier = modifier,
-        goods = cocktail.tools,
-        visibleUnit = false,
-        onCLick = { }
-    )
-  }
 }
 
 @Composable
-fun HeaderText(
-    modifier: Modifier,
-    text: String,
-    textStyle: TextStyle,
-) {
+fun HeaderText(modifier: Modifier, text: String?, textStyle: TextStyle,) {
   Row(
       modifier = modifier
           .fillMaxWidth(1f),
       horizontalArrangement = Arrangement.Start
   ) {
     Text(
-        text = text,
+        text = text ?: "",
         style = textStyle
     )
   }
 }
 
 @Composable
-fun RecipeContent(modifier: Modifier, receipt: List<String>) {
+private fun CocktailRecipe(modifier: Modifier, cocktailName: String?, cocktailReceipt: List<String>?) {
+    HeaderText(
+        modifier = modifier,
+        text = "${stringResource(R.string.cocktail_recipe)} $cocktailName",
+        textStyle = MaterialTheme.typography.h2
+    )
+    Spacer(modifier = modifier.padding(top = 5.dp))
+    cocktailReceipt?.let {
+        RecipeContent(
+            modifier = modifier,
+            receipt = it
+        )
+    }
+}
+
+@Composable
+private fun RecipeContent(modifier: Modifier, receipt: List<String>) {
   receipt.forEachIndexed { index, it ->
     Row(
         modifier = modifier.padding(1.dp),
@@ -192,33 +164,51 @@ fun RecipeContent(modifier: Modifier, receipt: List<String>) {
   }
 }
 
+
 @Composable
 private fun SquareMarker(modifier: Modifier, text: String, isBackground: Boolean = true, textColor: Color = Color.White) {
-  Card(
-      modifier = modifier
-          .border(
-              BorderStroke(2.dp, Green700),
-              shape = RoundedCornerShape(3.dp),
-          )
-          .size(30.dp),
-      backgroundColor = (if (isBackground) Green700 else Color.White)
-
-  ) {
-    Text(
-        color = textColor,
-        text = text,
-        textAlign = TextAlign.Center,
+    Card(
         modifier = modifier
-            .wrapContentHeight()
-            .wrapContentWidth(),
-    )
-  }
+            .border(
+                BorderStroke(2.dp, Green700),
+                shape = RoundedCornerShape(3.dp),
+            )
+            .size(30.dp),
+        backgroundColor = (if (isBackground) Green700 else Color.White)
+
+    ) {
+        Text(
+            color = textColor,
+            text = text,
+            textAlign = TextAlign.Center,
+            modifier = modifier
+                .wrapContentHeight()
+                .wrapContentWidth(),
+        )
+    }
 
 
 }
 
 @Composable
-fun CocktailPortions(modifier: Modifier, onClickMinus: () -> Unit, onClickPLus: () -> Unit) {
+private fun CocktailIngredients(modifier: Modifier, cocktailName: String?, cocktailGoods: List<Goods>) {
+    HeaderText(
+        modifier = modifier,
+        text = "${stringResource(R.string.cocktail_ingredients)} $cocktailName",
+        textStyle = MaterialTheme.typography.h2
+    )
+    Spacer(modifier = modifier.padding(top = 15.dp))
+    CocktailPortions(modifier = modifier, {}, {})
+    Spacer(modifier = modifier.padding(bottom = 15.dp))
+    ListItems(
+        modifier = modifier,
+        goods = cocktailGoods,
+        onCLick = { }
+    )
+}
+
+@Composable
+private fun CocktailPortions(modifier: Modifier, onClickMinus: () -> Unit, onClickPLus: () -> Unit) {
   Row {
     SquareMarker(
         modifier = modifier,
@@ -242,7 +232,23 @@ fun CocktailPortions(modifier: Modifier, onClickMinus: () -> Unit, onClickPLus: 
 }
 
 @Composable
-fun ListItems(modifier: Modifier, visibleUnit: Boolean = true, goods: List<Goods>, onCLick: () -> Unit) {
+fun CocktailNeedTools(modifier: Modifier, cocktailName: String?, cocktailTools: List<Goods>) {
+    HeaderText(
+        modifier = modifier,
+        text = "${stringResource(R.string.need_tools)} $cocktailName",
+        textStyle = MaterialTheme.typography.h2
+    )
+    Spacer(modifier = modifier.padding(bottom = 15.dp))
+    ListItems(
+        modifier = modifier,
+        goods = cocktailTools,
+        visibleUnit = false,
+        onCLick = { }
+    )
+}
+
+@Composable
+private fun ListItems(modifier: Modifier, visibleUnit: Boolean = true, goods: List<Goods>, onCLick: () -> Unit) {
   LazyHorizontalGrid(
       rows = GridCells.Fixed(1),
       horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -285,7 +291,6 @@ fun ListItems(modifier: Modifier, visibleUnit: Boolean = true, goods: List<Goods
                 textStyle = MaterialTheme.typography.h4
             )
         }
-
       }
     }
   }
