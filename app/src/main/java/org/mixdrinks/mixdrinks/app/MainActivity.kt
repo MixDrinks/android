@@ -40,14 +40,16 @@ fun MixDrinksApp(
                 StartScreen(
                     modifier = modifier,
                     mainViewModel.cocktailListResponse,
-                    onNavigateToDetail = { navController.navigate("coctail/$it") }
+                    onNavigateToDetail = { navController.navigate("cocktail/$it") }
                 )
                 mainViewModel.getCocktail(0)
             }
-            composable("coctail/{coctailId}") {
+            composable("cocktail/{cocktailId}") {
                 backStackEntry ->
-                    backStackEntry.arguments?.getString("coctailId")
-                    DetailScreen(modifier = modifier)
+                    val cocktailId = backStackEntry.arguments?.getString("cocktailId")
+                    cocktailId?.toInt()?.let {
+                        DetailScreen(modifier = modifier, cocktailId = it)
+                    }
             }
 
 
