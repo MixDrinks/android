@@ -21,7 +21,7 @@ class DetailScreenViewModel(
 
         viewModelScope.launch {
             try {
-                val result = cocktailProvider.getCoktail(cocktailId)
+                val result = cocktailProvider.getCocktail(cocktailId)
                 _uiState.value = DetailUiState.Loaded(DetailItemUiState(result))
             } catch (error: Exception) {
                 _uiState.value = DetailUiState.Error(error.toString())
