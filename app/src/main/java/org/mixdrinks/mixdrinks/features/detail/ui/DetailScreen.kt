@@ -65,21 +65,30 @@ fun DetailScreen(
 
 @Composable
 fun DetailsScreenData(modifier: Modifier, cocktail: DetailCocktailResponse) {
-  Column(
-      modifier = modifier
-          .verticalScroll(rememberScrollState())
-          .fillMaxWidth(1f)
-          .fillMaxHeight(1f)
-          .padding(10.dp)
-  ) {
+    Column(
+        modifier = modifier
+            .verticalScroll(rememberScrollState())
+            .fillMaxWidth(1f)
+            .fillMaxHeight(1f)
+            .padding(10.dp)
+    ) {
         HeaderText(
-          modifier = modifier,
-          text = cocktail.name,
-          textStyle = MaterialTheme.typography.h1
+            modifier = modifier,
+            text = cocktail.name,
+            textStyle = MaterialTheme.typography.h1
         )
         Spacer(modifier = modifier.padding(5.dp))
+
         UserInfo(modifier = modifier, visitCount = cocktail.visitCount, rating = cocktail.rating)
         Spacer(modifier = modifier.padding(5.dp))
+
+        TagListItem(
+            modifier = modifier,
+            listTags = cocktail.tags,
+            onClickAction = { Log.d("MyLog", it.toString()) }
+        )
+        Spacer(modifier = modifier.padding(5.dp))
+
         AsyncImage(
             model = cocktail.images.first().srcset,
             contentDescription = null,
@@ -89,19 +98,22 @@ fun DetailsScreenData(modifier: Modifier, cocktail: DetailCocktailResponse) {
                 .size(width = 300.dp, height = 200.dp),
         )
         Spacer(modifier = modifier.padding(top = 20.dp))
-        CocktailRecipe(
+
+        CocktailRecipeContent(
             modifier = modifier,
             cocktailName = cocktail.name,
             cocktailReceipt = cocktail.receipt
         )
         Spacer(modifier = modifier.padding(top = 10.dp))
-        CocktailIngredients(
+
+        CocktailIngredientsContent(
             modifier = modifier,
             cocktailName = cocktail.name,
             cocktailGoods = cocktail.goods
         )
         Spacer(modifier = modifier.padding(top = 15.dp))
-        CocktailNeedTools(
+
+        CocktailNeedToolsContent(
             modifier = modifier,
             cocktailName = cocktail.name,
             cocktailTools = cocktail.tools
@@ -124,7 +136,7 @@ fun HeaderText(modifier: Modifier, text: String?, textStyle: TextStyle,) {
 }
 
 @Composable
-private fun CocktailRecipe(modifier: Modifier, cocktailName: String?, cocktailReceipt: List<String>?) {
+private fun CocktailRecipeContent(modifier: Modifier, cocktailName: String?, cocktailReceipt: List<String>?) {
     HeaderText(
         modifier = modifier,
         text = "${stringResource(R.string.cocktail_recipe)} $cocktailName",
@@ -132,7 +144,7 @@ private fun CocktailRecipe(modifier: Modifier, cocktailName: String?, cocktailRe
     )
     Spacer(modifier = modifier.padding(top = 5.dp))
     cocktailReceipt?.let {
-        RecipeContent(
+        ListCocktailRecipe(
             modifier = modifier,
             receipt = it
         )
@@ -140,7 +152,7 @@ private fun CocktailRecipe(modifier: Modifier, cocktailName: String?, cocktailRe
 }
 
 @Composable
-private fun RecipeContent(modifier: Modifier, receipt: List<String>) {
+private fun ListCocktailRecipe(modifier: Modifier, receipt: List<String>) {
   receipt.forEachIndexed { index, it ->
     Row(
         modifier = modifier.padding(1.dp),
@@ -187,7 +199,7 @@ private fun SquareMarker(modifier: Modifier, text: String, isBackground: Boolean
 }
 
 @Composable
-private fun CocktailIngredients(modifier: Modifier, cocktailName: String?, cocktailGoods: List<Goods>) {
+private fun CocktailIngredientsContent(modifier: Modifier, cocktailName: String?, cocktailGoods: List<Goods>) {
     HeaderText(
         modifier = modifier,
         text = "${stringResource(R.string.cocktail_ingredients)} $cocktailName",
@@ -226,7 +238,7 @@ private fun CocktailPortions(modifier: Modifier, onClickMinus: () -> Unit, onCli
 }
 
 @Composable
-fun CocktailNeedTools(modifier: Modifier, cocktailName: String?, cocktailTools: List<Goods>) {
+fun CocktailNeedToolsContent(modifier: Modifier, cocktailName: String?, cocktailTools: List<Goods>) {
     HeaderText(
         modifier = modifier,
         text = "${stringResource(R.string.need_tools)} $cocktailName",
