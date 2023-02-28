@@ -199,7 +199,7 @@ private fun CocktailIngredients(modifier: Modifier, cocktailName: String?, cockt
     GoodsListItem(
         modifier = modifier,
         goods = cocktailGoods,
-        onCLick = { }
+        onCLick = { TODO() }
     )
 }
 
