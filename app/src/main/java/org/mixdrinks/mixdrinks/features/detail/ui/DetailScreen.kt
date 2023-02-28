@@ -1,12 +1,12 @@
 package org.mixdrinks.mixdrinks.features.detail.ui
 
 import android.util.Log
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TabRowDefaults.Divider
@@ -160,10 +160,8 @@ private fun RecipeContent(modifier: Modifier, receipt: List<String>) {
           modifier = modifier.padding(4.dp)
       )
     }
-
   }
 }
-
 
 @Composable
 private fun SquareMarker(modifier: Modifier, text: String, isBackground: Boolean = true, textColor: Color = Color.White) {
@@ -186,8 +184,6 @@ private fun SquareMarker(modifier: Modifier, text: String, isBackground: Boolean
                 .wrapContentWidth(),
         )
     }
-
-
 }
 
 @Composable
@@ -200,7 +196,7 @@ private fun CocktailIngredients(modifier: Modifier, cocktailName: String?, cockt
     Spacer(modifier = modifier.padding(top = 15.dp))
     CocktailPortions(modifier = modifier, {}, {})
     Spacer(modifier = modifier.padding(bottom = 15.dp))
-    ListItems(
+    GoodsListItem(
         modifier = modifier,
         goods = cocktailGoods,
         onCLick = { }
@@ -226,8 +222,6 @@ private fun CocktailPortions(modifier: Modifier, onClickMinus: () -> Unit, onCli
         modifier = modifier,
         text = "+"
     )
-
-
   }
 }
 
@@ -239,60 +233,10 @@ fun CocktailNeedTools(modifier: Modifier, cocktailName: String?, cocktailTools: 
         textStyle = MaterialTheme.typography.h2
     )
     Spacer(modifier = modifier.padding(bottom = 15.dp))
-    ListItems(
+    GoodsListItem(
         modifier = modifier,
         goods = cocktailTools,
         visibleUnit = false,
         onCLick = { }
     )
 }
-
-@Composable
-private fun ListItems(modifier: Modifier, visibleUnit: Boolean = true, goods: List<Goods>, onCLick: () -> Unit) {
-  LazyHorizontalGrid(
-      rows = GridCells.Fixed(1),
-      horizontalArrangement = Arrangement.spacedBy(8.dp),
-      modifier = modifier.height(240.dp)
-
-  ) {
-    items(goods) { item ->
-      Card(
-          modifier = modifier
-              .clickable { onCLick() },
-      ) {
-        Column(
-            modifier = modifier
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-          AsyncImage(
-              modifier = modifier
-                  .border(
-                      BorderStroke(2.dp, Color(0xFF2b4718)),
-                      shape = RoundedCornerShape(16.dp),
-                  )
-                  .size(190.dp)
-                  .padding(5.dp),
-              model = item.images.first().srcset,
-              contentDescription = null,
-              contentScale = ContentScale.Inside,
-          )
-          item.name?.let {
-            HeaderText(
-                modifier = modifier,
-                text = it,
-                textStyle = MaterialTheme.typography.body1
-            )
-          }
-          if (visibleUnit)
-            HeaderText(
-                modifier = modifier,
-                text = "${item.amount} ${item.unit}",
-                textStyle = MaterialTheme.typography.h4
-            )
-        }
-      }
-    }
-  }
-}
-
