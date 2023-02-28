@@ -23,6 +23,7 @@ import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.data.Cocktail
 import org.mixdrinks.mixdrinks.features.data.DataImage
 
+
 @Composable
 fun CocktailListItem(modifier: Modifier, item: Cocktail, onClickAction: (id: Int) -> Unit) {
     Card(
@@ -37,6 +38,7 @@ fun CocktailListItem(modifier: Modifier, item: Cocktail, onClickAction: (id: Int
         }
     }
 }
+
 @Composable
 private fun ListItemImage(image: DataImage) {
     AsyncImage(
@@ -90,6 +92,7 @@ fun UserInfo(rating: Float? = null, visitCount: Int? = null) {
         }
     }
 }
+
 @Composable
 private fun UserInfoImage(imageId: Int, text: String) {
     Image(
