@@ -43,14 +43,14 @@ fun UserInfo(modifier: Modifier, rating: Double? = null, visitCount: Int? = null
         Spacer(Modifier.weight(1f))
         Row {
             Row {
-                RatingBar(rating = rating)
+                RatingSelector(rating = rating)
             }
         }
     }
 }
 
 @Composable
-fun ItemRatingStar() {
+fun ItemRatingSelector() {
     Image(
         painter = painterResource(id = R.drawable.ic_baseline_star_24),
         contentDescription = null,
@@ -59,10 +59,10 @@ fun ItemRatingStar() {
 }
 
 @Composable
-private fun RatingBar(rating: Double? = null) {
+private fun RatingSelector(rating: Double? = null) {
     if (rating != null) {
         for (i in 0 until rating.roundToInt())
-            ItemRatingStar()
+            ItemRatingSelector()
     }
 }
 

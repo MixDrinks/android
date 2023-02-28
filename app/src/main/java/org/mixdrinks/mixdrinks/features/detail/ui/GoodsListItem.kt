@@ -25,7 +25,6 @@ fun GoodsListItem(modifier: Modifier, visibleUnit: Boolean = true, goods: List<G
         rows = GridCells.Fixed(1),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier.height(240.dp)
-
     ) {
         items(goods) { item ->
             Card(
