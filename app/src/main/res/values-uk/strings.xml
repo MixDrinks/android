@@ -4,4 +4,5 @@
     <string name="cocktail_recipe">Рецепт Коктейлю</string>
     <string name="cocktail_ingredients">Склад коктейлю</string>
     <string name="need_tools">Потрібні штучки для пригоування</string>
+    <string name="visit_count">Перегляди</string>
 </resources>
