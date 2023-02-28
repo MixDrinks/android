@@ -32,7 +32,6 @@ import org.mixdrinks.mixdrinks.features.common.ui.widget.ErrorWidget
 import org.mixdrinks.mixdrinks.features.common.ui.widget.LoaderIndicator
 import org.mixdrinks.mixdrinks.features.data.DetailCocktailResponse
 import org.mixdrinks.mixdrinks.features.data.Goods
-import org.mixdrinks.mixdrinks.features.start.ui.UserInfo
 
 @Preview(showBackground = true)
 @Composable
@@ -72,14 +71,15 @@ fun DetailsScreenData(modifier: Modifier, cocktail: DetailCocktailResponse) {
           .fillMaxWidth(1f)
           .fillMaxHeight(1f)
           .padding(10.dp)
-
   ) {
-      HeaderText(
+        HeaderText(
           modifier = modifier,
           text = cocktail.name,
           textStyle = MaterialTheme.typography.h1
-      )
-        UserInfo(visitCount = 300, rating = 5f)
+        )
+        Spacer(modifier = modifier.padding(5.dp))
+        UserInfo(modifier = modifier, visitCount = cocktail.visitCount, rating = cocktail.rating)
+        Spacer(modifier = modifier.padding(5.dp))
         AsyncImage(
             model = cocktail.images.first().srcset,
             contentDescription = null,
