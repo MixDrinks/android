@@ -8,5 +8,6 @@
     <string name="cocktail_ingredients">Ingredients of the cocktail</string>
     <string name="need_tools">Need tools for cooking cocktail</string>
     <string name="visit_count">Visit count</string>
+    <string name="search_hint">Search</string>
 
 </resources>
