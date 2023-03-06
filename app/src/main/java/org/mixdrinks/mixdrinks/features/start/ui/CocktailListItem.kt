@@ -53,12 +53,14 @@ private fun ListItemImage(image: DataImage) {
 
 @Composable
 private fun ListItemInfo(modifier: Modifier, item: Cocktail) {
-    Box {
-        UserInfo(item.rating, item.visitCount)
-        Box(
-            contentAlignment = Alignment.Center,
+    Column(
+        modifier = modifier
+            .fillMaxWidth(1f)
+            .height(200.dp),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Row(
             modifier = modifier
-                .height(200.dp)
                 .padding(start = 10.dp)
         ) {
             item.name?.let {
@@ -70,15 +72,15 @@ private fun ListItemInfo(modifier: Modifier, item: Cocktail) {
                 )
             }
         }
+        UserInfo(item.rating, item.visitCount)
     }
 }
 
 @Composable
-fun UserInfo(rating: Float? = null, visitCount: Int? = null) {
+private fun UserInfo(rating: Float? = null, visitCount: Int? = null) {
     Row(
         modifier = Modifier
-            .fillMaxSize()
-            .height(30.dp)
+            .fillMaxWidth(1f)
             .padding(end = 5.dp),
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically
