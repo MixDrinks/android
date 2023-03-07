@@ -38,4 +38,5 @@ class DetailScreenViewModel(
 
 data class DetailItemUiState(
     val cocktail: DetailCocktailResponse
+
 )
