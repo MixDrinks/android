@@ -29,5 +29,6 @@ class StartScreenViewModel(
             Log.d("MyLog", cocktailListResponse.size.toString())
         }
     }
-
 }
+
+

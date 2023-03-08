@@ -5,3 +5,4 @@ data class DataImage (
     val media: String? = null,
     val type: String? = null
 )
+

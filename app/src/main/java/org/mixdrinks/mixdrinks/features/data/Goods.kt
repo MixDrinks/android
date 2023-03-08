@@ -7,3 +7,4 @@ data class Goods(
     val name: String? = null,
     val unit: String? = null
 )
+

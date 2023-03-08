@@ -18,3 +18,4 @@ data class DetailCocktailResponse(
     val tools: List<Goods> = listOf(),
     val tags: List<Tag> = listOf(),
 )
+

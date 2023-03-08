@@ -18,3 +18,4 @@ fun ErrorWidget(modifier: Modifier, text: String) {
         )
     }
 }
+

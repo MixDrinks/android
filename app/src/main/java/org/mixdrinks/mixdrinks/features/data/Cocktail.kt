@@ -7,3 +7,5 @@ data class Cocktail (
     val visitCount: Int? = null,
     val images: List<DataImage> = listOf()
 )
+
+
