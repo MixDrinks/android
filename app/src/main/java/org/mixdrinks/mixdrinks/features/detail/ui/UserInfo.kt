@@ -50,8 +50,9 @@ fun ItemRatingSelector() {
 @Composable
 private fun RatingSelector(rating: Double? = null) {
     if (rating != null) {
-        for (i in 0 until rating.roundToInt())
+        repeat(rating.roundToInt()) {
             ItemRatingSelector()
+        }
     }
 }
 
