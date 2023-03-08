@@ -178,7 +178,12 @@ private fun ListCocktailRecipe(modifier: Modifier, receipt: List<String>) {
 }
 
 @Composable
-private fun SquareMarker(modifier: Modifier, text: String, isBackground: Boolean = true, textColor: Color = Color.White) {
+private fun SquareMarker(
+    modifier: Modifier,
+    text: String,
+    isBackground: Boolean = true,
+    textColor: Color = Color.White
+) {
     Card(
         modifier = modifier
             .border(
