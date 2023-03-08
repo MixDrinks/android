@@ -107,5 +107,3 @@ private fun UserInfoImage(imageId: Int, text: String) {
         modifier = Modifier.padding(start = 5.dp)
     )
 }
-
-

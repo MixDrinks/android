@@ -39,7 +39,6 @@ fun SearchHintContent(modifier: Modifier, listHints: List<String> = listItems, o
     }
 }
 
-
 private val listItems = listOf(
     "Джин тонік",
     "Джин тонік 2",
