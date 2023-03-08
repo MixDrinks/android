@@ -21,7 +21,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import org.koin.androidx.compose.koinViewModel
@@ -32,12 +31,6 @@ import org.mixdrinks.mixdrinks.features.common.ui.widget.ErrorWidget
 import org.mixdrinks.mixdrinks.features.common.ui.widget.LoaderIndicator
 import org.mixdrinks.mixdrinks.features.data.DetailCocktailResponse
 import org.mixdrinks.mixdrinks.features.data.Goods
-
-@Preview(showBackground = true)
-@Composable
-fun DetailScreenPreview() {
-  DetailScreen(modifier = Modifier, 22)
-}
 
 @Composable
 fun DetailScreen(
@@ -167,7 +160,7 @@ private fun ListCocktailRecipe(modifier: Modifier, receipt: List<String>) {
     }
     if (it != receipt.last()) {
       Divider(
-          color = Color(0xFF2b4718),
+          color = MaterialTheme.colors.primaryVariant,
           thickness = 1.dp,
           modifier = modifier.padding(4.dp)
       )
@@ -227,7 +220,7 @@ private fun CocktailPortions(modifier: Modifier, onClickMinus: () -> Unit, onCli
         modifier = modifier,
         text = "1",
         isBackground = false,
-        textColor = Color(0xFF2B4718)
+        textColor = MaterialTheme.colors.primaryVariant
     )
     Spacer(modifier = modifier.padding(5.dp))
     SquareMarker(

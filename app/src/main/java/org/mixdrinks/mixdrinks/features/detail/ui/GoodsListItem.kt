@@ -3,12 +3,7 @@ package org.mixdrinks.mixdrinks.features.detail.ui
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -18,7 +13,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -44,7 +38,7 @@ fun GoodsListItem(modifier: Modifier, visibleUnit: Boolean = true, goods: List<G
                     AsyncImage(
                         modifier = modifier
                             .border(
-                                BorderStroke(2.dp, Color(0xFF2b4718)),
+                                BorderStroke(2.dp, MaterialTheme.colors.primaryVariant),
                                 shape = RoundedCornerShape(16.dp),
                             )
                             .size(190.dp)

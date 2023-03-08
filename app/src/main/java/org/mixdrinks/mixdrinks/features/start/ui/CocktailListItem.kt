@@ -57,7 +57,7 @@ private fun ListItemInfo(modifier: Modifier, item: Cocktail) {
         modifier = modifier
             .fillMaxWidth(1f)
             .height(200.dp),
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement =   Arrangement.SpaceBetween
     ) {
         Row(
             modifier = modifier
