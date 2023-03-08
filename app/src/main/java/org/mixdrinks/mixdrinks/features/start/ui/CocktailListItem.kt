@@ -3,7 +3,15 @@ package org.mixdrinks.mixdrinks.features.start.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -23,6 +31,7 @@ import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.data.Cocktail
 import org.mixdrinks.mixdrinks.features.data.DataImage
 
+
 @Composable
 fun CocktailListItem(modifier: Modifier, item: Cocktail, onClickAction: (id: Int) -> Unit) {
     Card(
@@ -37,6 +46,7 @@ fun CocktailListItem(modifier: Modifier, item: Cocktail, onClickAction: (id: Int
         }
     }
 }
+
 @Composable
 private fun ListItemImage(image: DataImage) {
     AsyncImage(
@@ -51,12 +61,14 @@ private fun ListItemImage(image: DataImage) {
 
 @Composable
 private fun ListItemInfo(modifier: Modifier, item: Cocktail) {
-    Box {
-        UserInfo(item.rating, item.visitCount)
-        Box(
-            contentAlignment = Alignment.Center,
+    Column(
+        modifier = modifier
+            .fillMaxWidth(1f)
+            .height(200.dp),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Row(
             modifier = modifier
-                .height(200.dp)
                 .padding(start = 10.dp)
         ) {
             item.name?.let {
@@ -68,15 +80,15 @@ private fun ListItemInfo(modifier: Modifier, item: Cocktail) {
                 )
             }
         }
+        UserInfo(item.rating, item.visitCount)
     }
 }
 
 @Composable
-fun UserInfo(rating: Float? = null, visitCount: Int? = null) {
+private fun UserInfo(rating: Float? = null, visitCount: Int? = null) {
     Row(
         modifier = Modifier
-            .fillMaxSize()
-            .height(30.dp)
+            .fillMaxWidth(1f)
             .padding(end = 5.dp),
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically
@@ -90,6 +102,7 @@ fun UserInfo(rating: Float? = null, visitCount: Int? = null) {
         }
     }
 }
+
 @Composable
 private fun UserInfoImage(imageId: Int, text: String) {
     Image(

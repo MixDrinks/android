@@ -43,6 +43,7 @@ fun MixDrinksApp(
                     onNavigateToDetail = { navController.navigate("cocktail/$it") }
                 )
                 mainViewModel.getCocktail(0)
+
             }
             composable("cocktail/{cocktailId}") {
                 backStackEntry ->

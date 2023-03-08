@@ -35,7 +35,6 @@ fun MixDrinksTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composa
     val systemUiController = rememberSystemUiController()
     val colors = if (darkTheme) {
         systemUiController.setSystemBarsColor(color = DarkColorPalette.primaryVariant)
-
         DarkColorPalette
     } else {
         systemUiController.setSystemBarsColor(color = LightColorPalette.primaryVariant)
