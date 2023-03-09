@@ -84,6 +84,7 @@ private fun ListItemInfo(modifier: Modifier, item: Cocktail) {
     }
 }
 
+@Suppress("MagicNumber")
 @Composable
 private fun UserInfo(rating: Float? = null, visitCount: Int? = null) {
     Row(
@@ -93,9 +94,8 @@ private fun UserInfo(rating: Float? = null, visitCount: Int? = null) {
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val substringEnd = 3
         rating?.let { rating ->
-            UserInfoImage(R.drawable.ic_baseline_star_24, rating.toString().substring(0, substringEnd))
+            UserInfoImage(R.drawable.ic_baseline_star_24, rating.toString().substring(0, 3))
             Spacer(modifier = Modifier.width(12.dp))
         }
         visitCount?.let { visitCount ->
