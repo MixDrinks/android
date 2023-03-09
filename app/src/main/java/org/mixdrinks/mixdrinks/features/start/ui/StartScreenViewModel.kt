@@ -11,6 +11,7 @@ import org.mixdrinks.mixdrinks.app.RetrofitClient
 import org.mixdrinks.mixdrinks.features.data.Cocktail
 import org.mixdrinks.mixdrinks.features.data.CocktailProvider
 
+@Suppress("TooGenericExceptionCaught")
 class StartScreenViewModel(
     private val cocktailProvider: CocktailProvider = RetrofitClient.retrofit.create(CocktailProvider::class.java)
 ) : ViewModel() {

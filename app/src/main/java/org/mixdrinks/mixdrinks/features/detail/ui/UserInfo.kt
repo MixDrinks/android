@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import org.mixdrinks.mixdrinks.R
 import kotlin.math.roundToInt
 
+@Suppress("MagicNumber")
 @Composable
 fun UserInfo(modifier: Modifier, rating: Double? = null, visitCount: Int? = null) {
     Row {

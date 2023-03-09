@@ -9,6 +9,7 @@ import org.mixdrinks.mixdrinks.features.data.CocktailProvider
 import org.mixdrinks.mixdrinks.features.data.DetailCocktailResponse
 import java.io.IOException
 
+@Suppress("TooGenericExceptionCaught")
 class DetailScreenViewModel(
     private val cocktailId: Int,
     private val cocktailProvider: CocktailProvider,

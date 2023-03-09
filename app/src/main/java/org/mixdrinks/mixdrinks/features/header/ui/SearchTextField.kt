@@ -29,6 +29,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import org.mixdrinks.mixdrinks.R
 
+@Suppress("MagicNumber")
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchTextField(modifier: Modifier, onFocusChanged: (isFocused: Boolean) -> Unit) {

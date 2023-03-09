@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import org.mixdrinks.mixdrinks.features.data.Goods
 
+@Suppress("MagicNumber")
 @Composable
 fun GoodsListItem(modifier: Modifier, visibleUnit: Boolean = true, goods: List<Goods>, onCLick: () -> Unit) {
     LazyHorizontalGrid(
