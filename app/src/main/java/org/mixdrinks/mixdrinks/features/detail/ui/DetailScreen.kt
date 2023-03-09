@@ -155,7 +155,7 @@ private fun CocktailRecipeContent(modifier: Modifier, cocktailName: String?, coc
 
 @Composable
 private fun ListCocktailRecipe(modifier: Modifier, receipt: List<String>) {
-  receipt.forEachIndexed { index, it ->
+  receipt.forEachIndexed { index, item ->
     Row(
         modifier = modifier.padding(1.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -163,11 +163,11 @@ private fun ListCocktailRecipe(modifier: Modifier, receipt: List<String>) {
       SquareMarker(modifier = modifier, text = (index + 1).toString())
       Text(
           modifier = modifier.padding(start = 10.dp),
-          text = it,
+          text = item,
           style = MaterialTheme.typography.h3
       )
     }
-    if (it != receipt.last()) {
+    if (item != receipt.last()) {
       Divider(
           color = MaterialTheme.colors.primaryVariant,
           thickness = 1.dp,
@@ -213,7 +213,7 @@ private fun CocktailIngredientsContent(modifier: Modifier, cocktailName: String?
         textStyle = MaterialTheme.typography.h2
     )
     Spacer(modifier = modifier.padding(top = 15.dp))
-    CocktailPortions(modifier = modifier, {}, {})
+    CocktailPortions(modifier = modifier)
     Spacer(modifier = modifier.padding(bottom = 15.dp))
     GoodsListItem(
         modifier = modifier,
@@ -223,7 +223,7 @@ private fun CocktailIngredientsContent(modifier: Modifier, cocktailName: String?
 }
 
 @Composable
-private fun CocktailPortions(modifier: Modifier, onClickMinus: () -> Unit, onClickPLus: () -> Unit) {
+private fun CocktailPortions(modifier: Modifier) {
   Row {
     SquareMarker(
         modifier = modifier,

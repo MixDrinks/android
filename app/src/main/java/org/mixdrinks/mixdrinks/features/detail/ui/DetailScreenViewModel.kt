@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.mixdrinks.mixdrinks.features.data.CocktailProvider
 import org.mixdrinks.mixdrinks.features.data.DetailCocktailResponse
+import java.io.IOException
 
 class DetailScreenViewModel(
     private val cocktailId: Int,
@@ -23,6 +24,8 @@ class DetailScreenViewModel(
             try {
                 val result = cocktailProvider.getCocktail(cocktailId)
                 _uiState.value = DetailUiState.Loaded(DetailItemUiState(result))
+            } catch (error: IOException) {
+                _uiState.value = DetailUiState.Error(error.toString())
             } catch (error: Exception) {
                 _uiState.value = DetailUiState.Error(error.toString())
             }
@@ -39,4 +42,3 @@ class DetailScreenViewModel(
 data class DetailItemUiState(
     val cocktail: DetailCocktailResponse
 )
-
