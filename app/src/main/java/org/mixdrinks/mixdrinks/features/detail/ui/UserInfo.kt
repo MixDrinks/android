@@ -19,8 +19,9 @@ import kotlin.math.roundToInt
 @Composable
 fun UserInfo(modifier: Modifier, rating: Double? = null, visitCount: Int? = null) {
     Row {
+        val fraction = 0.7f
         Row(modifier = modifier
-            .fillMaxWidth(0.7f)
+            .fillMaxWidth(fraction)
         ) {
             Text(
                 modifier = modifier,
