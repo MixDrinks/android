@@ -41,9 +41,9 @@ fun SearchTextField(modifier: Modifier, onFocusChanged: (isFocused: Boolean) -> 
             .height(50.dp)
             .fillMaxWidth(if (isFocused) 1.0f else 0.8f)
             .padding(all = 0.dp)
-            .onFocusChanged { it ->
-                onFocusChanged(it.isFocused)
-                isFocused = it.isFocused
+            .onFocusChanged { focusState ->
+                onFocusChanged(focusState.isFocused)
+                isFocused = focusState.isFocused
             },
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = Color.White,
