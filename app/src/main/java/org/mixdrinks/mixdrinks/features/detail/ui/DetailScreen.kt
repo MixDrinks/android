@@ -36,8 +36,8 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.app.ui.theme.Green700
-import org.mixdrinks.mixdrinks.features.common.ui.widget.ErrorWidget
-import org.mixdrinks.mixdrinks.features.common.ui.widget.LoaderIndicator
+import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
+import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.data.DetailCocktailResponse
 import org.mixdrinks.mixdrinks.features.data.Goods
 
@@ -52,15 +52,15 @@ fun DetailScreen(
     when(cocktail) {
         is DetailScreenViewModel.DetailUiState.Loaded -> {
             val data = (cocktail as DetailScreenViewModel.DetailUiState.Loaded).itemState
-            DetailsScreenData(modifier, data.cocktail)
+            DetailsScreenData(modifier = modifier, data.cocktail)
         }
         is DetailScreenViewModel.DetailUiState.Loading -> {
-            LoaderIndicator(modifier)
+            LoaderIndicatorScreen(modifier = modifier)
         }
         else -> {
             val errorText = cocktail as DetailScreenViewModel.DetailUiState.Error
             Log.d("MyLog", errorText.message)
-            ErrorWidget(modifier = modifier, text = "Error loading data")
+            ErrorLoadingScreen(modifier = modifier)
         }
     }
 }

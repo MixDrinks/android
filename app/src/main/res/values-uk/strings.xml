@@ -6,4 +6,7 @@
     <string name="need_tools">Потрібні штучки для пригоування</string>
     <string name="visit_count">Перегляди</string>
     <string name="search_hint">Пошук</string>
+    <string name="error_loading">Помилка завантаження. Перевірте підключення до Інтернету</string>
+    <string name="nothing_found">Нічого не знайдено</string>
+    <string name="back_to_main">На головну</string>
 </resources>
