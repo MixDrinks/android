@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import org.mixdrinks.mixdrinks.R
-import org.mixdrinks.mixdrinks.features.data.Cocktail
-import org.mixdrinks.mixdrinks.features.data.DataImage
+import org.mixdrinks.mixdrinks.features.data.cocktail.Cocktail
+import org.mixdrinks.mixdrinks.features.data.cocktail.DataImage
 
 
 @Composable

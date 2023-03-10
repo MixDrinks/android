@@ -38,8 +38,8 @@ import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.app.ui.theme.Green700
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
-import org.mixdrinks.mixdrinks.features.data.DetailCocktailResponse
-import org.mixdrinks.mixdrinks.features.data.Goods
+import org.mixdrinks.mixdrinks.features.data.cocktail.DetailCocktailResponse
+import org.mixdrinks.mixdrinks.features.data.cocktail.Goods
 
 @Composable
 fun DetailScreen(
@@ -124,7 +124,7 @@ fun DetailsScreenData(modifier: Modifier, cocktail: DetailCocktailResponse) {
 }
 
 @Composable
-fun HeaderText(modifier: Modifier, text: String?, textStyle: TextStyle,) {
+fun HeaderText(modifier: Modifier, text: String?, textStyle: TextStyle) {
   Row(
       modifier = modifier
           .fillMaxWidth(1f),

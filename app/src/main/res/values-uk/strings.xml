@@ -9,4 +9,6 @@
     <string name="error_loading">Помилка завантаження. Перевірте підключення до Інтернету</string>
     <string name="nothing_found">Нічого не знайдено</string>
     <string name="back_to_main">На головну</string>
+    <string name="clear">Очистити</string>
+    <string name="filter">Фільтри</string>
 </resources>

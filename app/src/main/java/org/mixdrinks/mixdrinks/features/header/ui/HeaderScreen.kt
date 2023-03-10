@@ -29,7 +29,7 @@ import org.mixdrinks.mixdrinks.R
 
 
 @Composable
-fun HeaderScreen(modifier: Modifier) {
+fun HeaderScreen(modifier: Modifier, onNavigateToFilter: () -> Unit) {
     var isFocusedSearchTextField by remember { mutableStateOf(false) }
     var isSortableOpenContent by remember { mutableStateOf(false) }
 
@@ -44,7 +44,7 @@ fun HeaderScreen(modifier: Modifier) {
         ) {
             SearchTextField(modifier = modifier) { isFocusedSearchTextField = it }
             SortableAction(modifier = modifier, onClick = { isSortableOpenContent = !isSortableOpenContent })
-            FilterAction(modifier = modifier)
+            FilterAction(modifier = modifier, onNavigateToFilter = onNavigateToFilter)
         }
         if(isFocusedSearchTextField)
             SearchHintContent(modifier = modifier, onClickAction = { Log.d("MyLog", it) })
@@ -85,10 +85,10 @@ private fun SortableAction(modifier: Modifier, onClick: () -> Unit) {
 }
 
 @Composable
-private fun FilterAction(modifier: Modifier) {
+private fun FilterAction(modifier: Modifier, onNavigateToFilter: () -> Unit) {
     IconButton(
         modifier = modifier.height(24.dp),
-        onClick = { Log.d("MyLog", "onClickIconButton") }
+        onClick = { onNavigateToFilter() }
     ) {
         Icon(
             painter = painterResource(id = R.drawable.baseline_tune_24),

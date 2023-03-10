@@ -12,5 +12,7 @@
     <string name="error_loading">Error loading. Please check internet connection</string>
     <string name="nothing_found">Nothing found</string>
     <string name="back_to_main">Back to main</string>
+    <string name="clear">Clear</string>
+    <string name="filter">Filters</string>
 
 </resources>

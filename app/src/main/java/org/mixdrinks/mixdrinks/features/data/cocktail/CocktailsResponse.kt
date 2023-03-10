@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.data
+package org.mixdrinks.mixdrinks.features.data.cocktail
 
 data class CocktailsResponse (
     val totalCount: Int? = null,

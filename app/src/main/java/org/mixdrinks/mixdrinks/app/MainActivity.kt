@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import org.mixdrinks.mixdrinks.app.ui.theme.MixDrinksTheme
 import org.mixdrinks.mixdrinks.features.common.ui.NotFoundScreen
 import org.mixdrinks.mixdrinks.features.detail.ui.DetailScreen
+import org.mixdrinks.mixdrinks.features.filter.ui.FilterScreen
 import org.mixdrinks.mixdrinks.features.start.ui.StartScreen
 import org.mixdrinks.mixdrinks.features.start.ui.StartScreenViewModel
 
@@ -41,7 +42,8 @@ fun MixDrinksApp(
                 StartScreen(
                     modifier = modifier,
                     mainViewModel.cocktailListResponse,
-                    onNavigateToDetail = { navController.navigate("cocktail/$it") }
+                    onNavigateToDetail = { navController.navigate("cocktail/$it") },
+                    onNavigateToFilter = { navController.navigate("filter") }
                 )
                 mainViewModel.getCocktail(0)
             }
@@ -54,6 +56,12 @@ fun MixDrinksApp(
                             cocktailId = it,
                         )
                     }
+            }
+            composable("filter") {
+                FilterScreen(
+                    modifier = modifier,
+                    onNavigateBackStack = { navController.popBackStack() }
+                )
             }
             composable("not_found") {
                 NotFoundScreen(
