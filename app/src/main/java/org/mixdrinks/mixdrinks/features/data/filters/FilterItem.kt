@@ -7,3 +7,6 @@ data class FilterItem(
     val queryName: String,
     val selectionType: String
 )
+
+
+

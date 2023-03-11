@@ -3,7 +3,7 @@ package org.mixdrinks.mixdrinks.features.data.filters
 import com.google.gson.GsonBuilder
 import retrofit2.converter.gson.GsonConverterFactory
 
-
+@Suppress("LargeClass", "MatchingDeclarationName")
 class FilterProviderMock {
     class Filters : ArrayList<FilterItem>()
 
@@ -3751,5 +3751,7 @@ class FilterProviderMock {
     }
 
 }
+
+
 
 
