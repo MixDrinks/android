@@ -1,6 +1,5 @@
 package org.mixdrinks.mixdrinks.features.filter.ui
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -23,15 +22,47 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.koin.androidx.compose.koinViewModel
 import org.mixdrinks.mixdrinks.R
-import org.mixdrinks.mixdrinks.features.data.filters.FilterProviderMock
-import org.mixdrinks.mixdrinks.features.data.filters.Item
+import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
+import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
+import org.mixdrinks.mixdrinks.features.data.filter.FilterResponse
+import org.mixdrinks.mixdrinks.features.data.filter.Item
 
 
 @Composable
-fun FilterScreen(modifier: Modifier, onNavigateBackStack: () -> Unit ) {
-    val filters = FilterProviderMock().getFilters()
+fun FilterScreen(
+    modifier: Modifier,
+    onNavigateBackStack: () -> Unit,
+    viewModel: FilterScreenViewModel = koinViewModel(),
+) {
+    val filters by viewModel.uiState.collectAsState()
+    when(filters) {
+        is FilterScreenViewModel.FilterUiState.Loaded -> {
+            val data = (filters as FilterScreenViewModel.FilterUiState.Loaded).itemState
+            FilterScreenData(
+                modifier = modifier,
+                filters = data.filters,
+                onNavigateBackStack = onNavigateBackStack,
+                viewModel = viewModel
+            )
+        }
+        is FilterScreenViewModel.FilterUiState.Loading -> {
+            LoaderIndicatorScreen(modifier = modifier)
+        }
+        else -> {
+            ErrorLoadingScreen(modifier = modifier)
+        }
+    }
+}
 
+@Composable
+fun FilterScreenData(
+    modifier: Modifier,
+    filters: FilterResponse,
+    onNavigateBackStack: () -> Unit,
+    viewModel: FilterScreenViewModel,
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -54,10 +85,10 @@ fun FilterScreen(modifier: Modifier, onNavigateBackStack: () -> Unit ) {
                     .size(36.dp)
             )
             OutlinedButton(
-                onClick = { Log.d("MyLog", "FilterScreen -> Clear") }
+                onClick = { viewModel.clearFilters() }
             ) {
                 Text(
-                    text = stringResource(id = R.string.clear ),
+                    text = stringResource(id = R.string.clear),
                     style = MaterialTheme.typography.body1,
                     color = Color.Black
                 )
@@ -68,7 +99,7 @@ fun FilterScreen(modifier: Modifier, onNavigateBackStack: () -> Unit ) {
             text = stringResource(id = R.string.filter),
             style = MaterialTheme.typography.h1.copy(fontWeight = FontWeight.W600,),
         )
-        LazyColumn() {
+        LazyColumn {
             items(
                 items = filters,
                 itemContent = {
@@ -76,7 +107,11 @@ fun FilterScreen(modifier: Modifier, onNavigateBackStack: () -> Unit ) {
                         text = it.name,
                         style = MaterialTheme.typography.h2
                     )
-                    FilterCategoryItem(modifier = modifier, items = it.items)
+                    FilterCategoryItems(
+                        modifier = modifier,
+                        items = it.items,
+                        viewModel = viewModel
+                    )
                 }
             )
         }
@@ -85,7 +120,13 @@ fun FilterScreen(modifier: Modifier, onNavigateBackStack: () -> Unit ) {
 
 @Suppress("MagicNumber")
 @Composable
-fun FilterCategoryItem(modifier: Modifier, items: List<Item>) {
+fun FilterCategoryItems(
+    modifier: Modifier,
+    items: List<Item>,
+    viewModel: FilterScreenViewModel
+) {
+    //val listCheckedFilter by viewModel.listCheckedFilter
+
     val countRow = if(items.size < 5) 1 else 2
     val heightRow = if(countRow == 1) 40 else 80 // dp
     LazyHorizontalGrid(
@@ -96,25 +137,28 @@ fun FilterCategoryItem(modifier: Modifier, items: List<Item>) {
     ) {
         items(
             items = items,
-            itemContent = {
-                var isBackground by remember { mutableStateOf(false) }
-
+            itemContent = { item ->
+                var isSelected by remember { mutableStateOf(false) }
                 OutlinedButton(
                     border = BorderStroke(1.dp, MaterialTheme.colors.primaryVariant),
                     shape = RoundedCornerShape(18.dp),
-                    onClick = { isBackground = !isBackground },
+                    onClick = {
+                        isSelected = !isSelected
+                        viewModel.checkedAction(item.id)
+                    },
                     colors = ButtonDefaults.buttonColors(
-                        backgroundColor = if(isBackground) MaterialTheme.colors.primaryVariant else Color.Transparent,
+                        backgroundColor = if(isSelected) MaterialTheme.colors.primaryVariant else Color.Transparent,
                     )
                 ) {
                     Text(
-                        text = it.name,
+                        text = item.name,
                         style = MaterialTheme.typography.h4,
-                        color = if(isBackground) Color.White else MaterialTheme.colors.primaryVariant
+                        color = if(isSelected) Color.White else MaterialTheme.colors.primaryVariant
                     )
                 }
             }
         )
     }
 }
+
 
