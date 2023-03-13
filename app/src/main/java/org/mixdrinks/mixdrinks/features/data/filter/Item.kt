@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.data.filters
+package org.mixdrinks.mixdrinks.features.data.filter
 
 data class Item(
     val cocktailCount: Int,
