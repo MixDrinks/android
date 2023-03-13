@@ -1,11 +1,10 @@
 package org.mixdrinks.mixdrinks.features.data.cocktail
 
 data class Cocktail (
-    val id: Int? = null,
-    val name: String? = null,
-    val rating: Float? = null,
-    val visitCount: Int? = null,
-    val images: List<DataImage> = listOf()
+    val id: Int,
+    val name: String,
+    val rating: Float,
+    val visitCount: Int,
+    val images: List<DataImage>
 )
-
 

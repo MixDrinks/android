@@ -1,21 +1,21 @@
 package org.mixdrinks.mixdrinks.features.data.cocktail
 
 data class CocktailsResponse (
-    val totalCount: Int? = null,
-    val cocktails: List<Cocktail> = listOf(),
-    val descriptions: String? = null
+    val totalCount: Int,
+    val cocktails: List<Cocktail>,
+    val descriptions: String,
 )
 
 data class DetailCocktailResponse(
-    val id: Int? = null,
-    val name: String? = null,
-    val visitCount: Int? = null,
-    val rating: Double? = null,
-    val ratingCount: Int? = null,
-    val receipt: List<String>? = listOf(),
-    val images: List<DataImage> = listOf(),
-    val goods: List<Goods> = listOf(),
-    val tools: List<Goods> = listOf(),
-    val tags: List<Tag> = listOf(),
+    val id: Int,
+    val name: String,
+    val visitCount: Int,
+    val rating: Double,
+    val ratingCount: Int,
+    val receipt: List<String>,
+    val images: List<DataImage>,
+    val goods: List<Goods>,
+    val tools: List<Goods>,
+    val tags: List<Tag>,
 )
 
