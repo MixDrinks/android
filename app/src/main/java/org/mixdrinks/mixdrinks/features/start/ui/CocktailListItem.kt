@@ -36,7 +36,7 @@ import org.mixdrinks.mixdrinks.features.data.cocktail.DataImage
 fun CocktailListItem(modifier: Modifier, item: Cocktail, onClickAction: (id: Int) -> Unit) {
     Card(
         modifier = modifier
-            .clickable { item.id?.let { onClickAction(it) } }
+            .clickable { onClickAction(item.id) }
     ) {
         Row(
             modifier = modifier.padding(10.dp),
@@ -71,14 +71,12 @@ private fun ListItemInfo(modifier: Modifier, item: Cocktail) {
             modifier = modifier
                 .padding(start = 10.dp)
         ) {
-            item.name?.let {
-                Text(
-                    text = it,
-                    fontWeight = FontWeight.W700,
-                    fontSize = 18.sp,
-                    color = MaterialTheme.colors.primaryVariant,
-                )
-            }
+            Text(
+                text =  item.name,
+                fontWeight = FontWeight.W700,
+                fontSize = 18.sp,
+                color = MaterialTheme.colors.primaryVariant,
+            )
         }
         UserInfo(item.rating, item.visitCount)
     }
@@ -86,7 +84,7 @@ private fun ListItemInfo(modifier: Modifier, item: Cocktail) {
 
 @Suppress("MagicNumber")
 @Composable
-private fun UserInfo(rating: Float? = null, visitCount: Int? = null) {
+private fun UserInfo(rating: Float, visitCount: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth(1f)
@@ -94,13 +92,11 @@ private fun UserInfo(rating: Float? = null, visitCount: Int? = null) {
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        rating?.let { rating ->
+        if(rating > 0) {
             UserInfoImage(R.drawable.ic_baseline_star_24, rating.toString().substring(0, 3))
             Spacer(modifier = Modifier.width(12.dp))
         }
-        visitCount?.let { visitCount ->
-            UserInfoImage(R.drawable.ic_baseline_eye_24, visitCount.toString())
-        }
+        UserInfoImage(R.drawable.ic_baseline_eye_24, visitCount.toString())
     }
 }
 
