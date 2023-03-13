@@ -3,8 +3,8 @@ package org.mixdrinks.mixdrinks.features.data.filters
 import com.google.gson.GsonBuilder
 import retrofit2.converter.gson.GsonConverterFactory
 
-@Suppress("LargeClass", "MatchingDeclarationName")
-class FilterProviderMock {
+@Suppress("LargeClass")
+class FilterProvider {
     class Filters : ArrayList<FilterItem>()
 
     private val jsonString = """[
