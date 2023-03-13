@@ -13,6 +13,7 @@ import org.mixdrinks.mixdrinks.features.data.filter.FilterProvider
 import org.mixdrinks.mixdrinks.features.data.filter.FilterResponse
 import java.io.IOException
 
+@Suppress("TooGenericExceptionCaught")
 class FilterScreenViewModel(
     private val filterProvider: FilterProvider) : ViewModel() {
 
