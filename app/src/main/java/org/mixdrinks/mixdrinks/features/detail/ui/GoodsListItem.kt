@@ -53,13 +53,11 @@ fun GoodsListItem(modifier: Modifier, visibleUnit: Boolean = true, goods: List<G
                         contentDescription = null,
                         contentScale = ContentScale.Inside,
                     )
-                    item.name?.let {
-                        HeaderText(
-                            modifier = modifier,
-                            text = it,
-                            textStyle = MaterialTheme.typography.body1
-                        )
-                    }
+                    HeaderText(
+                        modifier = modifier,
+                        text = item.name,
+                        textStyle = MaterialTheme.typography.body1
+                    )
                     if (visibleUnit)
                         HeaderText(
                             modifier = modifier,
