@@ -48,6 +48,7 @@ fun StartScreen(
         }
     }
 }
+@Suppress("UnusedPrivateMember")
 @Composable
 fun StartScreenData(
     modifier: Modifier,
