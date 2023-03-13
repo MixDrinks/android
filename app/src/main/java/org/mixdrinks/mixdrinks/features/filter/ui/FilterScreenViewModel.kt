@@ -61,3 +61,4 @@ class FilterScreenViewModel(
 data class FilterItemUiState(
     val filters: FilterResponse
 )
+

@@ -1,5 +1,6 @@
 package org.mixdrinks.mixdrinks.features.filter.ui
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -51,6 +52,8 @@ fun FilterScreen(
             LoaderIndicatorScreen(modifier = modifier)
         }
         else -> {
+            val errorText = filters as FilterScreenViewModel.FilterUiState.Error
+            Log.d("Exception", errorText.message)
             ErrorLoadingScreen(modifier = modifier)
         }
     }
