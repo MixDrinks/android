@@ -6,10 +6,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
@@ -20,6 +29,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import org.mixdrinks.mixdrinks.R
 
+@Suppress("MagicNumber")
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchTextField(modifier: Modifier, onFocusChanged: (isFocused: Boolean) -> Unit) {
@@ -32,9 +42,9 @@ fun SearchTextField(modifier: Modifier, onFocusChanged: (isFocused: Boolean) -> 
             .height(50.dp)
             .fillMaxWidth(if (isFocused) 1.0f else 0.8f)
             .padding(all = 0.dp)
-            .onFocusChanged { it ->
-                onFocusChanged(it.isFocused)
-                isFocused = it.isFocused
+            .onFocusChanged { focusState ->
+                onFocusChanged(focusState.isFocused)
+                isFocused = focusState.isFocused
             },
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = Color.White,
@@ -77,3 +87,7 @@ private fun IconTextFieldIcon(text: String, onClick: () -> Unit) {
         }
     }
 }
+
+
+
+

@@ -7,7 +7,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.GlobalContext.startKoin
 import org.koin.dsl.module
 import org.mixdrinks.mixdrinks.app.RetrofitClient
-import org.mixdrinks.mixdrinks.features.data.CocktailProvider
+import org.mixdrinks.mixdrinks.features.data.cocktail.CocktailProvider
 import org.mixdrinks.mixdrinks.features.detail.ui.DetailScreenViewModel
 
 class App : Application() {
@@ -26,3 +26,4 @@ class App : Application() {
     }
   }
 }
+

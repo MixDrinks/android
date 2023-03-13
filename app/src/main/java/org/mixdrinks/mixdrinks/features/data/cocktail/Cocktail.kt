@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.data
+package org.mixdrinks.mixdrinks.features.data.cocktail
 
 data class Cocktail (
     val id: Int? = null,
@@ -7,3 +7,5 @@ data class Cocktail (
     val visitCount: Int? = null,
     val images: List<DataImage> = listOf()
 )
+
+

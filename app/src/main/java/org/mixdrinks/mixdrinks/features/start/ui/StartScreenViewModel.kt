@@ -8,9 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.mixdrinks.mixdrinks.app.RetrofitClient
-import org.mixdrinks.mixdrinks.features.data.Cocktail
-import org.mixdrinks.mixdrinks.features.data.CocktailProvider
+import org.mixdrinks.mixdrinks.features.data.cocktail.Cocktail
+import org.mixdrinks.mixdrinks.features.data.cocktail.CocktailProvider
 
+@Suppress("TooGenericExceptionCaught")
 class StartScreenViewModel(
     private val cocktailProvider: CocktailProvider = RetrofitClient.retrofit.create(CocktailProvider::class.java)
 ) : ViewModel() {
@@ -29,5 +30,6 @@ class StartScreenViewModel(
             Log.d("MyLog", cocktailListResponse.size.toString())
         }
     }
-
 }
+
+

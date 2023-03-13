@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.mixdrinks.mixdrinks.features.data.CocktailProvider
-import org.mixdrinks.mixdrinks.features.data.DetailCocktailResponse
+import org.mixdrinks.mixdrinks.features.data.cocktail.CocktailProvider
+import org.mixdrinks.mixdrinks.features.data.cocktail.DetailCocktailResponse
+import java.io.IOException
 
+@Suppress("TooGenericExceptionCaught")
 class DetailScreenViewModel(
     private val cocktailId: Int,
     private val cocktailProvider: CocktailProvider,
@@ -23,6 +25,8 @@ class DetailScreenViewModel(
             try {
                 val result = cocktailProvider.getCocktail(cocktailId)
                 _uiState.value = DetailUiState.Loaded(DetailItemUiState(result))
+            } catch (error: IOException) {
+                _uiState.value = DetailUiState.Error(error.toString())
             } catch (error: Exception) {
                 _uiState.value = DetailUiState.Error(error.toString())
             }

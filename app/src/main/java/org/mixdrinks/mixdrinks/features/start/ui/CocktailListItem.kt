@@ -4,10 +4,10 @@ package org.mixdrinks.mixdrinks.features.start.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import org.mixdrinks.mixdrinks.R
-import org.mixdrinks.mixdrinks.features.data.Cocktail
-import org.mixdrinks.mixdrinks.features.data.DataImage
+import org.mixdrinks.mixdrinks.features.data.cocktail.Cocktail
+import org.mixdrinks.mixdrinks.features.data.cocktail.DataImage
 
 
 @Composable
@@ -84,6 +84,7 @@ private fun ListItemInfo(modifier: Modifier, item: Cocktail) {
     }
 }
 
+@Suppress("MagicNumber")
 @Composable
 private fun UserInfo(rating: Float? = null, visitCount: Int? = null) {
     Row(
@@ -93,12 +94,12 @@ private fun UserInfo(rating: Float? = null, visitCount: Int? = null) {
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        rating?.let {
-            UserInfoImage(R.drawable.ic_baseline_star_24, it.toString().substring(0, 3))
+        rating?.let { rating ->
+            UserInfoImage(R.drawable.ic_baseline_star_24, rating.toString().substring(0, 3))
             Spacer(modifier = Modifier.width(12.dp))
         }
-        visitCount?.let {
-            UserInfoImage(R.drawable.ic_baseline_eye_24, it.toString())
+        visitCount?.let { visitCount ->
+            UserInfoImage(R.drawable.ic_baseline_eye_24, visitCount.toString())
         }
     }
 }
@@ -115,3 +116,5 @@ private fun UserInfoImage(imageId: Int, text: String) {
         modifier = Modifier.padding(start = 5.dp)
     )
 }
+
+

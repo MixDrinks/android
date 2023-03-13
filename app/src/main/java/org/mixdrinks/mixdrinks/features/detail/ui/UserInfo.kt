@@ -12,26 +12,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.mixdrinks.mixdrinks.R
 import kotlin.math.roundToInt
 
-@Preview(
-    name = "UserInfoPreview",
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun UserInfoPreview() {
-    UserInfo(Modifier, 3.0, 30)
-}
-
+@Suppress("MagicNumber")
 @Composable
 fun UserInfo(modifier: Modifier, rating: Double? = null, visitCount: Int? = null) {
     Row {
         Row(modifier = modifier
-            .fillMaxWidth(0.7f)
+            .fillMaxWidth(0.7F)
         ) {
             Text(
                 modifier = modifier,
@@ -61,8 +51,11 @@ fun ItemRatingSelector() {
 @Composable
 private fun RatingSelector(rating: Double? = null) {
     if (rating != null) {
-        for (i in 0 until rating.roundToInt())
+        repeat(rating.roundToInt()) {
             ItemRatingSelector()
+        }
     }
 }
+
+
 

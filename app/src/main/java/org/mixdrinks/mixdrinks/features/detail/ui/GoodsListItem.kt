@@ -18,12 +18,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import org.mixdrinks.mixdrinks.features.data.Goods
+import org.mixdrinks.mixdrinks.features.data.cocktail.Goods
 
+@Suppress("MagicNumber")
 @Composable
 fun GoodsListItem(modifier: Modifier, visibleUnit: Boolean = true, goods: List<Goods>, onCLick: () -> Unit) {
     LazyHorizontalGrid(
@@ -44,7 +44,7 @@ fun GoodsListItem(modifier: Modifier, visibleUnit: Boolean = true, goods: List<G
                     AsyncImage(
                         modifier = modifier
                             .border(
-                                BorderStroke(2.dp, Color(0xFF2b4718)),
+                                BorderStroke(2.dp, MaterialTheme.colors.primaryVariant),
                                 shape = RoundedCornerShape(16.dp),
                             )
                             .size(190.dp)

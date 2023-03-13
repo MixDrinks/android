@@ -3,7 +3,16 @@ package org.mixdrinks.mixdrinks.features.detail.ui
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -21,23 +30,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.app.ui.theme.Green700
-import org.mixdrinks.mixdrinks.features.common.ui.widget.ErrorWidget
-import org.mixdrinks.mixdrinks.features.common.ui.widget.LoaderIndicator
-import org.mixdrinks.mixdrinks.features.data.DetailCocktailResponse
-import org.mixdrinks.mixdrinks.features.data.Goods
-
-@Preview(showBackground = true)
-@Composable
-fun DetailScreenPreview() {
-  DetailScreen(modifier = Modifier, 22)
-}
+import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
+import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
+import org.mixdrinks.mixdrinks.features.data.cocktail.DetailCocktailResponse
+import org.mixdrinks.mixdrinks.features.data.cocktail.Goods
 
 @Composable
 fun DetailScreen(
@@ -50,15 +52,15 @@ fun DetailScreen(
     when(cocktail) {
         is DetailScreenViewModel.DetailUiState.Loaded -> {
             val data = (cocktail as DetailScreenViewModel.DetailUiState.Loaded).itemState
-            DetailsScreenData(modifier, data.cocktail)
+            DetailsScreenData(modifier = modifier, data.cocktail)
         }
         is DetailScreenViewModel.DetailUiState.Loading -> {
-            LoaderIndicator(modifier)
+            LoaderIndicatorScreen(modifier = modifier)
         }
         else -> {
             val errorText = cocktail as DetailScreenViewModel.DetailUiState.Error
             Log.d("MyLog", errorText.message)
-            ErrorWidget(modifier = modifier, text = "Error loading data")
+            ErrorLoadingScreen(modifier = modifier)
         }
     }
 }
@@ -122,7 +124,7 @@ fun DetailsScreenData(modifier: Modifier, cocktail: DetailCocktailResponse) {
 }
 
 @Composable
-fun HeaderText(modifier: Modifier, text: String?, textStyle: TextStyle,) {
+fun HeaderText(modifier: Modifier, text: String?, textStyle: TextStyle) {
   Row(
       modifier = modifier
           .fillMaxWidth(1f),
@@ -153,7 +155,7 @@ private fun CocktailRecipeContent(modifier: Modifier, cocktailName: String?, coc
 
 @Composable
 private fun ListCocktailRecipe(modifier: Modifier, receipt: List<String>) {
-  receipt.forEachIndexed { index, it ->
+  receipt.forEachIndexed { index, item ->
     Row(
         modifier = modifier.padding(1.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -161,13 +163,13 @@ private fun ListCocktailRecipe(modifier: Modifier, receipt: List<String>) {
       SquareMarker(modifier = modifier, text = (index + 1).toString())
       Text(
           modifier = modifier.padding(start = 10.dp),
-          text = it,
+          text = item,
           style = MaterialTheme.typography.h3
       )
     }
-    if (it != receipt.last()) {
+    if (item != receipt.last()) {
       Divider(
-          color = Color(0xFF2b4718),
+          color = MaterialTheme.colors.primaryVariant,
           thickness = 1.dp,
           modifier = modifier.padding(4.dp)
       )
@@ -176,7 +178,12 @@ private fun ListCocktailRecipe(modifier: Modifier, receipt: List<String>) {
 }
 
 @Composable
-private fun SquareMarker(modifier: Modifier, text: String, isBackground: Boolean = true, textColor: Color = Color.White) {
+private fun SquareMarker(
+    modifier: Modifier,
+    text: String,
+    isBackground: Boolean = true,
+    textColor: Color = Color.White
+) {
     Card(
         modifier = modifier
             .border(
@@ -206,7 +213,7 @@ private fun CocktailIngredientsContent(modifier: Modifier, cocktailName: String?
         textStyle = MaterialTheme.typography.h2
     )
     Spacer(modifier = modifier.padding(top = 15.dp))
-    CocktailPortions(modifier = modifier, {}, {})
+    CocktailPortions(modifier = modifier)
     Spacer(modifier = modifier.padding(bottom = 15.dp))
     GoodsListItem(
         modifier = modifier,
@@ -216,7 +223,7 @@ private fun CocktailIngredientsContent(modifier: Modifier, cocktailName: String?
 }
 
 @Composable
-private fun CocktailPortions(modifier: Modifier, onClickMinus: () -> Unit, onClickPLus: () -> Unit) {
+private fun CocktailPortions(modifier: Modifier) {
   Row {
     SquareMarker(
         modifier = modifier,
@@ -227,7 +234,7 @@ private fun CocktailPortions(modifier: Modifier, onClickMinus: () -> Unit, onCli
         modifier = modifier,
         text = "1",
         isBackground = false,
-        textColor = Color(0xFF2B4718)
+        textColor = MaterialTheme.colors.primaryVariant
     )
     Spacer(modifier = modifier.padding(5.dp))
     SquareMarker(

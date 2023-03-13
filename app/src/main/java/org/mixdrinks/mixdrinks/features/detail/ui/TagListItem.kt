@@ -12,7 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.mixdrinks.mixdrinks.features.data.Tag
+import org.mixdrinks.mixdrinks.features.data.cocktail.Tag
 
 @Composable
 fun TagListItem(modifier: Modifier, listTags: List<Tag>, onClickAction: (id: Int) -> Unit) {

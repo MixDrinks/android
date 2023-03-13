@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.data
+package org.mixdrinks.mixdrinks.features.data.cocktail
 
 data class Goods(
     val amount: Int? = null,
@@ -7,3 +7,4 @@ data class Goods(
     val name: String? = null,
     val unit: String? = null
 )
+
