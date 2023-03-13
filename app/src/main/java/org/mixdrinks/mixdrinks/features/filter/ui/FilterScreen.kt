@@ -64,8 +64,8 @@ fun FilterScreen(
             LoaderIndicatorScreen(modifier = modifier)
         }
         else -> {
-            val errorText = filters as FilterScreenViewModel.FilterUiState.Error
-            Log.d("Exception", errorText.message)
+            val error = filters as FilterScreenViewModel.FilterUiState.Error
+            Log.d("Exception", error.message)
             ErrorLoadingScreen(modifier = modifier)
         }
     }

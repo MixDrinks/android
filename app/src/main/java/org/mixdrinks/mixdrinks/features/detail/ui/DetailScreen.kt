@@ -58,8 +58,8 @@ fun DetailScreen(
             LoaderIndicatorScreen(modifier = modifier)
         }
         else -> {
-            val errorText = cocktail as DetailScreenViewModel.DetailUiState.Error
-            Log.d("Exception", errorText.message)
+            val error = cocktail as DetailScreenViewModel.DetailUiState.Error
+            Log.d("Exception", error.message)
             ErrorLoadingScreen(modifier = modifier)
         }
     }
