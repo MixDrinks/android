@@ -10,13 +10,9 @@ import org.mixdrinks.mixdrinks.features.common.ui.NotFoundScreen
 import org.mixdrinks.mixdrinks.features.detail.ui.DetailScreen
 import org.mixdrinks.mixdrinks.features.filter.ui.FilterScreen
 import org.mixdrinks.mixdrinks.features.start.ui.StartScreen
-import org.mixdrinks.mixdrinks.features.start.ui.StartScreenViewModel
 
 @Composable
-fun MixDrinksApp(
-    modifier: Modifier = Modifier,
-    mainViewModel: StartScreenViewModel = StartScreenViewModel(),
-) {
+fun MixDrinksApp(modifier: Modifier = Modifier) {
     MixDrinksTheme {
         val navController = rememberNavController()
         NavHost(
@@ -27,11 +23,9 @@ fun MixDrinksApp(
             {
                 StartScreen(
                     modifier = modifier,
-                    mainViewModel.cocktailListResponse,
                     onNavigateToDetail = { navController.navigate("cocktail/$it") },
                     onNavigateToFilter = { navController.navigate("filter") }
                 )
-                mainViewModel.getCocktail(0)
             }
             composable("cocktail/{cocktailId}") {
                     backStackEntry ->

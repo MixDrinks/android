@@ -11,6 +11,7 @@ import org.mixdrinks.mixdrinks.features.data.cocktail.CocktailProvider
 import org.mixdrinks.mixdrinks.features.data.filter.FilterProvider
 import org.mixdrinks.mixdrinks.features.detail.ui.DetailScreenViewModel
 import org.mixdrinks.mixdrinks.features.filter.ui.FilterScreenViewModel
+import org.mixdrinks.mixdrinks.features.start.ui.StartScreenViewModel
 
 class App : Application() {
   override fun onCreate() {
@@ -19,6 +20,7 @@ class App : Application() {
     val appModule = module {
       single<CocktailProvider> { RetrofitClient.retrofit.create(CocktailProvider::class.java) }
       viewModel { (id: Int) -> DetailScreenViewModel(cocktailId = id, get()) }
+      viewModel { StartScreenViewModel(get()) }
 
       single<FilterProvider> { RetrofitClient.retrofit.create(FilterProvider::class.java) }
       viewModel { FilterScreenViewModel(get()) }

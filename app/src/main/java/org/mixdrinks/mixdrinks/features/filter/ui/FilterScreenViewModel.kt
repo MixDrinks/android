@@ -51,7 +51,7 @@ class FilterScreenViewModel(
         } else {
             _listCheckedFilter.value.remove(id)
         }
-        Log.d("MyLog", _listCheckedFilter.value.toString())
+        Log.d("CheckedAction", _listCheckedFilter.value.toString())
     }
 
     fun clearFilters() {
@@ -62,4 +62,5 @@ class FilterScreenViewModel(
 data class FilterItemUiState(
     val filters: FilterResponse
 )
+
 
