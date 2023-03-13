@@ -1,5 +1,6 @@
 package org.mixdrinks.mixdrinks.features.filter.ui
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -51,6 +52,8 @@ fun FilterScreen(
             LoaderIndicatorScreen(modifier = modifier)
         }
         else -> {
+            val errorText = filters as FilterScreenViewModel.FilterUiState.Error
+            Log.d("Exception", errorText.message)
             ErrorLoadingScreen(modifier = modifier)
         }
     }
@@ -125,7 +128,7 @@ fun FilterCategoryItems(
     items: List<Item>,
     viewModel: FilterScreenViewModel
 ) {
-    val listCheckedFilter by viewModel.listCheckedFilter
+    //val listCheckedFilter by viewModel.listCheckedFilter
 
     val countRow = if(items.size < 5) 1 else 2
     val heightRow = if(countRow == 1) 40 else 80 // dp

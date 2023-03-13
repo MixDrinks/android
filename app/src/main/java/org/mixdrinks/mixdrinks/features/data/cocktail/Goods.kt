@@ -1,10 +1,10 @@
 package org.mixdrinks.mixdrinks.features.data.cocktail
 
 data class Goods(
-    val amount: Int? = null,
-    val id: Int? = null,
+    val amount: Int,
+    val id: Int,
     val images: List<DataImage> = listOf(),
-    val name: String? = null,
-    val unit: String? = null
+    val name: String,
+    val unit: String
 )
 
