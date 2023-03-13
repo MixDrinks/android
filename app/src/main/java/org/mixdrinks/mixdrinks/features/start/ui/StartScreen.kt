@@ -61,9 +61,6 @@ fun StartScreenData(
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = modifier.clickable {
-                viewModel.getCocktail(28)
-            }
         ) {
             items(
                 items = cocktails,
