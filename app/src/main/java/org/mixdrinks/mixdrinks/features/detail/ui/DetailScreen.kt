@@ -124,33 +124,28 @@ fun DetailsScreenData(modifier: Modifier, cocktail: DetailCocktailResponse) {
 }
 
 @Composable
-fun HeaderText(modifier: Modifier, text: String?, textStyle: TextStyle) {
+fun HeaderText(modifier: Modifier, text: String, textStyle: TextStyle) {
   Row(
       modifier = modifier
           .fillMaxWidth(1f),
       horizontalArrangement = Arrangement.Start
   ) {
     Text(
-        text = text ?: "",
+        text = text,
         style = textStyle
     )
   }
 }
 
 @Composable
-private fun CocktailRecipeContent(modifier: Modifier, cocktailName: String?, cocktailReceipt: List<String>?) {
+private fun CocktailRecipeContent(modifier: Modifier, cocktailName: String, cocktailReceipt: List<String>) {
     HeaderText(
         modifier = modifier,
         text = "${stringResource(R.string.cocktail_recipe)} $cocktailName",
         textStyle = MaterialTheme.typography.h2
     )
     Spacer(modifier = modifier.padding(top = 5.dp))
-    cocktailReceipt?.let {
-        ListCocktailRecipe(
-            modifier = modifier,
-            receipt = it
-        )
-    }
+    ListCocktailRecipe(modifier = modifier, receipt = cocktailReceipt)
 }
 
 @Composable
@@ -206,7 +201,7 @@ private fun SquareMarker(
 }
 
 @Composable
-private fun CocktailIngredientsContent(modifier: Modifier, cocktailName: String?, cocktailGoods: List<Goods>) {
+private fun CocktailIngredientsContent(modifier: Modifier, cocktailName: String, cocktailGoods: List<Goods>) {
     HeaderText(
         modifier = modifier,
         text = "${stringResource(R.string.cocktail_ingredients)} $cocktailName",
@@ -245,7 +240,7 @@ private fun CocktailPortions(modifier: Modifier) {
 }
 
 @Composable
-fun CocktailNeedToolsContent(modifier: Modifier, cocktailName: String?, cocktailTools: List<Goods>) {
+fun CocktailNeedToolsContent(modifier: Modifier, cocktailName: String, cocktailTools: List<Goods>) {
     HeaderText(
         modifier = modifier,
         text = "${stringResource(R.string.need_tools)} $cocktailName",
