@@ -1,11 +1,16 @@
 package org.mixdrinks.mixdrinks.features.data.cocktail
 
+import kotlinx.serialization.Serializable
+
+
+@Serializable
 data class CocktailsResponse (
     val totalCount: Int,
     val cocktails: List<Cocktail>,
-    val descriptions: String,
+    val descriptions: Any,
 )
 
+@Serializable
 data class DetailCocktailResponse(
     val id: Int,
     val name: String,
