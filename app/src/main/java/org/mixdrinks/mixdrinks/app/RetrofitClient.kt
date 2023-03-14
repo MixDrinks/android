@@ -1,15 +1,12 @@
 package org.mixdrinks.mixdrinks.app
 
-import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
-import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
     private const val BASE_URL = "https://api.mixdrinks.org/v2/"
@@ -22,8 +19,6 @@ object RetrofitClient {
         coerceInputValues = true
     }
 
-    private val gson = GsonBuilder().setLenient().create()
-
     private val okHttpClient = OkHttpClient.Builder()
         .readTimeout(TIME_OUT, TimeUnit.SECONDS)
         .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
@@ -35,7 +30,5 @@ object RetrofitClient {
         .baseUrl(BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-        //.addConverterFactory(GsonConverterFactory.create(gson))
-
         .build()
 }

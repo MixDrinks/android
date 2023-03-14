@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class CocktailsResponse (
     val totalCount: Int,
     val cocktails: List<Cocktail>,
-    val descriptions: Any,
+    val descriptions: String?,
 )
 
 @Serializable
