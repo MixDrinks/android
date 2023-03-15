@@ -4,7 +4,7 @@ import retrofit2.http.GET
 
 interface FilterProvider {
     @GET("filters")
-    suspend fun getFilters(): FilterResponse
+    suspend fun getFilters(): List<FilterItem>
 }
 
 

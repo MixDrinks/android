@@ -7,7 +7,6 @@ import kotlinx.serialization.Serializable
 data class CocktailsResponse (
     val totalCount: Int,
     val cocktails: List<Cocktail>,
-    val descriptions: String?,
 )
 
 @Serializable
@@ -15,7 +14,7 @@ data class DetailCocktailResponse(
     val id: Int,
     val name: String,
     val visitCount: Int,
-    val rating: Double,
+    val rating: Float? = null,
     val ratingCount: Int,
     val receipt: List<String>,
     val images: List<DataImage>,

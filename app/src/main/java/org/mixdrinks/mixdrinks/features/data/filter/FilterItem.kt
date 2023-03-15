@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class FilterItem(
     val id: Int,
-    val items: List<Item>,
-    val name: String,
     val queryName: String,
+    val name: String,
+    val items: List<Item>,
     val selectionType: String
 )
 

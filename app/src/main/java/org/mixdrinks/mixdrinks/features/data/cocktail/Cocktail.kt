@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 data class Cocktail (
     val id: Int,
     val name: String,
-    val rating: Float = 0.0f,
+    val rating: Float? = null,
     val visitCount: Int,
     val images: List<DataImage>
 )

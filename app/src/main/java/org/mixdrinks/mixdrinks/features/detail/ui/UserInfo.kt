@@ -18,7 +18,7 @@ import kotlin.math.roundToInt
 
 @Suppress("MagicNumber")
 @Composable
-fun UserInfo(modifier: Modifier, rating: Double, visitCount: Int) {
+fun UserInfo(modifier: Modifier, rating: Float?, visitCount: Int) {
     Row {
         Row(modifier = modifier
             .fillMaxWidth(0.7F)
@@ -33,7 +33,9 @@ fun UserInfo(modifier: Modifier, rating: Double, visitCount: Int) {
         Spacer(Modifier.weight(1f))
         Row {
             Row {
-                RatingSelector(rating = rating)
+                rating?.let {rating ->
+                    RatingSelector(rating = rating)
+                }
             }
         }
     }
@@ -49,7 +51,7 @@ fun ItemRatingSelector() {
 }
 
 @Composable
-private fun RatingSelector(rating: Double) {
+private fun RatingSelector(rating: Float) {
     if (rating > 0) {
         repeat(rating.roundToInt()) {
             ItemRatingSelector()

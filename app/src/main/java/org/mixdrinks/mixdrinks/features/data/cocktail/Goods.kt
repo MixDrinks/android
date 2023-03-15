@@ -5,10 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Goods(
-    val amount: Int,
+    val amount: Int? = null,
     val id: Int,
-    val images: List<DataImage> = listOf(),
+    val images: List<DataImage>,
     val name: String,
-    val unit: String
+    val unit: String? = null
 )
 

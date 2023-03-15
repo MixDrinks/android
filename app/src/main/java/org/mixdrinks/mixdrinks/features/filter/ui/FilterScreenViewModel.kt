@@ -9,8 +9,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.mixdrinks.mixdrinks.features.data.filter.FilterItem
 import org.mixdrinks.mixdrinks.features.data.filter.FilterProvider
-import org.mixdrinks.mixdrinks.features.data.filter.FilterResponse
 import java.io.IOException
 
 @Suppress("TooGenericExceptionCaught")
@@ -60,7 +60,7 @@ class FilterScreenViewModel(
 }
 
 data class FilterItemUiState(
-    val filters: FilterResponse
+    val filters: List<FilterItem>
 )
 
 

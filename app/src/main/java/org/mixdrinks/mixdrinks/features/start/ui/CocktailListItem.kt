@@ -84,7 +84,7 @@ private fun ListItemInfo(modifier: Modifier, item: Cocktail) {
 
 @Suppress("MagicNumber")
 @Composable
-private fun UserInfo(rating: Float, visitCount: Int) {
+private fun UserInfo(rating: Float?, visitCount: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth(1f)
@@ -92,7 +92,7 @@ private fun UserInfo(rating: Float, visitCount: Int) {
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if(rating > 0) {
+        rating.let {rating ->
             UserInfoImage(R.drawable.ic_baseline_star_24, rating.toString().substring(0, 3))
             Spacer(modifier = Modifier.width(12.dp))
         }

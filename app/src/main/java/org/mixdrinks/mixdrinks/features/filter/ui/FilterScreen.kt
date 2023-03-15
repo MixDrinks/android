@@ -39,7 +39,7 @@ import org.koin.androidx.compose.koinViewModel
 import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
-import org.mixdrinks.mixdrinks.features.data.filter.FilterResponse
+import org.mixdrinks.mixdrinks.features.data.filter.FilterItem
 import org.mixdrinks.mixdrinks.features.data.filter.Item
 
 
@@ -74,7 +74,7 @@ fun FilterScreen(
 @Composable
 fun FilterScreenData(
     modifier: Modifier,
-    filters: FilterResponse,
+    filters: List<FilterItem>,
     onNavigateBackStack: () -> Unit,
     viewModel: FilterScreenViewModel,
 ) {
