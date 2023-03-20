@@ -1,8 +1,12 @@
 package org.mixdrinks.mixdrinks.features.data.cocktail
 
+import kotlinx.serialization.Serializable
+
+
+@Serializable
 data class DataImage (
-    val srcset: String? = null,
-    val media: String? = null,
-    val type: String? = null
+    val srcset: String,
+    val media: String,
+    val type: String
 )
 
