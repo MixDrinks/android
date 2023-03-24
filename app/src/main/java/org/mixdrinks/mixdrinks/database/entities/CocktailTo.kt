@@ -2,8 +2,28 @@ package org.mixdrinks.mixdrinks.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.Companion.CASCADE
 
-@Entity(tableName = "cocktails_to_goods_relation", primaryKeys = ["cocktail_id", "good_id"])
+@Entity(
+    tableName = "cocktails_to_goods_relation",
+    primaryKeys = ["cocktail_id", "good_id"],
+    foreignKeys = [
+        ForeignKey(
+            entity = Cocktail::class,
+            parentColumns = arrayOf("cocktail_id"),
+            childColumns = arrayOf("cocktail_id"),
+            onDelete = CASCADE
+        ),
+        ForeignKey(
+            entity = Good::class,
+            parentColumns = arrayOf("good_id"),
+            childColumns = arrayOf("good_id"),
+            onDelete = CASCADE
+        ),
+    ]
+)
+
 data class CocktailToGoodRelation(
     @ColumnInfo(name = "cocktail_id")
     val cocktailId: Int,
