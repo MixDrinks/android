@@ -4,10 +4,16 @@ import org.mixdrinks.dto.CocktailDto
 import org.mixdrinks.dto.GlasswareDto
 import org.mixdrinks.dto.GoodDto
 import org.mixdrinks.dto.GoodRelationDto
+import org.mixdrinks.dto.TagDto
+import org.mixdrinks.dto.TasteDto
+import org.mixdrinks.dto.ToolDto
 import org.mixdrinks.mixdrinks.database.entities.Cocktail
 import org.mixdrinks.mixdrinks.database.entities.CocktailToGoodRelation
 import org.mixdrinks.mixdrinks.database.entities.Glassware
 import org.mixdrinks.mixdrinks.database.entities.Good
+import org.mixdrinks.mixdrinks.database.entities.Tag
+import org.mixdrinks.mixdrinks.database.entities.Taste
+import org.mixdrinks.mixdrinks.database.entities.Tool
 
 fun CocktailDto.toCocktailEntity(): Cocktail {
     return Cocktail(
@@ -39,5 +45,27 @@ fun GlasswareDto.toGlasswareEntity(): Glassware {
         glasswareId = this.id.value,
         name = this.name,
         about = this.about
+    )
+}
+
+fun TagDto.toTagEntity(): Tag {
+    return Tag(
+        tagId = this.id.id,
+        name = this.name
+    )
+}
+
+fun ToolDto.toToolEntity(): Tool {
+    return Tool(
+        toolId = this.id.id,
+        name = this.name,
+        about = this.about
+    )
+}
+
+fun TasteDto.toTasteEntity(): Taste {
+    return Taste(
+        tasteId = this.id.id,
+        name = this.name,
     )
 }
