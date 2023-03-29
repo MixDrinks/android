@@ -19,3 +19,4 @@ interface ToolDao {
     @Query("SELECT * FROM tools WHERE tool_id = :id")
     suspend fun getToolById(id: Int): Tool
 }
+

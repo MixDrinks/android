@@ -42,3 +42,4 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun toolDao(): ToolDao
     abstract fun tasteDao(): TasteDao
 }
+

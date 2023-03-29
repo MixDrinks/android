@@ -69,3 +69,4 @@ fun TasteDto.toTasteEntity(): Taste {
         name = this.name,
     )
 }
+

@@ -11,3 +11,4 @@ data class Taste(
     val tasteId: Int,
     val name: String
 )
+

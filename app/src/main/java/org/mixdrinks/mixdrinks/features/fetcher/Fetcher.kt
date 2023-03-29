@@ -70,3 +70,4 @@ class Fetcher(
         roomDatabase.cocktailDao().addAll(cocktails.map { it.toCocktailEntity() })
     }
 }
+

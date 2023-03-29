@@ -67,3 +67,4 @@ data class CocktailToGlassware(
     @ColumnInfo(name = "glassware_id")
     val glasswareId: Int
 )
+
