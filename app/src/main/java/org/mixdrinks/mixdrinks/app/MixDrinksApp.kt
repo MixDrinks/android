@@ -15,8 +15,6 @@ import org.mixdrinks.mixdrinks.features.start.ui.StartScreen
 
 @Composable
 fun MixDrinksApp(modifier: Modifier = Modifier) {
-
-    // Get data from database
     Fetcher(getKoin().get(), getKoin().get())
 
     MixDrinksTheme {

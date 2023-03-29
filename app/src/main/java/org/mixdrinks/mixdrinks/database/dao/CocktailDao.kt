@@ -9,12 +9,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Relation
 import androidx.room.Transaction
-import org.mixdrinks.dto.CocktailDto
-import org.mixdrinks.dto.GoodDto
-import org.mixdrinks.dto.GoodRelationDto
 import org.mixdrinks.mixdrinks.database.entities.Cocktail
 import org.mixdrinks.mixdrinks.database.entities.CocktailToGoodRelation
-import org.mixdrinks.mixdrinks.database.entities.Good
 
 @Dao
 interface CocktailDao {
@@ -34,12 +30,9 @@ data class CocktailSnapshotDatabase(
     val cocktail: Cocktail,
     @Relation(
         parentColumn = "cocktail_id",
-        entity = CocktailToGoodRelation::class,
         entityColumn = "good_id",
         associateBy = Junction(
-            value = CocktailToGoodRelation::class,
-            parentColumn = "cocktail_id",
-            entityColumn = "good_id"
+            value = CocktailToGoodRelation::class
         )
     )
     val goods: List<CocktailToGoodRelation>

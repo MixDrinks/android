@@ -24,22 +24,18 @@ class Fetcher(
     private val roomDatabase: AppDatabase
 ) {
     private val scope = MainScope()
-    private lateinit var snapshot: CocktailsSnapshot
     init {
         Log.d("fetch", "fetch")
         scope.launch {
-            getSnapshot()
-            startInsertToDataBase(snapshot)
+            insertToDataBase(cocktailProvider.getAllCocktails())
+            Log.d("fetcher", roomDatabase.cocktailDao().getById(1).toString())
         }
     }
 
-    private suspend fun getSnapshot() {
-        snapshot = cocktailProvider.getAllCocktails()
-    }
 
-    private suspend fun startInsertToDataBase(snapshot: CocktailsSnapshot) {
+    private suspend fun insertToDataBase(snapshot: CocktailsSnapshot) {
         insertToDataBaseTools(snapshot.tools)
-        insertToDataBaseGoodDto(snapshot.goods)
+        insertToDataBaseGoods(snapshot.goods)
         insertToDataBaseTags(snapshot.tags)
         insertToDataBaseTastes(snapshot.tastes)
         insertToDataBaseGlasswareDto(snapshot.glassware)
@@ -50,7 +46,7 @@ class Fetcher(
         roomDatabase.toolDao().addAllTools(tools.map { it.toToolEntity() })
     }
 
-    private suspend fun insertToDataBaseGoodDto(goods: List<GoodDto>) {
+    private suspend fun insertToDataBaseGoods(goods: List<GoodDto>) {
         roomDatabase.goodDao().addAllGoods(goods.map { it.toGoodEntity() })
     }
 

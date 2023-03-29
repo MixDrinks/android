@@ -23,7 +23,6 @@ import androidx.room.ForeignKey.Companion.CASCADE
         ),
     ]
 )
-
 data class CocktailToGoodRelation(
     @ColumnInfo(name = "cocktail_id")
     val cocktailId: Int,
