@@ -109,7 +109,16 @@ data class CocktailSnapshotDatabase(
             value = CocktailToGoodRelation::class
         )
     )
-    val goods: List<CocktailToGoodRelation>
+    val goods: List<CocktailToGoodRelation>,
+    @Relation(
+        parentColumn = "cocktail_id",
+        entityColumn = "tool_id",
+        associateBy = Junction(
+            value = CocktailToTool::class
+        )
+    )
+    val tools: List<CocktailToTool>,
+
 )
 
 
