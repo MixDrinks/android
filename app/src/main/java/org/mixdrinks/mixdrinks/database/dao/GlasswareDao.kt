@@ -5,14 +5,23 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import org.mixdrinks.dto.GlasswareDto
 import org.mixdrinks.mixdrinks.database.entities.Glassware
-import org.mixdrinks.mixdrinks.database.entities.Good
 
 @Dao
 interface GlasswareDao {
+    suspend fun insertAllGlasswares(glasswares: List<GlasswareDto>) {
+        addAll(glasswares.map { glassware ->
+            Glassware(
+                glasswareId = glassware.id.value,
+                name = glassware.name,
+                about = glassware.about
+            )
+        })
+    }
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     @Transaction
-    suspend fun addAll(glassware: List<Glassware>)
+    suspend fun addAll(glasswares: List<Glassware>)
 
     @Query("SELECT * FROM glasswares")
     suspend fun getAllGlasswares(): List<Glassware>

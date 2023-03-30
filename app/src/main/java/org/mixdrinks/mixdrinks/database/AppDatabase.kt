@@ -10,6 +10,9 @@ import org.mixdrinks.mixdrinks.database.dao.TasteDao
 import org.mixdrinks.mixdrinks.database.dao.ToolDao
 import org.mixdrinks.mixdrinks.database.entities.Cocktail
 import org.mixdrinks.mixdrinks.database.entities.CocktailToGoodRelation
+import org.mixdrinks.mixdrinks.database.entities.CocktailToTag
+import org.mixdrinks.mixdrinks.database.entities.CocktailToTaste
+import org.mixdrinks.mixdrinks.database.entities.CocktailToTool
 import org.mixdrinks.mixdrinks.database.entities.Glassware
 import org.mixdrinks.mixdrinks.database.entities.Good
 import org.mixdrinks.mixdrinks.database.entities.Tag
@@ -26,11 +29,9 @@ import org.mixdrinks.mixdrinks.database.entities.Tool
             Tool::class,
             Tag::class,
             Taste::class,
-        //    CocktailToTool::class,
-        //    CocktailToTag::class,
-        //    CocktailToTaste::class,
-        //    CocktailToGlassware::class,
-
+            CocktailToTool::class,
+            CocktailToTag::class,
+            CocktailToTaste::class,
         ],
     version = 1
 )
