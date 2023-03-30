@@ -118,6 +118,22 @@ data class CocktailSnapshotDatabase(
         )
     )
     val tools: List<CocktailToTool>,
+    @Relation(
+        parentColumn = "cocktail_id",
+        entityColumn = "tag_id",
+        associateBy = Junction(
+            value = CocktailToTag::class
+        )
+    )
+    val tags: List<CocktailToTag>,
+    @Relation(
+        parentColumn = "cocktail_id",
+        entityColumn = "taste_id",
+        associateBy = Junction(
+            value = CocktailToTaste::class
+        )
+    )
+    val tastes: List<CocktailToTaste>,
 
 )
 

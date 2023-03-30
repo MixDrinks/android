@@ -14,7 +14,7 @@ class Fetcher(
     private val scope = MainScope()
     init {
         scope.launch {
-            Log.d("Fetch", roomDatabase.cocktailDao().getAll().first().tools.toString())
+            Log.d("Fetch", roomDatabase.cocktailDao().getById(1).tags.first().toString())
 
             insertToDataBase(cocktailProvider.getAllCocktails())
         }

@@ -4,7 +4,6 @@ import androidx.room.Entity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.mixdrinks.dto.CocktailDto
-import org.mixdrinks.dto.CocktailId
 import org.mixdrinks.dto.FilterGroupDto
 import org.mixdrinks.dto.GlasswareDto
 import org.mixdrinks.dto.GoodDto
