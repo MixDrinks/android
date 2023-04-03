@@ -11,7 +11,7 @@ import org.mixdrinks.dto.CocktailDto
 import org.mixdrinks.mixdrinks.database.AppDatabase
 import java.io.IOException
 
-@Suppress("TooGenericExceptionCaught")
+@Suppress("TooGenericExceptionCaught", "MagicNumber")
 class StartScreenViewModel(
     private val roomDatabase: AppDatabase
 ) : ViewModel() {
@@ -47,6 +47,7 @@ class StartScreenViewModel(
 data class StartItemUiState(
     var cocktails: List<CocktailDto>
 )
+
 
 
 

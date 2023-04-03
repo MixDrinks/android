@@ -6,6 +6,7 @@ import org.mixdrinks.dto.GlasswareId
 import org.mixdrinks.dto.GoodId
 import org.mixdrinks.dto.ToolId
 
+@Suppress("MagicNumber")
 object ImageUrlCreators {
     enum class Size(
         val path: String,
@@ -47,3 +48,4 @@ object SizeConverter {
         }
     }
 }
+
