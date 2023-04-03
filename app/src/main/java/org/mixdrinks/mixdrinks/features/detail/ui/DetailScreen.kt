@@ -81,9 +81,6 @@ fun DetailsScreenData(modifier: Modifier, cocktail: DetailCocktailResponse) {
         )
         Spacer(modifier = modifier.padding(5.dp))
 
-        UserInfo(modifier = modifier, visitCount = cocktail.visitCount, rating = cocktail.rating)
-        Spacer(modifier = modifier.padding(5.dp))
-
         TagListItem(
             modifier = modifier,
             listTags = cocktail.tags,
