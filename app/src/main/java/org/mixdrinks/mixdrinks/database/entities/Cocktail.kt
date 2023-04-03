@@ -20,8 +20,8 @@ data class Cocktail(
     @PrimaryKey
     @ColumnInfo(name = "cocktail_id")
     val cocktailId: Int,
-    val name: String,
     val receipt: String,
+    val name: String,
     @ColumnInfo(name = "glassware_id")
     val glasswareId: Int
 )

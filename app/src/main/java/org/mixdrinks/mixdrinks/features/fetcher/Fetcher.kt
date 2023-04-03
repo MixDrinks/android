@@ -1,6 +1,5 @@
 package org.mixdrinks.mixdrinks.features.fetcher
 
-import android.util.Log
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.mixdrinks.mixdrinks.database.AppDatabase
@@ -14,8 +13,6 @@ class Fetcher(
     private val scope = MainScope()
     init {
         scope.launch {
-            Log.d("Fetch", roomDatabase.cocktailDao().getById(1).tags.first().toString())
-
             insertToDataBase(cocktailProvider.getAllCocktails())
         }
     }

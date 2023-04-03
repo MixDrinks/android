@@ -27,40 +27,43 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import org.mixdrinks.dto.CocktailDto
+import org.mixdrinks.dto.CocktailId
 import org.mixdrinks.mixdrinks.R
-import org.mixdrinks.mixdrinks.features.data.cocktail.Cocktail
-import org.mixdrinks.mixdrinks.features.data.cocktail.DataImage
+import org.mixdrinks.mixdrinks.utils.ImageUrlCreators
+import org.mixdrinks.mixdrinks.utils.SizeConverter
 
 
 @Composable
-fun CocktailListItem(modifier: Modifier, item: Cocktail, onClickAction: (id: Int) -> Unit) {
+fun CocktailListItem(modifier: Modifier, item: CocktailDto, onClickAction: (id: Int) -> Unit) {
     Card(
         modifier = modifier
-            .clickable { onClickAction(item.id) }
+            .clickable { onClickAction(item.id.id) }
     ) {
         Row(
             modifier = modifier.padding(10.dp),
         ) {
-            ListItemImage(item.images.first())
+            ListItemImage(item.id)
             ListItemInfo(modifier = modifier, item = item)
         }
     }
 }
 
 @Composable
-private fun ListItemImage(image: DataImage) {
+private fun ListItemImage(id: CocktailId) {
+    val size = 200;
     AsyncImage(
-        model = image.srcset,
+        model = ImageUrlCreators.createUrl(id, SizeConverter.getSizeForImage(size)),
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .clip(RoundedCornerShape(corner = CornerSize(16.dp)))
-            .size(200.dp),
+            .size(size.dp),
     )
 }
 
 @Composable
-private fun ListItemInfo(modifier: Modifier, item: Cocktail) {
+private fun ListItemInfo(modifier: Modifier, item: CocktailDto) {
     Column(
         modifier = modifier
             .fillMaxWidth(1f)
@@ -78,7 +81,6 @@ private fun ListItemInfo(modifier: Modifier, item: Cocktail) {
                 color = MaterialTheme.colors.primaryVariant,
             )
         }
-        UserInfo(item.rating, item.visitCount)
     }
 }
 

@@ -1,7 +1,6 @@
 package org.mixdrinks.mixdrinks.features.start.ui
 
 import android.util.Log
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,9 +12,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.koinViewModel
+import org.mixdrinks.dto.CocktailDto
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
-import org.mixdrinks.mixdrinks.features.data.cocktail.Cocktail
 import org.mixdrinks.mixdrinks.features.header.ui.HeaderScreen
 
 @Composable
@@ -35,7 +34,6 @@ fun StartScreen(
                 cocktails = data.cocktails,
                 onNavigateToDetail = onNavigateToDetail,
                 onNavigateToFilter = onNavigateToFilter,
-                viewModel = viewModel
             )
         }
         is StartScreenViewModel.StartUiState.Loading -> {
@@ -52,10 +50,9 @@ fun StartScreen(
 @Composable
 fun StartScreenData(
     modifier: Modifier,
-    cocktails: List<Cocktail>,
+    cocktails: List<CocktailDto>,
     onNavigateToDetail: (id: Int) -> Unit,
     onNavigateToFilter: () -> Unit,
-    viewModel: StartScreenViewModel
 ) {
     Column {
         HeaderScreen(modifier = modifier, onNavigateToFilter = onNavigateToFilter)

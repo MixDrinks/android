@@ -1,7 +1,6 @@
 package org.mixdrinks.mixdrinks.database.dao
 
 
-import android.util.Log
 import androidx.room.Dao
 import androidx.room.Embedded
 import androidx.room.Insert
@@ -11,6 +10,13 @@ import androidx.room.Query
 import androidx.room.Relation
 import androidx.room.Transaction
 import org.mixdrinks.dto.CocktailDto
+import org.mixdrinks.dto.CocktailId
+import org.mixdrinks.dto.GlasswareId
+import org.mixdrinks.dto.GoodId
+import org.mixdrinks.dto.GoodRelationDto
+import org.mixdrinks.dto.TagId
+import org.mixdrinks.dto.TasteId
+import org.mixdrinks.dto.ToolId
 import org.mixdrinks.mixdrinks.database.entities.Cocktail
 import org.mixdrinks.mixdrinks.database.entities.CocktailToGoodRelation
 import org.mixdrinks.mixdrinks.database.entities.CocktailToTag
@@ -25,26 +31,22 @@ interface CocktailDao {
                 Cocktail(
                     cocktailId = cocktail.id.id,
                     name = cocktail.name,
-                    receipt = cocktail.receipt.toString(),
+                    receipt = cocktail.receipt.joinToString("|"),
                     glasswareId = cocktail.glassware.value
                 )
             }
         )
         cocktails.map { cocktail ->
-            try {
-                addCocktailToGoodRelation(
-                    cocktail.goods.map { good ->
-                        CocktailToGoodRelation(
-                            cocktailId = cocktail.id.id,
-                            goodId = good.goodId.id,
-                            amount = good.amount,
-                            unit = good.unit
-                        )
-                    }
-                )
-            } catch (e: java.lang.Exception) {
-                Log.d("Exception", "$e.toString() Exception cocktail id: ${cocktail.id.id}")
-            }
+            addCocktailToGoodRelation(
+                cocktail.goods.map { good ->
+                    CocktailToGoodRelation(
+                        cocktailId = cocktail.id.id,
+                        goodId = good.goodId.id,
+                        amount = good.amount,
+                        unit = good.unit
+                    )
+                }
+            )
             addCocktailToTool (
                 cocktail.tools.map { tool ->
                     CocktailToTool (
@@ -96,6 +98,10 @@ interface CocktailDao {
     @Transaction
     suspend fun getAll(): List<CocktailSnapshotDatabase>
 
+    @Query("SELECT * FROM cocktails LIMIT :limit OFFSET :offset")
+    @Transaction
+    suspend fun getAll(limit: Int, offset: Int): List<CocktailSnapshotDatabase>
+
     @Query("SELECT * FROM cocktails WHERE cocktail_id = :id")
     suspend fun getById(id: Int): CocktailSnapshotDatabase
 }
@@ -134,9 +140,27 @@ data class CocktailSnapshotDatabase(
         )
     )
     val tastes: List<CocktailToTaste>,
+) {
+    fun toCocktailDto(): CocktailDto {
+        return CocktailDto(
+            id = CocktailId(cocktail.cocktailId),
+            name = cocktail.name,
+            receipt = toListReceipt(cocktail.receipt),
+            goods = goods.map { good ->
+                GoodRelationDto(
+                    goodId = GoodId(good.goodId),
+                    amount = good.amount,
+                    unit = good.unit
+                )
+            },
+            tools = tools.map { tool -> ToolId(tool.toolId) },
+            tags = tags.map { tag -> TagId(tag.tagId) },
+            tastes = tastes.map { taste -> TasteId(taste.tasteId) },
+            glassware = GlasswareId(cocktail.glasswareId)
+        )
+    }
 
-)
-
-
-
-
+    private fun toListReceipt(receipt: String): List<String> {
+        return receipt.split("|")
+    }
+}
