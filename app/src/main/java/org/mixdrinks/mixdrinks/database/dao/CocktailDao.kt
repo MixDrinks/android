@@ -1,6 +1,7 @@
 package org.mixdrinks.mixdrinks.database.dao
 
 
+import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Embedded
 import androidx.room.Insert
@@ -13,7 +14,6 @@ import org.mixdrinks.dto.CocktailDto
 import org.mixdrinks.dto.CocktailId
 import org.mixdrinks.dto.GlasswareId
 import org.mixdrinks.dto.GoodId
-import org.mixdrinks.dto.GoodRelationDto
 import org.mixdrinks.dto.TagId
 import org.mixdrinks.dto.TasteId
 import org.mixdrinks.dto.ToolId
@@ -22,6 +22,11 @@ import org.mixdrinks.mixdrinks.database.entities.CocktailToGoodRelation
 import org.mixdrinks.mixdrinks.database.entities.CocktailToTag
 import org.mixdrinks.mixdrinks.database.entities.CocktailToTaste
 import org.mixdrinks.mixdrinks.database.entities.CocktailToTool
+import org.mixdrinks.mixdrinks.database.entities.Good
+import org.mixdrinks.mixdrinks.database.entities.Tag
+import org.mixdrinks.mixdrinks.database.entities.Taste
+import org.mixdrinks.mixdrinks.database.entities.Tool
+import org.mixdrinks.mixdrinks.features.data.CocktailFull
 
 @Dao
 interface CocktailDao {
@@ -47,9 +52,9 @@ interface CocktailDao {
                     )
                 }
             )
-            addCocktailToTool (
+            addCocktailToTool(
                 cocktail.tools.map { tool ->
-                    CocktailToTool (
+                    CocktailToTool(
                         cocktailId = cocktail.id.id,
                         toolId = tool.id
                     )
@@ -78,19 +83,19 @@ interface CocktailDao {
     @Transaction
     suspend fun addAllCocktails(cocktail: List<Cocktail>)
 
-    @Insert(entity = CocktailToGoodRelation::class,  onConflict = OnConflictStrategy.REPLACE)
+    @Insert(entity = CocktailToGoodRelation::class, onConflict = OnConflictStrategy.REPLACE)
     @Transaction
     suspend fun addCocktailToGoodRelation(cocktailToGoodRelation: List<CocktailToGoodRelation>)
 
-    @Insert(entity = CocktailToTool::class,  onConflict = OnConflictStrategy.REPLACE)
+    @Insert(entity = CocktailToTool::class, onConflict = OnConflictStrategy.REPLACE)
     @Transaction
     suspend fun addCocktailToTool(cocktailToTool: List<CocktailToTool>)
 
-    @Insert(entity = CocktailToTag::class,  onConflict = OnConflictStrategy.REPLACE)
+    @Insert(entity = CocktailToTag::class, onConflict = OnConflictStrategy.REPLACE)
     @Transaction
     suspend fun addCocktailToTag(cocktailToTag: List<CocktailToTag>)
 
-    @Insert(entity = CocktailToTaste::class,  onConflict = OnConflictStrategy.REPLACE)
+    @Insert(entity = CocktailToTaste::class, onConflict = OnConflictStrategy.REPLACE)
     @Transaction
     suspend fun addCocktailToTaste(cocktailToTaste: List<CocktailToTaste>)
 
@@ -104,64 +109,87 @@ interface CocktailDao {
 
     @Query("SELECT * FROM cocktails WHERE cocktail_id = :id")
     suspend fun getById(id: Int): CocktailSnapshotDatabase
+
+
+    @Query("SELECT cocktail_id, name FROM cocktails")
+    suspend fun getAllShortCocktail(): List<CocktailShort>
 }
+
 data class CocktailSnapshotDatabase(
     @Embedded
     val cocktail: Cocktail,
     @Relation(
         parentColumn = "cocktail_id",
         entityColumn = "good_id",
-        associateBy = Junction(
-            value = CocktailToGoodRelation::class
-        )
+        associateBy = Junction(CocktailToGoodRelation::class)
     )
-    val goods: List<CocktailToGoodRelation>,
+    val goods: List<Good>,
     @Relation(
         parentColumn = "cocktail_id",
         entityColumn = "tool_id",
-        associateBy = Junction(
-            value = CocktailToTool::class
-        )
+        associateBy = Junction(CocktailToTool::class)
     )
-    val tools: List<CocktailToTool>,
+    val tools: List<Tool>,
     @Relation(
         parentColumn = "cocktail_id",
         entityColumn = "tag_id",
-        associateBy = Junction(
-            value = CocktailToTag::class
-        )
+        associateBy = Junction(CocktailToTag::class)
     )
-    val tags: List<CocktailToTag>,
+    val tags: List<Tag>,
     @Relation(
         parentColumn = "cocktail_id",
         entityColumn = "taste_id",
-        associateBy = Junction(
-            value = CocktailToTaste::class
-        )
+        associateBy = Junction(CocktailToTaste::class)
     )
-    val tastes: List<CocktailToTaste>,
+    val tastes: List<Taste>,
 ) {
-    fun toCocktailDto(): CocktailDto {
-        return CocktailDto(
+    private fun getListReceipt(receipt: String): List<String> {
+        return receipt.split("|")
+    }
+
+    fun toCocktailFull(): CocktailFull {
+        return CocktailFull(
             id = CocktailId(cocktail.cocktailId),
             name = cocktail.name,
-            receipt = toListReceipt(cocktail.receipt),
+            receipt = getListReceipt(cocktail.receipt),
             goods = goods.map { good ->
-                GoodRelationDto(
-                    goodId = GoodId(good.goodId),
-                    amount = good.amount,
-                    unit = good.unit
+                CocktailFull.Good(
+                    id = GoodId(good.goodId),
+                    name = good.name,
+                    // mock
+                    amount = 0,
+                    unit = "MOCK"
                 )
             },
-            tools = tools.map { tool -> ToolId(tool.toolId) },
-            tags = tags.map { tag -> TagId(tag.tagId) },
-            tastes = tastes.map { taste -> TasteId(taste.tasteId) },
-            glassware = GlasswareId(cocktail.glasswareId)
+            tools = tools.map { tool ->
+                CocktailFull.Tool(
+                    id = ToolId(tool.toolId),
+                    name = tool.name
+                )
+            },
+            tags = tags.map { tag ->
+                CocktailFull.Tag(
+                    id = TagId(tag.tagId),
+                    name = tag.name
+                )
+            },
+            tastes = tastes.map { taste ->
+                CocktailFull.Taste(
+                    id = TasteId(taste.tasteId),
+                    name = taste.name
+                )
+            },
+            glassware = CocktailFull.Glassware(GlasswareId(1), "mock")
         )
     }
 
-    private fun toListReceipt(receipt: String): List<String> {
-        return receipt.split("|")
-    }
 }
+
+data class CocktailShort(
+    @ColumnInfo(name = "cocktail_id")
+    val cocktailId: Int,
+    val name: String,
+)
+
+
 

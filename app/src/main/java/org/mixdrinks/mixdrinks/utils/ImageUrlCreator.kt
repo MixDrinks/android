@@ -32,20 +32,22 @@ object ImageUrlCreators {
     private fun createToolUrl(id: Int, size: Size): String {
         return "https://image.mixdrinks.org/goods/${id}/${size.path}/${id}.webp"
     }
-}
 
-@Suppress("MagicNumber")
-object SizeConverter {
-    private fun dpToPx(dp: Int): Int {
-       return (dp * Resources.getSystem().displayMetrics.density).toInt()
-    }
-    fun getSizeForImage(dp: Int): ImageUrlCreators.Size {
-        val size = dpToPx(dp)
-        return when(true) {
-            (size <= 320) -> {ImageUrlCreators.Size.SIZE_320}
-            (size <= 400) -> {ImageUrlCreators.Size.SIZE_400}
-            else -> {ImageUrlCreators.Size.SIZE_560}
+    @Suppress("MagicNumber")
+    object SizeConverter {
+        private fun dpToPx(dp: Int): Int {
+            return (dp * Resources.getSystem().displayMetrics.density).toInt()
+        }
+        fun getSizeForImage(dp: Int): Size {
+            val size = dpToPx(dp)
+            return when(true) {
+                (size <= 320) -> {Size.SIZE_320}
+                (size <= 400) -> {Size.SIZE_400}
+                else -> {Size.SIZE_560}
+            }
         }
     }
+
 }
+
 

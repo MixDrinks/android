@@ -12,7 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.koinViewModel
-import org.mixdrinks.dto.CocktailDto
+import org.mixdrinks.mixdrinks.database.dao.CocktailShort
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.header.ui.HeaderScreen
@@ -24,7 +24,6 @@ fun StartScreen(
     onNavigateToFilter: () -> Unit,
     viewModel: StartScreenViewModel = koinViewModel()
 ) {
-
     val cocktail by viewModel.uiState.collectAsState()
     when(cocktail) {
         is StartScreenViewModel.StartUiState.Loaded -> {
@@ -50,7 +49,7 @@ fun StartScreen(
 @Composable
 fun StartScreenData(
     modifier: Modifier,
-    cocktails: List<CocktailDto>,
+    cocktails: List<CocktailShort>,
     onNavigateToDetail: (id: Int) -> Unit,
     onNavigateToFilter: () -> Unit,
 ) {

@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.mixdrinks.dto.CocktailDto
 import org.mixdrinks.mixdrinks.database.AppDatabase
+import org.mixdrinks.mixdrinks.database.dao.CocktailShort
 import java.io.IOException
 
 @Suppress("TooGenericExceptionCaught", "MagicNumber")
@@ -19,17 +19,17 @@ class StartScreenViewModel(
     val uiState: StateFlow<StartUiState> = _uiState
 
     init {
-        getCocktail(0)
+        getCocktail()
     }
 
-    fun getCocktail(page: Int = 0) {
+    private fun getCocktail() {
         _uiState.value = StartUiState.Loading
 
         viewModelScope.launch {
             try {
                 Log.d("PX",     Resources.getSystem().displayMetrics.density.toString())
-                val result = roomDatabase.cocktailDao().getAll(20, page)
-                _uiState.value = StartUiState.Loaded(StartItemUiState(result.map { it.toCocktailDto() }))
+                val result = roomDatabase.cocktailDao().getAllShortCocktail()
+                _uiState.value = StartUiState.Loaded(StartItemUiState(result))
             } catch (error: IOException) {
                 _uiState.value = StartUiState.Error(error.toString())
             } catch (error: Exception) {
@@ -45,7 +45,7 @@ class StartScreenViewModel(
 }
 
 data class StartItemUiState(
-    var cocktails: List<CocktailDto>
+    var cocktails: List<CocktailShort>
 )
 
 

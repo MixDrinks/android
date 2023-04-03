@@ -2,9 +2,9 @@ package org.mixdrinks.mixdrinks.features.fetcher
 
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import org.mixdrinks.mixdrinks.database.AppDatabase
 import org.mixdrinks.dto.SnapshotDto
-import org.mixdrinks.mixdrinks.features.data.cocktail.CocktailProvider
+import org.mixdrinks.mixdrinks.database.AppDatabase
+import org.mixdrinks.mixdrinks.features.data.CocktailProvider
 
 class Fetcher(
     private val cocktailProvider: CocktailProvider,

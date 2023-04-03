@@ -22,22 +22,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import org.mixdrinks.dto.CocktailDto
 import org.mixdrinks.dto.CocktailId
+import org.mixdrinks.mixdrinks.database.dao.CocktailShort
 import org.mixdrinks.mixdrinks.utils.ImageUrlCreators
-import org.mixdrinks.mixdrinks.utils.SizeConverter
 
 
 @Composable
-fun CocktailListItem(modifier: Modifier, item: CocktailDto, onClickAction: (id: Int) -> Unit) {
+fun CocktailListItem(modifier: Modifier, item: CocktailShort, onClickAction: (id: Int) -> Unit) {
     Card(
         modifier = modifier
-            .clickable { onClickAction(item.id.id) }
+            .clickable { onClickAction(item.cocktailId) }
     ) {
         Row(
             modifier = modifier.padding(10.dp),
         ) {
-            ListItemImage(item.id)
+            ListItemImage(item.cocktailId)
             ListItemInfo(modifier = modifier, item = item)
         }
     }
@@ -45,10 +44,10 @@ fun CocktailListItem(modifier: Modifier, item: CocktailDto, onClickAction: (id: 
 
 @Suppress("MagicNumber")
 @Composable
-private fun ListItemImage(id: CocktailId) {
+private fun ListItemImage(id: Int) {
     val size = 200;
     AsyncImage(
-        model = ImageUrlCreators.createUrl(id, SizeConverter.getSizeForImage(size)),
+        model = ImageUrlCreators.createUrl(CocktailId(id), ImageUrlCreators.SizeConverter.getSizeForImage(size)),
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = Modifier
@@ -58,7 +57,7 @@ private fun ListItemImage(id: CocktailId) {
 }
 
 @Composable
-private fun ListItemInfo(modifier: Modifier, item: CocktailDto) {
+private fun ListItemInfo(modifier: Modifier, item: CocktailShort) {
     Column(
         modifier = modifier
             .fillMaxWidth(1f)

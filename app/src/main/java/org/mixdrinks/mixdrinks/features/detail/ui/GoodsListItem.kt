@@ -21,11 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import org.mixdrinks.mixdrinks.features.data.cocktail.Goods
+import org.mixdrinks.mixdrinks.features.data.CocktailFull
+import org.mixdrinks.mixdrinks.utils.ImageUrlCreators
 
 @Suppress("MagicNumber")
 @Composable
-fun GoodsListItem(modifier: Modifier, visibleUnit: Boolean = true, goods: List<Goods>, onCLick: () -> Unit) {
+fun GoodsListItem(modifier: Modifier, goods: List<CocktailFull.Good>, onCLick: () -> Unit) {
     LazyHorizontalGrid(
         rows = GridCells.Fixed(1),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -41,31 +42,69 @@ fun GoodsListItem(modifier: Modifier, visibleUnit: Boolean = true, goods: List<G
                         .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    AsyncImage(
-                        modifier = modifier
-                            .border(
-                                BorderStroke(2.dp, MaterialTheme.colors.primaryVariant),
-                                shape = RoundedCornerShape(16.dp),
-                            )
-                            .size(190.dp)
-                            .padding(5.dp),
-                        model = item.images.first().srcset,
-                        contentDescription = null,
-                        contentScale = ContentScale.Inside,
+                    imageItem(modifier = modifier,
+                        ImageUrlCreators.createUrl(item.id, ImageUrlCreators.SizeConverter.getSizeForImage(190))
                     )
                     HeaderText(
                         modifier = modifier,
                         text = item.name,
                         textStyle = MaterialTheme.typography.body1
                     )
-                    if (visibleUnit)
-                        HeaderText(
-                            modifier = modifier,
-                            text = "${item.amount} ${item.unit}",
-                            textStyle = MaterialTheme.typography.h4
-                        )
+                    HeaderText(
+                        modifier = modifier,
+                        text = "${item.amount} ${item.unit}",
+                        textStyle = MaterialTheme.typography.h4
+                    )
+
                 }
             }
         }
     }
+}
+
+@Composable
+fun ToolsListItem(modifier: Modifier, tools: List<CocktailFull.Tool>, onCLick: () -> Unit) {
+    LazyHorizontalGrid(
+        rows = GridCells.Fixed(1),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier.height(240.dp)
+    ) {
+        items(tools) { item ->
+            Card(
+                modifier = modifier
+                    .clickable { onCLick() },
+            ) {
+                Column(
+                    modifier = modifier
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    imageItem(modifier = modifier,
+                        ImageUrlCreators.createUrl(item.id, ImageUrlCreators.SizeConverter.getSizeForImage(190))
+                    )
+                    HeaderText(
+                        modifier = modifier,
+                        text = item.name,
+                        textStyle = MaterialTheme.typography.body1
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun imageItem(modifier:Modifier, url: String) {
+    AsyncImage(
+        modifier = modifier
+            .border(
+                BorderStroke(2.dp, MaterialTheme.colors.primaryVariant),
+                shape = RoundedCornerShape(16.dp),
+            )
+            .size(190.dp)
+            .padding(5.dp),
+        model = url,
+        contentDescription = null,
+        contentScale = ContentScale.Inside,
+    )
 }

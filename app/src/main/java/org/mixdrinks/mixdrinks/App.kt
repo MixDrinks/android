@@ -9,7 +9,7 @@ import org.koin.core.context.GlobalContext.startKoin
 import org.koin.dsl.module
 import org.mixdrinks.mixdrinks.app.RetrofitClient
 import org.mixdrinks.mixdrinks.database.AppDatabase
-import org.mixdrinks.mixdrinks.features.data.cocktail.CocktailProvider
+import org.mixdrinks.mixdrinks.features.data.CocktailProvider
 import org.mixdrinks.mixdrinks.features.data.filter.FilterProvider
 import org.mixdrinks.mixdrinks.features.detail.ui.DetailScreenViewModel
 import org.mixdrinks.mixdrinks.features.fetcher.Fetcher

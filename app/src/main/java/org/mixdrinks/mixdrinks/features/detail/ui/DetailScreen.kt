@@ -38,8 +38,8 @@ import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.app.ui.theme.Green700
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
-import org.mixdrinks.mixdrinks.features.data.cocktail.DetailCocktailResponse
-import org.mixdrinks.mixdrinks.features.data.cocktail.Goods
+import org.mixdrinks.mixdrinks.features.data.CocktailFull
+import org.mixdrinks.mixdrinks.utils.ImageUrlCreators
 
 @Composable
 fun DetailScreen(
@@ -66,7 +66,7 @@ fun DetailScreen(
 }
 
 @Composable
-fun DetailsScreenData(modifier: Modifier, cocktail: DetailCocktailResponse) {
+fun DetailsScreenData(modifier: Modifier, cocktail: CocktailFull) {
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
@@ -89,7 +89,7 @@ fun DetailsScreenData(modifier: Modifier, cocktail: DetailCocktailResponse) {
         Spacer(modifier = modifier.padding(5.dp))
 
         AsyncImage(
-            model = cocktail.images.first().srcset,
+            model = ImageUrlCreators.createUrl(cocktail.id, ImageUrlCreators.SizeConverter.getSizeForImage(300)),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -198,7 +198,7 @@ private fun SquareMarker(
 }
 
 @Composable
-private fun CocktailIngredientsContent(modifier: Modifier, cocktailName: String, cocktailGoods: List<Goods>) {
+private fun CocktailIngredientsContent(modifier: Modifier, cocktailName: String, cocktailGoods: List<CocktailFull.Good>) {
     HeaderText(
         modifier = modifier,
         text = "${stringResource(R.string.cocktail_ingredients)} $cocktailName",
@@ -237,17 +237,16 @@ private fun CocktailPortions(modifier: Modifier) {
 }
 
 @Composable
-fun CocktailNeedToolsContent(modifier: Modifier, cocktailName: String, cocktailTools: List<Goods>) {
+fun CocktailNeedToolsContent(modifier: Modifier, cocktailName: String, cocktailTools: List<CocktailFull.Tool>) {
     HeaderText(
         modifier = modifier,
         text = "${stringResource(R.string.need_tools)} $cocktailName",
         textStyle = MaterialTheme.typography.h2
     )
     Spacer(modifier = modifier.padding(bottom = 15.dp))
-    GoodsListItem(
+    ToolsListItem(
         modifier = modifier,
-        goods = cocktailTools,
-        visibleUnit = false,
+        tools = cocktailTools,
         onCLick = { }
     )
 }
