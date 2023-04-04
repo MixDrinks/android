@@ -27,7 +27,6 @@ class StartScreenViewModel(
 
         viewModelScope.launch {
             try {
-                Log.d("PX",     Resources.getSystem().displayMetrics.density.toString())
                 val result = roomDatabase.cocktailDao().getAllShortCocktail()
                 _uiState.value = StartUiState.Loaded(StartItemUiState(result))
             } catch (error: IOException) {

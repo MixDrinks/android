@@ -1,5 +1,6 @@
 package org.mixdrinks.mixdrinks.features.fetcher
 
+import android.util.Log
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.mixdrinks.dto.SnapshotDto
@@ -13,7 +14,9 @@ class Fetcher(
     private val scope = MainScope()
     init {
         scope.launch {
-            insertToDataBase(cocktailProvider.getAllCocktails())
+            if(roomDatabase.cocktailDao().getAll().isEmpty()) {
+                insertToDataBase(cocktailProvider.getAllCocktails())
+            }
         }
     }
     private suspend fun insertToDataBase(snapshot: SnapshotDto) {

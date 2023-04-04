@@ -67,7 +67,7 @@ fun ToolsListItem(modifier: Modifier, tools: List<CocktailFull.Tool>, onCLick: (
     LazyHorizontalGrid(
         rows = GridCells.Fixed(1),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier.height(240.dp)
+        modifier = modifier.height(220.dp)
     ) {
         items(tools) { item ->
             Card(
