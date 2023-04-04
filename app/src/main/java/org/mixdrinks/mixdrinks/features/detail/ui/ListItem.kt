@@ -24,6 +24,8 @@ import coil.compose.AsyncImage
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
 import org.mixdrinks.mixdrinks.utils.ImageUrlCreators
 
+private const val sizeBoxImage = 190;
+
 @Suppress("MagicNumber")
 @Composable
 fun GoodsListItem(modifier: Modifier, goods: List<CocktailFull.Good>, onCLick: () -> Unit) {
@@ -43,7 +45,7 @@ fun GoodsListItem(modifier: Modifier, goods: List<CocktailFull.Good>, onCLick: (
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     ImageItem(modifier = modifier,
-                        ImageUrlCreators.createUrl(item.id, ImageUrlCreators.SizeConverter.getSizeForImage(190))
+                        ImageUrlCreators.createUrl(item.id, ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage))
                     )
                     HeaderText(
                         modifier = modifier,
@@ -79,8 +81,9 @@ fun ToolsListItem(modifier: Modifier, tools: List<CocktailFull.Tool>, onCLick: (
                         .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    ImageItem(modifier = modifier,
-                        ImageUrlCreators.createUrl(item.id, ImageUrlCreators.SizeConverter.getSizeForImage(190))
+                    ImageItem(
+                        modifier = modifier,
+                        ImageUrlCreators.createUrl(item.id, ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage))
                     )
                     HeaderText(
                         modifier = modifier,
@@ -101,7 +104,7 @@ fun ImageItem(modifier:Modifier, url: String) {
                 BorderStroke(2.dp, MaterialTheme.colors.primaryVariant),
                 shape = RoundedCornerShape(16.dp),
             )
-            .size(190.dp)
+            .size(sizeBoxImage.dp)
             .padding(5.dp),
         model = url,
         contentDescription = null,
