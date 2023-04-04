@@ -53,6 +53,7 @@ fun DetailScreenGood(
     }
 }
 
+@Suppress("MagicNumber")
 @Composable
 fun DetailScreenGoodData(modifier: Modifier, good: DetailGood, onBack: () -> Unit) {
     Column(

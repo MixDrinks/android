@@ -52,7 +52,7 @@ fun DetailScreenTool(
         }
     }
 }
-
+@Suppress("MagicNumber")
 @Composable
 fun DetailScreenToolData(modifier: Modifier, tool: DetailTool, onBack: () -> Unit) {
     Column(
@@ -71,7 +71,10 @@ fun DetailScreenToolData(modifier: Modifier, tool: DetailTool, onBack: () -> Uni
 
         val sizeBoxImage = 300
         AsyncImage(
-            model = ImageUrlCreators.createUrl(toolId = tool.id, ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage)),
+            model = ImageUrlCreators.createUrl(
+                toolId = tool.id,
+                ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage)
+            ),
             contentDescription = null,
             contentScale = ContentScale.FillHeight,
             modifier = Modifier

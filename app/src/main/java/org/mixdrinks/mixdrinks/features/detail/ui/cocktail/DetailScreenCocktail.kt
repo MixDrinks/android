@@ -63,6 +63,7 @@ fun DetailScreen(
     }
 }
 
+@Suppress("MagicNumber")
 @Composable
 fun DetailsScreenData(
     modifier: Modifier,
@@ -94,7 +95,10 @@ fun DetailsScreenData(
 
         val sizeBoxImage = 300
         AsyncImage(
-            model = ImageUrlCreators.createUrl(cocktail.id, ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage)),
+            model = ImageUrlCreators.createUrl(
+                cocktail.id,
+                ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage)
+            ),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
