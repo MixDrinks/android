@@ -42,7 +42,7 @@ fun GoodsListItem(modifier: Modifier, goods: List<CocktailFull.Good>, onCLick: (
                         .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    imageItem(modifier = modifier,
+                    ImageItem(modifier = modifier,
                         ImageUrlCreators.createUrl(item.id, ImageUrlCreators.SizeConverter.getSizeForImage(190))
                     )
                     HeaderText(
@@ -79,7 +79,7 @@ fun ToolsListItem(modifier: Modifier, tools: List<CocktailFull.Tool>, onCLick: (
                         .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    imageItem(modifier = modifier,
+                    ImageItem(modifier = modifier,
                         ImageUrlCreators.createUrl(item.id, ImageUrlCreators.SizeConverter.getSizeForImage(190))
                     )
                     HeaderText(
@@ -94,7 +94,7 @@ fun ToolsListItem(modifier: Modifier, tools: List<CocktailFull.Tool>, onCLick: (
 }
 
 @Composable
-fun imageItem(modifier:Modifier, url: String) {
+fun ImageItem(modifier:Modifier, url: String) {
     AsyncImage(
         modifier = modifier
             .border(
@@ -108,3 +108,4 @@ fun imageItem(modifier:Modifier, url: String) {
         contentScale = ContentScale.Inside,
     )
 }
+
