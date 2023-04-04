@@ -28,7 +28,7 @@ private const val sizeBoxImage = 190
 
 @Suppress("MagicNumber")
 @Composable
-fun GoodsListItem(modifier: Modifier, goods: List<CocktailFull.Good>, onCLick: () -> Unit) {
+fun GoodsListItem(modifier: Modifier, goods: List<CocktailFull.Good>, onClick: (id :Int) -> Unit) {
     LazyHorizontalGrid(
         rows = GridCells.Fixed(1),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -37,7 +37,7 @@ fun GoodsListItem(modifier: Modifier, goods: List<CocktailFull.Good>, onCLick: (
         items(goods) { item ->
             Card(
                 modifier = modifier
-                    .clickable { onCLick() },
+                    .clickable { onClick(item.id.id) },
             ) {
                 Column(
                     modifier = modifier
@@ -47,15 +47,13 @@ fun GoodsListItem(modifier: Modifier, goods: List<CocktailFull.Good>, onCLick: (
                     ImageItem(modifier = modifier,
                         ImageUrlCreators.createUrl(item.id, ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage))
                     )
-                    HeaderText(
+                    HeaderDescriptionItemBody1(
                         modifier = modifier,
                         text = item.name,
-                        textStyle = MaterialTheme.typography.body1
                     )
-                    HeaderText(
+                    HeaderDescriptionItem(
                         modifier = modifier,
                         text = "${item.amount} ${item.unit}",
-                        textStyle = MaterialTheme.typography.h4
                     )
 
                 }
@@ -65,7 +63,7 @@ fun GoodsListItem(modifier: Modifier, goods: List<CocktailFull.Good>, onCLick: (
 }
 
 @Composable
-fun ToolsListItem(modifier: Modifier, tools: List<CocktailFull.Tool>, onCLick: () -> Unit) {
+fun ToolsListItem(modifier: Modifier, tools: List<CocktailFull.Tool>, onCLick: (id: Int) -> Unit) {
     LazyHorizontalGrid(
         rows = GridCells.Fixed(1),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -74,7 +72,7 @@ fun ToolsListItem(modifier: Modifier, tools: List<CocktailFull.Tool>, onCLick: (
         items(tools) { item ->
             Card(
                 modifier = modifier
-                    .clickable { onCLick() },
+                    .clickable { onCLick(item.id.id) },
             ) {
                 Column(
                     modifier = modifier
@@ -88,10 +86,9 @@ fun ToolsListItem(modifier: Modifier, tools: List<CocktailFull.Tool>, onCLick: (
                             ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage)
                         )
                     )
-                    HeaderText(
+                    HeaderDescriptionItemBody1(
                         modifier = modifier,
                         text = item.name,
-                        textStyle = MaterialTheme.typography.body1
                     )
                 }
             }

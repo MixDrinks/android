@@ -25,10 +25,9 @@ import org.mixdrinks.mixdrinks.app.ui.theme.Green700
 
 @Composable
 fun CocktailRecipeContent(modifier: Modifier, cocktailName: String, cocktailReceipt: List<String>) {
-    HeaderText(
+    HeaderDescription(
         modifier = modifier,
         text = "${stringResource(R.string.cocktail_recipe)} $cocktailName",
-        textStyle = MaterialTheme.typography.h2
     )
     Spacer(modifier = modifier.padding(top = 5.dp))
     ListCocktailRecipe(modifier = modifier, receipt = cocktailReceipt)

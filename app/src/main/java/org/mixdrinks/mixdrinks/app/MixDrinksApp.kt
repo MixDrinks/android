@@ -9,7 +9,9 @@ import org.koin.androidx.compose.getKoin
 import org.mixdrinks.mixdrinks.features.fetcher.Fetcher
 import org.mixdrinks.mixdrinks.app.ui.theme.MixDrinksTheme
 import org.mixdrinks.mixdrinks.features.common.ui.NotFoundScreen
-import org.mixdrinks.mixdrinks.features.detail.ui.DetailScreen
+import org.mixdrinks.mixdrinks.features.detail.ui.cocktail.DetailScreen
+import org.mixdrinks.mixdrinks.features.detail.ui.good.DetailScreenGood
+import org.mixdrinks.mixdrinks.features.detail.ui.tool.DetailScreenTool
 import org.mixdrinks.mixdrinks.features.filter.ui.FilterScreen
 import org.mixdrinks.mixdrinks.features.start.ui.StartScreen
 
@@ -28,16 +30,41 @@ fun MixDrinksApp(modifier: Modifier = Modifier) {
                 StartScreen(
                     modifier = modifier,
                     onNavigateToDetail = { navController.navigate("cocktail/$it") },
-                    onNavigateToFilter = { navController.navigate("filter") }
+                    onNavigateToFilter = { navController.navigate("filter") },
                 )
             }
             composable("cocktail/{cocktailId}") {
                     backStackEntry ->
                 val cocktailId = backStackEntry.arguments?.getString("cocktailId")
-                cocktailId?.toInt()?.let {
+                cocktailId?.toInt()?.let { it ->
                     DetailScreen(
                         modifier = modifier,
                         cocktailId = it,
+                        onNavigateToDetailGood = { navController.navigate("good/$it")},
+                        onNavigateToDetailTool = { navController.navigate("tool/$it")},
+                        onBack = { navController.popBackStack() }
+                    )
+                }
+            }
+            composable("good/{goodId}") {
+                    backStackEntry ->
+                val cocktailId = backStackEntry.arguments?.getString("goodId")
+                cocktailId?.toInt()?.let {
+                    DetailScreenGood(
+                        modifier = modifier,
+                        goodId = it,
+                        onBack = { navController.popBackStack() }
+                    )
+                }
+            }
+            composable("tool/{toolId}") {
+                    backStackEntry ->
+                val cocktailId = backStackEntry.arguments?.getString("toolId")
+                cocktailId?.toInt()?.let {
+                    DetailScreenTool(
+                        modifier = modifier,
+                        toolId = it,
+                        onBack = { navController.popBackStack() }
                     )
                 }
             }

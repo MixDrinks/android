@@ -40,7 +40,7 @@ fun SearchTextField(modifier: Modifier, onFocusChanged: (isFocused: Boolean) -> 
     TextField (
         modifier = modifier
             .height(50.dp)
-            .fillMaxWidth(if (isFocused) 1.0f else 0.8f)
+            .fillMaxWidth(if (isFocused) 1.0f else 0.9f)
             .padding(all = 0.dp)
             .onFocusChanged { focusState ->
                 onFocusChanged(focusState.isFocused)

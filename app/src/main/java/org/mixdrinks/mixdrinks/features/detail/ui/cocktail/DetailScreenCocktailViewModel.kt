@@ -10,7 +10,7 @@ import org.mixdrinks.mixdrinks.features.data.CocktailFull
 import java.io.IOException
 
 @Suppress("TooGenericExceptionCaught")
-class DetailScreenViewModel(
+class DetailScreenCocktailViewModel(
     private val cocktailId: Int,
     private val roomDatabase: AppDatabase,
 ) : ViewModel() {

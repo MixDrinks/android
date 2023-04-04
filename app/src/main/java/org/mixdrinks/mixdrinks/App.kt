@@ -11,7 +11,9 @@ import org.mixdrinks.mixdrinks.app.RetrofitClient
 import org.mixdrinks.mixdrinks.database.AppDatabase
 import org.mixdrinks.mixdrinks.features.data.CocktailProvider
 import org.mixdrinks.mixdrinks.features.data.filter.FilterProvider
-import org.mixdrinks.mixdrinks.features.detail.ui.DetailScreenViewModel
+import org.mixdrinks.mixdrinks.features.detail.ui.DetailScreenCocktailViewModel
+import org.mixdrinks.mixdrinks.features.detail.ui.good.DetailScreenGoodViewModel
+import org.mixdrinks.mixdrinks.features.detail.ui.tool.DetailScreenToolViewModel
 import org.mixdrinks.mixdrinks.features.fetcher.Fetcher
 import org.mixdrinks.mixdrinks.features.filter.ui.FilterScreenViewModel
 import org.mixdrinks.mixdrinks.features.start.ui.StartScreenViewModel
@@ -31,8 +33,10 @@ class App : Application() {
       }
 
       single<CocktailProvider> { RetrofitClient.retrofit.create(CocktailProvider::class.java) }
-      viewModel { (id: Int) -> DetailScreenViewModel(cocktailId = id, get()) }
       viewModel { StartScreenViewModel(get()) }
+      viewModel { (id: Int) -> DetailScreenCocktailViewModel(cocktailId = id, get()) }
+      viewModel { (id: Int) -> DetailScreenGoodViewModel(goodId = id, get())}
+      viewModel { (id: Int) -> DetailScreenToolViewModel(toolId = id, get()) }
 
       single<FilterProvider> { RetrofitClient.retrofit.create(FilterProvider::class.java) }
       viewModel { FilterScreenViewModel(get()) }

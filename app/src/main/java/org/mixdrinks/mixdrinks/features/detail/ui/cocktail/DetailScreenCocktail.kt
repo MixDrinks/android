@@ -1,7 +1,6 @@
-package org.mixdrinks.mixdrinks.features.detail.ui
+package org.mixdrinks.mixdrinks.features.detail.ui.cocktail
 
 import android.util.Log
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,14 +11,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import org.koin.androidx.compose.koinViewModel
@@ -28,26 +25,43 @@ import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
+import org.mixdrinks.mixdrinks.features.detail.ui.CocktailRecipeContent
+import org.mixdrinks.mixdrinks.features.detail.ui.DetailScreenCocktailViewModel
+import org.mixdrinks.mixdrinks.features.detail.ui.GoodsListItem
+import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescription
+import org.mixdrinks.mixdrinks.features.detail.ui.HeaderScreen
+import org.mixdrinks.mixdrinks.features.detail.ui.SquareMarker
+import org.mixdrinks.mixdrinks.features.detail.ui.TagListItem
+import org.mixdrinks.mixdrinks.features.detail.ui.ToolsListItem
 import org.mixdrinks.mixdrinks.utils.ImageUrlCreators
 
 @Composable
 fun DetailScreen(
     modifier: Modifier,
     cocktailId: Int,
-    viewModel: DetailScreenViewModel = koinViewModel { parametersOf(cocktailId) },
+    onNavigateToDetailGood: (id: Int) -> Unit,
+    onNavigateToDetailTool: (id: Int) -> Unit,
+    onBack: () -> Unit,
+    viewModel: DetailScreenCocktailViewModel = koinViewModel { parametersOf(cocktailId) },
 ) {
     val cocktail by viewModel.uiState.collectAsState()
 
     when(cocktail) {
-        is DetailScreenViewModel.DetailUiState.Loaded -> {
-            val data = (cocktail as DetailScreenViewModel.DetailUiState.Loaded).itemState
-            DetailsScreenData(modifier = modifier, data.cocktail)
+        is DetailScreenCocktailViewModel.DetailUiState.Loaded -> {
+            val data = (cocktail as DetailScreenCocktailViewModel.DetailUiState.Loaded).itemState
+            DetailsScreenData(
+                modifier = modifier,
+                data.cocktail,
+                onNavigateToDetailTool = onNavigateToDetailTool,
+                onNavigateToDetailGood = onNavigateToDetailGood,
+                onBack = onBack
+            )
         }
-        is DetailScreenViewModel.DetailUiState.Loading -> {
+        is DetailScreenCocktailViewModel.DetailUiState.Loading -> {
             LoaderIndicatorScreen(modifier = modifier)
         }
         else -> {
-            val error = cocktail as DetailScreenViewModel.DetailUiState.Error
+            val error = cocktail as DetailScreenCocktailViewModel.DetailUiState.Error
             Log.d("Exception", error.message)
             ErrorLoadingScreen(modifier = modifier)
         }
@@ -55,7 +69,13 @@ fun DetailScreen(
 }
 
 @Composable
-fun DetailsScreenData(modifier: Modifier, cocktail: CocktailFull) {
+fun DetailsScreenData(
+    modifier: Modifier,
+    cocktail: CocktailFull,
+    onNavigateToDetailGood: (id: Int) -> Unit,
+    onNavigateToDetailTool: (id: Int) -> Unit,
+    onBack: () -> Unit,
+    ) {
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
@@ -63,10 +83,10 @@ fun DetailsScreenData(modifier: Modifier, cocktail: CocktailFull) {
             .fillMaxHeight(1f)
             .padding(10.dp)
     ) {
-        HeaderText(
+        HeaderScreen(
             modifier = modifier,
             text = cocktail.name,
-            textStyle = MaterialTheme.typography.h1
+            onClick = onBack
         )
         Spacer(modifier = modifier.padding(5.dp))
 
@@ -97,39 +117,30 @@ fun DetailsScreenData(modifier: Modifier, cocktail: CocktailFull) {
         CocktailIngredientsContent(
             modifier = modifier,
             cocktailName = cocktail.name,
-            cocktailGoods = cocktail.goods
+            cocktailGoods = cocktail.goods,
+            onClick = onNavigateToDetailGood
         )
         Spacer(modifier = modifier.padding(top = 15.dp))
 
         CocktailNeedToolsContent(
             modifier = modifier,
             cocktailName = cocktail.name,
-            cocktailTools = cocktail.tools
+            cocktailTools = cocktail.tools,
+            onClick = onNavigateToDetailTool
         )
     }
 }
 
 @Composable
-fun HeaderText(modifier: Modifier, text: String, textStyle: TextStyle) {
-  Row(
-      modifier = modifier
-          .fillMaxWidth(1f),
-      horizontalArrangement = Arrangement.Start
-  ) {
-    Text(
-        text = text,
-        style = textStyle
-    )
-  }
-}
-
-
-@Composable
-private fun CocktailIngredientsContent(modifier: Modifier, cocktailName: String, cocktailGoods: List<CocktailFull.Good>) {
-    HeaderText(
+private fun CocktailIngredientsContent(
+    modifier: Modifier,
+    cocktailName: String,
+    cocktailGoods: List<CocktailFull.Good>,
+    onClick: (id: Int) -> Unit
+) {
+    HeaderDescription(
         modifier = modifier,
         text = "${stringResource(R.string.cocktail_ingredients)} $cocktailName",
-        textStyle = MaterialTheme.typography.h2
     )
     Spacer(modifier = modifier.padding(top = 15.dp))
     CocktailPortions(modifier = modifier)
@@ -137,7 +148,7 @@ private fun CocktailIngredientsContent(modifier: Modifier, cocktailName: String,
     GoodsListItem(
         modifier = modifier,
         goods = cocktailGoods,
-        onCLick = {  }
+        onClick = onClick
     )
 }
 
@@ -164,17 +175,21 @@ private fun CocktailPortions(modifier: Modifier) {
 }
 
 @Composable
-fun CocktailNeedToolsContent(modifier: Modifier, cocktailName: String, cocktailTools: List<CocktailFull.Tool>) {
-    HeaderText(
+fun CocktailNeedToolsContent(
+    modifier: Modifier,
+    cocktailName: String,
+    cocktailTools: List<CocktailFull.Tool>,
+    onClick: (id: Int) -> Unit
+) {
+    HeaderDescription(
         modifier = modifier,
         text = "${stringResource(R.string.need_tools)} $cocktailName",
-        textStyle = MaterialTheme.typography.h2
     )
     Spacer(modifier = modifier.padding(bottom = 15.dp))
     ToolsListItem(
         modifier = modifier,
         tools = cocktailTools,
-        onCLick = { }
+        onCLick = onClick
     )
 }
 

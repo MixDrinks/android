@@ -11,4 +11,5 @@
     <string name="back_to_main">На головну</string>
     <string name="clear">Очистити</string>
     <string name="filter">Фільтри</string>
+    <string name="description">Опис</string>
 </resources>

@@ -14,5 +14,7 @@
     <string name="back_to_main">Back to main</string>
     <string name="clear">Clear</string>
     <string name="filter">Filters</string>
+    <string name="description">Description</string>
+
 
 </resources>
