@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.detail.ui
+package org.mixdrinks.mixdrinks.features.detail.ui.cocktail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.height

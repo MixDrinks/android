@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.detail.ui
+package org.mixdrinks.mixdrinks.features.detail.ui.cocktail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

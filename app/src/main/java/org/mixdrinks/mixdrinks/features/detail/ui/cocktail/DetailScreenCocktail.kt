@@ -25,14 +25,8 @@ import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
-import org.mixdrinks.mixdrinks.features.detail.ui.CocktailRecipeContent
-import org.mixdrinks.mixdrinks.features.detail.ui.DetailScreenCocktailViewModel
-import org.mixdrinks.mixdrinks.features.detail.ui.GoodsListItem
 import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescription
 import org.mixdrinks.mixdrinks.features.detail.ui.HeaderScreen
-import org.mixdrinks.mixdrinks.features.detail.ui.SquareMarker
-import org.mixdrinks.mixdrinks.features.detail.ui.TagListItem
-import org.mixdrinks.mixdrinks.features.detail.ui.ToolsListItem
 import org.mixdrinks.mixdrinks.utils.ImageUrlCreators
 
 @Composable

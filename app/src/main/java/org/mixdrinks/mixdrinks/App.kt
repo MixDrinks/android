@@ -11,7 +11,7 @@ import org.mixdrinks.mixdrinks.app.RetrofitClient
 import org.mixdrinks.mixdrinks.database.AppDatabase
 import org.mixdrinks.mixdrinks.features.data.CocktailProvider
 import org.mixdrinks.mixdrinks.features.data.filter.FilterProvider
-import org.mixdrinks.mixdrinks.features.detail.ui.DetailScreenCocktailViewModel
+import org.mixdrinks.mixdrinks.features.detail.ui.cocktail.DetailScreenCocktailViewModel
 import org.mixdrinks.mixdrinks.features.detail.ui.good.DetailScreenGoodViewModel
 import org.mixdrinks.mixdrinks.features.detail.ui.tool.DetailScreenToolViewModel
 import org.mixdrinks.mixdrinks.features.fetcher.Fetcher

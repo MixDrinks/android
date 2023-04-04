@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.detail.ui
+package org.mixdrinks.mixdrinks.features.detail.ui.cocktail
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.app.ui.theme.Green700
+import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescription
 
 @Composable
 fun CocktailRecipeContent(modifier: Modifier, cocktailName: String, cocktailReceipt: List<String>) {

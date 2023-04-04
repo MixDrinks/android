@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.detail.ui
+package org.mixdrinks.mixdrinks.features.detail.ui.cocktail
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -22,6 +22,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
+import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescriptionItem
+import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescriptionItemBody1
 import org.mixdrinks.mixdrinks.utils.ImageUrlCreators
 
 private const val sizeBoxImage = 190
@@ -45,7 +47,9 @@ fun GoodsListItem(modifier: Modifier, goods: List<CocktailFull.Good>, onClick: (
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     ImageItem(modifier = modifier,
-                        ImageUrlCreators.createUrl(item.id, ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage))
+                        ImageUrlCreators.createUrl(item.id, ImageUrlCreators.SizeConverter.getSizeForImage(
+                            sizeBoxImage
+                        ))
                     )
                     HeaderDescriptionItemBody1(
                         modifier = modifier,
