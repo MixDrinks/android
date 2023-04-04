@@ -20,7 +20,6 @@ class DetailScreenCocktailViewModel(
 
     init {
         _uiState.value = DetailUiState.Loading
-
         viewModelScope.launch {
             try {
                 val result = roomDatabase.cocktailDao().getById(cocktailId)

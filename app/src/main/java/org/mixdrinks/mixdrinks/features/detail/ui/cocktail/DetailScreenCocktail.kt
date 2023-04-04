@@ -29,6 +29,7 @@ import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescription
 import org.mixdrinks.mixdrinks.features.detail.ui.HeaderScreen
 import org.mixdrinks.mixdrinks.utils.ImageUrlCreators
 
+@Suppress("LongParameterList")
 @Composable
 fun DetailScreen(
     modifier: Modifier,

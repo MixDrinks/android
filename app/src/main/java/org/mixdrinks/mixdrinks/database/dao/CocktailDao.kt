@@ -115,6 +115,7 @@ interface CocktailDao {
     suspend fun getAllShortCocktail(): List<CocktailShort>
 }
 
+
 data class CocktailSnapshotDatabase(
     @Embedded
     val cocktail: Cocktail,

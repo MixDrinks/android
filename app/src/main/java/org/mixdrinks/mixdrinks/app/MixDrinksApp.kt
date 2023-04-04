@@ -15,6 +15,7 @@ import org.mixdrinks.mixdrinks.features.detail.ui.tool.DetailScreenTool
 import org.mixdrinks.mixdrinks.features.filter.ui.FilterScreen
 import org.mixdrinks.mixdrinks.features.start.ui.StartScreen
 
+@Suppress("LongMethod")
 @Composable
 fun MixDrinksApp(modifier: Modifier = Modifier) {
     Fetcher(getKoin().get(), getKoin().get())
