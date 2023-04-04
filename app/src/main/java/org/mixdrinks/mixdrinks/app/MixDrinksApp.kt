@@ -37,7 +37,7 @@ fun MixDrinksApp(modifier: Modifier = Modifier) {
             composable("cocktail/{cocktailId}") {
                     backStackEntry ->
                 val cocktailId = backStackEntry.arguments?.getString("cocktailId")
-                cocktailId?.toInt()?.let { it ->
+                cocktailId?.toInt()?.let {
                     DetailScreen(
                         modifier = modifier,
                         cocktailId = it,

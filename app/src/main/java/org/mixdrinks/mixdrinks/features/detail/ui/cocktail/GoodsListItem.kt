@@ -26,7 +26,7 @@ import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescriptionItem
 import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescriptionItemBody1
 import org.mixdrinks.mixdrinks.utils.ImageUrlCreators
 
-private const val sizeBoxImage = 190
+private const val SIZE_BOX_IMAGE = 190
 
 @Suppress("MagicNumber")
 @Composable
@@ -48,7 +48,7 @@ fun GoodsListItem(modifier: Modifier, goods: List<CocktailFull.Good>, onClick: (
                 ) {
                     ImageItem(modifier = modifier,
                         ImageUrlCreators.createUrl(item.id, ImageUrlCreators.SizeConverter.getSizeForImage(
-                            sizeBoxImage
+                            SIZE_BOX_IMAGE
                         ))
                     )
                     HeaderDescriptionItemBody1(
@@ -87,7 +87,7 @@ fun ToolsListItem(modifier: Modifier, tools: List<CocktailFull.Tool>, onCLick: (
                         modifier = modifier,
                         ImageUrlCreators.createUrl(
                             item.id,
-                            ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage)
+                            ImageUrlCreators.SizeConverter.getSizeForImage(SIZE_BOX_IMAGE)
                         )
                     )
                     HeaderDescriptionItemBody1(
@@ -108,7 +108,7 @@ fun ImageItem(modifier:Modifier, url: String) {
                 BorderStroke(2.dp, MaterialTheme.colors.primaryVariant),
                 shape = RoundedCornerShape(16.dp),
             )
-            .size(sizeBoxImage.dp)
+            .size(SIZE_BOX_IMAGE.dp)
             .padding(5.dp),
         model = url,
         contentDescription = null,

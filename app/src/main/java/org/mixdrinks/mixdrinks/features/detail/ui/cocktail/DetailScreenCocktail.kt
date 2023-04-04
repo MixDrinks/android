@@ -92,13 +92,14 @@ fun DetailsScreenData(
         )
         Spacer(modifier = modifier.padding(5.dp))
 
+        val sizeBoxImage = 300
         AsyncImage(
-            model = ImageUrlCreators.createUrl(cocktail.id, ImageUrlCreators.SizeConverter.getSizeForImage(300)),
+            model = ImageUrlCreators.createUrl(cocktail.id, ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage)),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth(1f)
-                .size(width = 300.dp, height = 200.dp),
+                .size(width = sizeBoxImage.dp, height = 200.dp),
         )
         Spacer(modifier = modifier.padding(top = 20.dp))
 

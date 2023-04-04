@@ -69,13 +69,14 @@ fun DetailScreenGoodData(modifier: Modifier, good: DetailGood, onBack: () -> Uni
         )
         Spacer(modifier = modifier.padding(5.dp))
 
+        val sizeBoxImage = 300
         AsyncImage(
-            model = ImageUrlCreators.createUrl(goodId = good.id, ImageUrlCreators.SizeConverter.getSizeForImage(300)),
+            model = ImageUrlCreators.createUrl(goodId = good.id, ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage)),
             contentDescription = null,
             contentScale = ContentScale.FillHeight,
             modifier = Modifier
                 .fillMaxWidth(1f)
-                .height(300.dp),
+                .height(sizeBoxImage.dp),
         )
         Spacer(modifier = modifier.padding(top = 20.dp))
 
