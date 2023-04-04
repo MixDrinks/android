@@ -24,7 +24,7 @@ import coil.compose.AsyncImage
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
 import org.mixdrinks.mixdrinks.utils.ImageUrlCreators
 
-private const val sizeBoxImage = 190;
+private const val sizeBoxImage = 190
 
 @Suppress("MagicNumber")
 @Composable
@@ -83,7 +83,10 @@ fun ToolsListItem(modifier: Modifier, tools: List<CocktailFull.Tool>, onCLick: (
                 ) {
                     ImageItem(
                         modifier = modifier,
-                        ImageUrlCreators.createUrl(item.id, ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage))
+                        ImageUrlCreators.createUrl(
+                            item.id,
+                            ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage)
+                        )
                     )
                     HeaderText(
                         modifier = modifier,
