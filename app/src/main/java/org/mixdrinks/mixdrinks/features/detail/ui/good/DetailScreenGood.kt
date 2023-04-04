@@ -72,7 +72,10 @@ fun DetailScreenGoodData(modifier: Modifier, good: DetailGood, onBack: () -> Uni
 
         val sizeBoxImage = 300
         AsyncImage(
-            model = ImageUrlCreators.createUrl(goodId = good.id, ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage)),
+            model = ImageUrlCreators.createUrl(
+                good.id,
+                ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage)
+            ),
             contentDescription = null,
             contentScale = ContentScale.FillHeight,
             modifier = Modifier
