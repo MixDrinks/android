@@ -1,5 +1,6 @@
 package org.mixdrinks.mixdrinks.features.detail.ui.cocktail
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,8 +23,10 @@ class DetailScreenCocktailViewModel(
         _uiState.value = DetailUiState.Loading
         viewModelScope.launch {
             try {
-                val result = roomDatabase.cocktailDao().getById(cocktailId)
-                _uiState.value = DetailUiState.Loaded(DetailItemUiState(result.toCocktailFull()))
+                val result = roomDatabase.cocktailDao().getById(cocktailId).toCocktailFull()
+                Log.d("DetailViewModel", result.goods.toString())
+
+                _uiState.value = DetailUiState.Loaded(DetailItemUiState(result))
             } catch (error: IOException) {
                 _uiState.value = DetailUiState.Error(error.toString())
             } catch (error: Exception) {

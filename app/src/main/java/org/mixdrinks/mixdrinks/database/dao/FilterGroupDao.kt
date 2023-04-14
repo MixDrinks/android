@@ -1,8 +1,11 @@
 package org.mixdrinks.mixdrinks.database.dao
 
 import androidx.room.Dao
+import androidx.room.Embedded
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Relation
 import androidx.room.Transaction
 import org.mixdrinks.dto.FilterGroupDto
 import org.mixdrinks.mixdrinks.database.entities.FilterGroup
@@ -45,9 +48,6 @@ interface FilterGroupDao {
                 )
             }
         }
-
-
-
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -61,5 +61,18 @@ interface FilterGroupDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     @Transaction
     suspend fun addAllFilterWithCocktailId(filterWithCocktailId: List<FilterWithCocktailIds>)
+
+    @Query("SELECT * FROM filter_groups")
+    suspend fun getAllFilterGroups() : List<FilterGroups>
 }
+
+data class FilterGroups(
+    @Embedded
+    val filterGroup: FilterGroup,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "filter_group_id",
+    )
+    val filters: List<Filters>
+)
 

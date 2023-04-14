@@ -1,6 +1,7 @@
 package org.mixdrinks.mixdrinks.database.dao
 
 
+import android.util.Log
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Embedded
@@ -103,25 +104,19 @@ interface CocktailDao {
     @Transaction
     suspend fun getAll(): List<CocktailSnapshotDatabase>
 
-    @Query("SELECT * FROM cocktails LIMIT :limit OFFSET :offset")
-    @Transaction
-    suspend fun getAll(limit: Int, offset: Int): List<CocktailSnapshotDatabase>
-
     @Query("SELECT * FROM cocktails WHERE cocktail_id = :id")
     suspend fun getById(id: Int): CocktailSnapshotDatabase
-
 
     @Query("SELECT cocktail_id, name FROM cocktails")
     suspend fun getAllShortCocktail(): List<CocktailShort>
 }
-
-
 data class CocktailSnapshotDatabase(
     @Embedded
     val cocktail: Cocktail,
     @Relation(
         parentColumn = "cocktail_id",
         entityColumn = "good_id",
+        entity = Good::class,
         associateBy = Junction(CocktailToGoodRelation::class)
     )
     val goods: List<Good>,
@@ -142,7 +137,7 @@ data class CocktailSnapshotDatabase(
         entityColumn = "taste_id",
         associateBy = Junction(CocktailToTaste::class)
     )
-    val tastes: List<Taste>,
+    val tastes: List<Taste>
 ) {
     private fun getListReceipt(receipt: String): List<String> {
         return receipt.split("|")
@@ -154,12 +149,14 @@ data class CocktailSnapshotDatabase(
             name = cocktail.name,
             receipt = getListReceipt(cocktail.receipt),
             goods = goods.map { good ->
+                Log.d("Good", good.toString())
+
                 CocktailFull.Good(
                     id = GoodId(good.goodId),
                     name = good.name,
                     // mock
                     amount = 0,
-                    unit = "MOCK"
+                    unit = "good.unit"
                 )
             },
             tools = tools.map { tool ->

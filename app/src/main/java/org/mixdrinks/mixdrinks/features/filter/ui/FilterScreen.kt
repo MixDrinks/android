@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -36,8 +39,7 @@ import org.koin.androidx.compose.koinViewModel
 import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
-import org.mixdrinks.mixdrinks.features.data.filter.FilterItem
-import org.mixdrinks.mixdrinks.features.data.filter.Item
+import org.mixdrinks.mixdrinks.features.data.FilterGroupFull
 
 
 @Composable
@@ -69,7 +71,7 @@ fun FilterScreen(
 @Composable
 fun FilterScreenData(
     modifier: Modifier,
-    filters: List<FilterItem>,
+    filters: List<FilterGroupFull>,
     viewModel: FilterScreenViewModel,
 ) {
     Column(
@@ -113,7 +115,7 @@ fun FilterScreenData(
                         )
                         FilterCategoryItems(
                             modifier = modifier,
-                            items = it.items,
+                            items = it.filters,
                             viewModel = viewModel
                         )
                     }
@@ -154,14 +156,15 @@ fun ApplyButton(modifier: Modifier) {
 @Composable
 fun FilterCategoryItems(
     modifier: Modifier,
-    items: List<Item>,
+    items: List<FilterGroupFull.Filters>,
     viewModel: FilterScreenViewModel
 ) {
     //val listCheckedFilter by viewModel.listCheckedFilter
 
     val countRow = if(items.size < 5) 1 else 2
     val heightRow = if(countRow == 1) 40 else 80 // dp
-    LazyColumn (
+    LazyVerticalGrid (
+        columns = GridCells.Fixed(4),
         verticalArrangement = Arrangement.spacedBy(2.dp),
         modifier = modifier
             .height(heightRow.dp)

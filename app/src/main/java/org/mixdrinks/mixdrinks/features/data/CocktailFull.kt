@@ -15,9 +15,8 @@ data class CocktailFull(
     val tools: List<Tool>,
     val tags: List<Tag>,
     val tastes: List<Taste>,
-    val glassware: Glassware,
-
-    ) {
+    val glassware: Glassware
+) {
     data class Good(
         val id: GoodId,
         val name: String,

@@ -10,7 +10,6 @@ import org.koin.dsl.module
 import org.mixdrinks.mixdrinks.app.RetrofitClient
 import org.mixdrinks.mixdrinks.database.AppDatabase
 import org.mixdrinks.mixdrinks.features.data.CocktailProvider
-import org.mixdrinks.mixdrinks.features.data.filter.FilterProvider
 import org.mixdrinks.mixdrinks.features.detail.ui.cocktail.DetailScreenCocktailViewModel
 import org.mixdrinks.mixdrinks.features.detail.ui.good.DetailScreenGoodViewModel
 import org.mixdrinks.mixdrinks.features.detail.ui.tool.DetailScreenToolViewModel
@@ -38,10 +37,9 @@ class App : Application() {
       viewModel { (id: Int) -> DetailScreenGoodViewModel(goodId = id, get())}
       viewModel { (id: Int) -> DetailScreenToolViewModel(toolId = id, get()) }
 
-      single<FilterProvider> { RetrofitClient.retrofit.create(FilterProvider::class.java) }
       viewModel { FilterScreenViewModel(get()) }
 
-      single <Fetcher> { Fetcher(get(), get()) }
+      single { Fetcher(get(), get()) }
 
     }
 

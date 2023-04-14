@@ -24,9 +24,7 @@ interface GoodDao {
     @Transaction
     suspend fun addAll(goods: List<Good>)
 
-    @Query("SELECT * FROM goods")
-    suspend fun getAllGoods(): List<Good>
-
     @Query("SELECT * FROM goods WHERE good_id = :id")
     suspend fun getGoodById(id: Int): Good
 }
+
