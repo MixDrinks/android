@@ -72,7 +72,6 @@ fun MixDrinksApp(modifier: Modifier = Modifier) {
             composable("filter") {
                 FilterScreen(
                     modifier = modifier,
-                    onNavigateBackStack = { navController.popBackStack() }
                 )
             }
             composable("not_found") {

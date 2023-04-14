@@ -50,3 +50,4 @@ data class FilterWithCocktailIds(
     @ColumnInfo(name = "cocktail_id")
     val cocktailId: Int,
 )
+

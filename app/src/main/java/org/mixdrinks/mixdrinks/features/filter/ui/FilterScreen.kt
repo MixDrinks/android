@@ -43,7 +43,6 @@ import org.mixdrinks.mixdrinks.features.data.filter.Item
 @Composable
 fun FilterScreen(
     modifier: Modifier,
-    onNavigateBackStack: () -> Unit,
     viewModel: FilterScreenViewModel = koinViewModel(),
 ) {
     val filters by viewModel.uiState.collectAsState()
@@ -53,7 +52,6 @@ fun FilterScreen(
             FilterScreenData(
                 modifier = modifier,
                 filters = data.filters,
-                onNavigateBackStack = onNavigateBackStack,
                 viewModel = viewModel
             )
         }
@@ -72,7 +70,6 @@ fun FilterScreen(
 fun FilterScreenData(
     modifier: Modifier,
     filters: List<FilterItem>,
-    onNavigateBackStack: () -> Unit,
     viewModel: FilterScreenViewModel,
 ) {
     Column(
@@ -123,27 +120,32 @@ fun FilterScreenData(
                 )
             }
         }
-        Box(
-            modifier = modifier
-                .background(Color.White)
+        ApplyButton(modifier = modifier)
+    }
+}
+
+@Composable
+fun ApplyButton(modifier: Modifier) {
+    Box(
+        modifier = modifier
+            .background(Color.White)
+            .fillMaxWidth()
+    ) {
+        Button(
+            onClick = {  },
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
+            modifier = Modifier
                 .fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .height(40.dp)
+                .align(Alignment.Center)
         ) {
-            Button(
-                onClick = {  },
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-                    .height(40.dp)
-                    .align(Alignment.Center)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.apply),
-                    style = MaterialTheme.typography.h4,
-                    color = Color.White
-                )
-            }
+            Text(
+                text = stringResource(id = R.string.apply),
+                style = MaterialTheme.typography.h4,
+                color = Color.White
+            )
         }
     }
 }
