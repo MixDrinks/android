@@ -12,3 +12,4 @@ data class Good(
     val name: String,
     val about: String
 )
+

@@ -30,9 +30,6 @@ class FilterScreenViewModel(
         viewModelScope.launch {
             try {
                 val result = roomDatabase.filterGroupDao().getAllFilterGroups()
-
-                Log.d("Room", result[4].filters.toString())
-
                 _uiState.value = FilterUiState.Loaded(FilterItemUiState(
                     result.map {
                         FilterGroupFull(

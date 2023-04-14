@@ -117,3 +117,4 @@ data class CocktailToTaste(
     @ColumnInfo(name = "taste_id")
     val tasteId: Int
 )
+
