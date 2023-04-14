@@ -50,7 +50,7 @@ private fun ListCocktailRecipe(modifier: Modifier, receipt: List<String>) {
         }
         if (item != receipt.last()) {
             TabRowDefaults.Divider(
-                color = MaterialTheme.colors.primaryVariant,
+                color = MaterialTheme.colors.primary,
                 thickness = 1.dp,
                 modifier = modifier.padding(4.dp)
             )

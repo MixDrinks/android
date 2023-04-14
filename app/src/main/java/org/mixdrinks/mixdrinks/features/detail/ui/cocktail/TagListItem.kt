@@ -19,12 +19,12 @@ fun TagListItem(modifier: Modifier, listTags: List<CocktailFull.Tag>, onClickAct
     LazyHorizontalGrid(
         rows = GridCells.Fixed(1),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier.height(50.dp)
+        modifier = modifier.height(40.dp)
     ) {
         items(listTags) { item ->
             Button(
                 onClick = { onClickAction(item.id.id) },
-                colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primaryVariant),
+                colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
             ) {
                 Text(item.name)
             }

@@ -21,13 +21,13 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
+import org.mixdrinks.domain.ImageUrlCreators
 import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
 import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescription
 import org.mixdrinks.mixdrinks.features.detail.ui.HeaderScreen
-import org.mixdrinks.mixdrinks.utils.ImageUrlCreators
 
 @Suppress("LongParameterList")
 @Composable
@@ -93,17 +93,16 @@ fun DetailsScreenData(
         )
         Spacer(modifier = modifier.padding(5.dp))
 
-        val sizeBoxImage = 300
         AsyncImage(
             model = ImageUrlCreators.createUrl(
                 cocktail.id,
-                ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage)
+                ImageUrlCreators.Size.SIZE_320
             ),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth(1f)
-                .size(width = sizeBoxImage.dp, height = 200.dp),
+                .size(width = 300.dp, height = 200.dp),
         )
         Spacer(modifier = modifier.padding(top = 20.dp))
 
@@ -164,7 +163,7 @@ private fun CocktailPortions(modifier: Modifier) {
         modifier = modifier,
         text = "1",
         isBackground = false,
-        textColor = MaterialTheme.colors.primaryVariant
+        textColor = MaterialTheme.colors.primary
     )
     Spacer(modifier = modifier.padding(5.dp))
     SquareMarker(

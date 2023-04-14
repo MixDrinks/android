@@ -22,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import org.mixdrinks.mixdrinks.R
 
-
 @Composable
 fun HeaderScreen(modifier: Modifier, onNavigateToFilter: () -> Unit) {
     var isFocusedSearchTextField by remember { mutableStateOf(false) }
@@ -30,7 +29,7 @@ fun HeaderScreen(modifier: Modifier, onNavigateToFilter: () -> Unit) {
     Column {
         Row(
             modifier = modifier
-                .background(MaterialTheme.colors.primaryVariant)
+                .background(MaterialTheme.colors.primary)
                 .fillMaxWidth(1f)
                 .height(62.dp)
                 .padding(start = 8.dp, end = 8.dp),

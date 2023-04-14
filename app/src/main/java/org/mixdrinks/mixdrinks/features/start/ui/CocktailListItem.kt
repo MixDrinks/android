@@ -1,6 +1,5 @@
 package org.mixdrinks.mixdrinks.features.start.ui
 
-
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,10 +21,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import org.mixdrinks.domain.ImageUrlCreators
 import org.mixdrinks.dto.CocktailId
 import org.mixdrinks.mixdrinks.database.dao.CocktailShort
-import org.mixdrinks.mixdrinks.utils.ImageUrlCreators
-
 
 @Composable
 fun CocktailListItem(modifier: Modifier, item: CocktailShort, onClickAction: (id: Int) -> Unit) {
@@ -42,17 +40,18 @@ fun CocktailListItem(modifier: Modifier, item: CocktailShort, onClickAction: (id
     }
 }
 
-@Suppress("MagicNumber")
 @Composable
 private fun ListItemImage(id: Int) {
-    val size = 200;
     AsyncImage(
-        model = ImageUrlCreators.createUrl(CocktailId(id), ImageUrlCreators.SizeConverter.getSizeForImage(size)),
+        model = ImageUrlCreators.createUrl(
+            CocktailId(id),
+            ImageUrlCreators.Size.SIZE_320
+        ),
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .clip(RoundedCornerShape(corner = CornerSize(16.dp)))
-            .size(size.dp),
+            .size(200.dp),
     )
 }
 
@@ -72,7 +71,7 @@ private fun ListItemInfo(modifier: Modifier, item: CocktailShort) {
                 text =  item.name,
                 fontWeight = FontWeight.W700,
                 fontSize = 18.sp,
-                color = MaterialTheme.colors.primaryVariant,
+                color = MaterialTheme.colors.primary,
             )
         }
     }

@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
+import org.mixdrinks.domain.ImageUrlCreators
 import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
@@ -26,7 +27,6 @@ import org.mixdrinks.mixdrinks.features.data.DetailTool
 import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescription
 import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescriptionH3
 import org.mixdrinks.mixdrinks.features.detail.ui.HeaderScreen
-import org.mixdrinks.mixdrinks.utils.ImageUrlCreators
 
 @Composable
 fun DetailScreenTool(
@@ -69,17 +69,16 @@ fun DetailScreenToolData(modifier: Modifier, tool: DetailTool, onBack: () -> Uni
         )
         Spacer(modifier = modifier.padding(5.dp))
 
-        val sizeBoxImage = 300
         AsyncImage(
             model = ImageUrlCreators.createUrl(
                 toolId = tool.id,
-                ImageUrlCreators.SizeConverter.getSizeForImage(sizeBoxImage)
+                ImageUrlCreators.Size.SIZE_320
             ),
             contentDescription = null,
             contentScale = ContentScale.FillHeight,
             modifier = Modifier
                 .fillMaxWidth(1f)
-                .height(sizeBoxImage.dp),
+                .height(300.dp),
         )
         Spacer(modifier = modifier.padding(top = 20.dp))
 

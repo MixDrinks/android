@@ -21,12 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import org.mixdrinks.domain.ImageUrlCreators
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
 import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescriptionItem
 import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescriptionItemBody1
-import org.mixdrinks.mixdrinks.utils.ImageUrlCreators
-
-private const val SIZE_BOX_IMAGE = 190
 
 @Suppress("MagicNumber")
 @Composable
@@ -47,9 +45,7 @@ fun GoodsListItem(modifier: Modifier, goods: List<CocktailFull.Good>, onClick: (
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     ImageItem(modifier = modifier,
-                        ImageUrlCreators.createUrl(item.id, ImageUrlCreators.SizeConverter.getSizeForImage(
-                            SIZE_BOX_IMAGE
-                        ))
+                        ImageUrlCreators.createUrl(item.id, ImageUrlCreators.Size.SIZE_320)
                     )
                     HeaderDescriptionItemBody1(
                         modifier = modifier,
@@ -87,7 +83,7 @@ fun ToolsListItem(modifier: Modifier, tools: List<CocktailFull.Tool>, onCLick: (
                         modifier = modifier,
                         ImageUrlCreators.createUrl(
                             item.id,
-                            ImageUrlCreators.SizeConverter.getSizeForImage(SIZE_BOX_IMAGE)
+                            ImageUrlCreators.Size.SIZE_320
                         )
                     )
                     HeaderDescriptionItemBody1(
@@ -105,10 +101,10 @@ fun ImageItem(modifier:Modifier, url: String) {
     AsyncImage(
         modifier = modifier
             .border(
-                BorderStroke(2.dp, MaterialTheme.colors.primaryVariant),
+                BorderStroke(2.dp, MaterialTheme.colors.primary),
                 shape = RoundedCornerShape(16.dp),
             )
-            .size(SIZE_BOX_IMAGE.dp)
+            .size(190.dp)
             .padding(5.dp),
         model = url,
         contentDescription = null,

@@ -1,6 +1,5 @@
 package org.mixdrinks.mixdrinks.features.fetcher
 
-import android.util.Log
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.mixdrinks.dto.SnapshotDto
@@ -26,6 +25,7 @@ class Fetcher(
         roomDatabase.tasteDao().insertAllTastes(snapshot.tastes)
         roomDatabase.toolDao().insertAllTools(snapshot.tools)
         roomDatabase.cocktailDao().insertAllCocktails(snapshot.cocktails)
+        roomDatabase.filterGroupDao().insertAllFilters(snapshot.filterGroups)
     }
 }
 

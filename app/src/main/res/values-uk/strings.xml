@@ -12,4 +12,5 @@
     <string name="clear">Очистити</string>
     <string name="filter">Фільтри</string>
     <string name="description">Опис</string>
+    <string name="apply">Застосувати</string>
 </resources>
