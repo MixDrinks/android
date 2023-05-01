@@ -14,3 +14,4 @@ object Routes {
     const val good = "good"
     const val goodId = "goodId"
 }
+
