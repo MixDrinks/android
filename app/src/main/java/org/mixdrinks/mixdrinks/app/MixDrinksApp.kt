@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import org.koin.androidx.compose.getKoin
+import org.koin.androidx.compose.get
 import org.mixdrinks.mixdrinks.features.fetcher.Fetcher
 import org.mixdrinks.mixdrinks.app.ui.theme.MixDrinksTheme
 import org.mixdrinks.mixdrinks.features.common.ui.NotFoundScreen
@@ -15,42 +15,56 @@ import org.mixdrinks.mixdrinks.features.detail.ui.tool.DetailScreenTool
 import org.mixdrinks.mixdrinks.features.filter.ui.FilterScreen
 import org.mixdrinks.mixdrinks.features.start.ui.StartScreen
 
+object Routes {
+    const val start = "start"
+    const val filter = "filter"
+    const val notFound = "not_found"
+
+    const val cocktail = "cocktail"
+    const val cocktailId = "cocktailId"
+
+    const val tool = "tool"
+    const val toolId = "toolId"
+
+    const val good = "good"
+    const val goodId = "goodId"
+}
+
 @Suppress("LongMethod")
 @Composable
 fun MixDrinksApp(modifier: Modifier = Modifier) {
-    Fetcher(getKoin().get(), getKoin().get())
+    Fetcher(get(), get())
 
     MixDrinksTheme {
         val navController = rememberNavController()
         NavHost(
             navController = navController,
-            startDestination = "start"
+            startDestination = Routes.start
         ) {
-            composable("start")
-            {
+            composable(Routes.start) {
                 StartScreen(
                     modifier = modifier,
-                    onNavigateToDetail = { navController.navigate("cocktail/$it") },
-                    onNavigateToFilter = { navController.navigate("filter") },
+                    onNavigateToDetail = { navController.navigate("${Routes.cocktail}/$it") },
+                    onNavigateToFilter = { navController.navigate(Routes.filter) },
                 )
             }
-            composable("cocktail/{cocktailId}") {
+            composable("${Routes.cocktail}/{${Routes.cocktailId}}") {
                     backStackEntry ->
-                val cocktailId = backStackEntry.arguments?.getString("cocktailId")
-                cocktailId?.toInt()?.let {
+                val cocktailId = backStackEntry.arguments?.getString(Routes.cocktailId)
+                cocktailId?.toInt()?.let { it ->
                     DetailScreen(
                         modifier = modifier,
                         cocktailId = it,
-                        onNavigateToDetailGood = { navController.navigate("good/$it")},
-                        onNavigateToDetailTool = { navController.navigate("tool/$it")},
+                        onNavigateToDetailGood = { navController.navigate("${Routes.good}/$it")},
+                        onNavigateToDetailTool = { navController.navigate("${Routes.tool}/$it")},
                         onBack = { navController.popBackStack() }
                     )
                 }
             }
-            composable("good/{goodId}") {
+            composable("${Routes.good}/{${Routes.goodId}}") {
                     backStackEntry ->
-                val cocktailId = backStackEntry.arguments?.getString("goodId")
-                cocktailId?.toInt()?.let {
+                val goodId = backStackEntry.arguments?.getString(Routes.goodId)
+                goodId?.toInt()?.let {
                     DetailScreenGood(
                         modifier = modifier,
                         goodId = it,
@@ -58,10 +72,10 @@ fun MixDrinksApp(modifier: Modifier = Modifier) {
                     )
                 }
             }
-            composable("tool/{toolId}") {
+            composable("${Routes.tool}/{${Routes.toolId}}") {
                     backStackEntry ->
-                val cocktailId = backStackEntry.arguments?.getString("toolId")
-                cocktailId?.toInt()?.let {
+                val toolId = backStackEntry.arguments?.getString(Routes.toolId)
+                toolId?.toInt()?.let {
                     DetailScreenTool(
                         modifier = modifier,
                         toolId = it,
@@ -69,18 +83,17 @@ fun MixDrinksApp(modifier: Modifier = Modifier) {
                     )
                 }
             }
-            composable("filter") {
+            composable(Routes.filter) {
                 FilterScreen(
                     modifier = modifier,
                 )
             }
-            composable("not_found") {
+            composable(Routes.notFound) {
                 NotFoundScreen(
                     modifier = modifier,
-                    onNavigateToStart = { navController.navigate("start") }
+                    onNavigateToStart = { navController.navigate(Routes.start) }
                 )
             }
         }
     }
 }
-
