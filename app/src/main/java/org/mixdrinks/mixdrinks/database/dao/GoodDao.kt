@@ -28,6 +28,9 @@ interface GoodDao {
     @Query("SELECT * FROM goods WHERE good_id = :id")
     suspend fun getGoodById(id: Int): Good
 
-    @Query("SELECT * FROM cocktails_to_goods_relation AS co  INNER JOIN goods AS go ON co.good_id = go.good_id AND co.cocktail_id = :id")
+    @Query(
+        "SELECT * FROM cocktails_to_goods_relation AS co " +
+        "INNER JOIN goods AS go ON co.good_id = go.good_id AND " +
+        "co.cocktail_id = :id")
     suspend fun getGoodAndUnit(id: Int): Map<Good, CocktailToGoodRelation>
 }
