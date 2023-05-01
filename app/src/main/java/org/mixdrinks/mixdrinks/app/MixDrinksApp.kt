@@ -14,22 +14,6 @@ import org.mixdrinks.mixdrinks.features.detail.ui.good.DetailScreenGood
 import org.mixdrinks.mixdrinks.features.detail.ui.tool.DetailScreenTool
 import org.mixdrinks.mixdrinks.features.filter.ui.FilterScreen
 import org.mixdrinks.mixdrinks.features.start.ui.StartScreen
-
-object Routes {
-    const val start = "start"
-    const val filter = "filter"
-    const val notFound = "not_found"
-
-    const val cocktail = "cocktail"
-    const val cocktailId = "cocktailId"
-
-    const val tool = "tool"
-    const val toolId = "toolId"
-
-    const val good = "good"
-    const val goodId = "goodId"
-}
-
 @Suppress("LongMethod")
 @Composable
 fun MixDrinksApp(modifier: Modifier = Modifier) {
@@ -51,7 +35,7 @@ fun MixDrinksApp(modifier: Modifier = Modifier) {
             composable("${Routes.cocktail}/{${Routes.cocktailId}}") {
                     backStackEntry ->
                 val cocktailId = backStackEntry.arguments?.getString(Routes.cocktailId)
-                cocktailId?.toInt()?.let { it ->
+                cocktailId?.toInt()?.let {
                     DetailScreen(
                         modifier = modifier,
                         cocktailId = it,
