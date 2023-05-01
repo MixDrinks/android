@@ -23,6 +23,7 @@ import org.mixdrinks.mixdrinks.database.entities.CocktailToGoodRelation
 import org.mixdrinks.mixdrinks.database.entities.CocktailToTag
 import org.mixdrinks.mixdrinks.database.entities.CocktailToTaste
 import org.mixdrinks.mixdrinks.database.entities.CocktailToTool
+import org.mixdrinks.mixdrinks.database.entities.Glassware
 import org.mixdrinks.mixdrinks.database.entities.Good
 import org.mixdrinks.mixdrinks.database.entities.Tag
 import org.mixdrinks.mixdrinks.database.entities.Taste
@@ -118,9 +119,18 @@ data class CocktailSnapshotDatabase(
         parentColumn = "cocktail_id",
         entityColumn = "good_id",
         entity = Good::class,
-        associateBy = Junction(CocktailToGoodRelation::class)
+        associateBy = Junction(
+            CocktailToGoodRelation::class
+        )
     )
     val goods: List<Good>,
+
+    @Relation(
+        parentColumn = "cocktail_id",
+        entityColumn = "cocktail_id",
+    )
+    val goodsUnit: List<CocktailToGoodRelation>,
+
     @Relation(
         parentColumn = "cocktail_id",
         entityColumn = "tool_id",
@@ -138,26 +148,33 @@ data class CocktailSnapshotDatabase(
         entityColumn = "taste_id",
         associateBy = Junction(CocktailToTaste::class)
     )
-    val tastes: List<Taste>
+    val tastes: List<Taste>,
+    @Relation(
+        parentColumn = "glassware_id",
+        entityColumn = "glassware_id",
+        entity = Glassware::class,
+    )
+    val glassware: Glassware
 ) {
     private fun getListReceipt(receipt: String): List<String> {
         return receipt.split("|")
     }
 
     fun toCocktailFull(): CocktailFull {
+        Log.d("good", goods.size.toString() +  goods.toString())
         return CocktailFull(
             id = CocktailId(cocktail.cocktailId),
             name = cocktail.name,
             receipt = getListReceipt(cocktail.receipt),
-            goods = goods.map { good ->
-                Log.d("Good", good.toString())
 
+            goods = goods.map { good ->
                 CocktailFull.Good(
                     id = GoodId(good.goodId),
                     name = good.name,
-                    // mock
-                    amount = 0,
-                    unit = "good.unit"
+                    amount = goodsUnit.filter {
+                        it.goodId == good.goodId }.first().amount,
+                    unit = goodsUnit.filter {
+                        it.goodId == good.goodId }.first().unit,
                 )
             },
             tools = tools.map { tool ->
@@ -178,7 +195,7 @@ data class CocktailSnapshotDatabase(
                     name = taste.name
                 )
             },
-            glassware = CocktailFull.Glassware(GlasswareId(1), "mock")
+            glassware = CocktailFull.Glassware(id = GlasswareId(glassware.glasswareId), name = glassware.name)
         )
     }
 }
@@ -188,6 +205,3 @@ data class CocktailShort(
     val cocktailId: Int,
     val name: String,
 )
-
-
-

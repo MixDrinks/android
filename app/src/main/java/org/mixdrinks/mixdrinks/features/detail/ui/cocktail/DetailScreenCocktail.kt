@@ -1,6 +1,7 @@
 package org.mixdrinks.mixdrinks.features.detail.ui.cocktail
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -46,10 +47,11 @@ fun DetailScreen(
             val data = (cocktail as DetailScreenCocktailViewModel.DetailUiState.Loaded).itemState
             DetailsScreenData(
                 modifier = modifier,
-                data.cocktail,
+                data = data,
                 onNavigateToDetailTool = onNavigateToDetailTool,
                 onNavigateToDetailGood = onNavigateToDetailGood,
-                onBack = onBack
+                onBack = onBack,
+                viewModel = viewModel
             )
         }
         is DetailScreenCocktailViewModel.DetailUiState.Loading -> {
@@ -67,10 +69,11 @@ fun DetailScreen(
 @Composable
 fun DetailsScreenData(
     modifier: Modifier,
-    cocktail: CocktailFull,
+    data: DetailItemUiState,
     onNavigateToDetailGood: (id: Int) -> Unit,
     onNavigateToDetailTool: (id: Int) -> Unit,
     onBack: () -> Unit,
+    viewModel: DetailScreenCocktailViewModel
     ) {
     Column(
         modifier = modifier
@@ -81,21 +84,21 @@ fun DetailsScreenData(
     ) {
         HeaderScreen(
             modifier = modifier,
-            text = cocktail.name,
+            text = data.cocktail.name,
             onClick = onBack
         )
         Spacer(modifier = modifier.padding(5.dp))
 
         TagListItem(
             modifier = modifier,
-            listTags = cocktail.tags,
+            listTags = data.cocktail.tags,
             onClickAction = { Log.d("MyLog", it.toString()) }
         )
         Spacer(modifier = modifier.padding(5.dp))
 
         AsyncImage(
             model = ImageUrlCreators.createUrl(
-                cocktail.id,
+                data.cocktail.id,
                 ImageUrlCreators.Size.SIZE_320
             ),
             contentDescription = null,
@@ -108,23 +111,23 @@ fun DetailsScreenData(
 
         CocktailRecipeContent(
             modifier = modifier,
-            cocktailName = cocktail.name,
-            cocktailReceipt = cocktail.receipt
+            cocktailName = data.cocktail.name,
+            cocktailReceipt = data.cocktail.receipt
         )
         Spacer(modifier = modifier.padding(top = 10.dp))
 
         CocktailIngredientsContent(
             modifier = modifier,
-            cocktailName = cocktail.name,
-            cocktailGoods = cocktail.goods,
-            onClick = onNavigateToDetailGood
+            onClick = onNavigateToDetailGood,
+            viewModel = viewModel,
+            data = data
         )
         Spacer(modifier = modifier.padding(top = 15.dp))
 
         CocktailNeedToolsContent(
             modifier = modifier,
-            cocktailName = cocktail.name,
-            cocktailTools = cocktail.tools,
+            cocktailName = data.cocktail.name,
+            cocktailTools = data.cocktail.tools,
             onClick = onNavigateToDetailTool
         )
     }
@@ -133,44 +136,54 @@ fun DetailsScreenData(
 @Composable
 private fun CocktailIngredientsContent(
     modifier: Modifier,
-    cocktailName: String,
-    cocktailGoods: List<CocktailFull.Good>,
-    onClick: (id: Int) -> Unit
+    onClick: (id: Int) -> Unit,
+    viewModel: DetailScreenCocktailViewModel,
+    data: DetailItemUiState
 ) {
     HeaderDescription(
         modifier = modifier,
-        text = "${stringResource(R.string.cocktail_ingredients)} $cocktailName",
+        text = "${stringResource(R.string.cocktail_ingredients)} ${data.cocktail.name}",
     )
     Spacer(modifier = modifier.padding(top = 15.dp))
-    CocktailPortions(modifier = modifier)
+    CocktailPortions(modifier = modifier, viewModel = viewModel, data = data )
     Spacer(modifier = modifier.padding(bottom = 15.dp))
     GoodsListItem(
         modifier = modifier,
-        goods = cocktailGoods,
-        onClick = onClick
+        onClick = onClick,
+        data = data
     )
 }
 
 @Composable
-private fun CocktailPortions(modifier: Modifier) {
-  Row {
-    SquareMarker(
-        modifier = modifier,
-        text = "-"
-    )
-    Spacer(modifier = modifier.padding(5.dp))
-    SquareMarker(
-        modifier = modifier,
-        text = "1",
-        isBackground = false,
-        textColor = MaterialTheme.colors.primary
-    )
-    Spacer(modifier = modifier.padding(5.dp))
-    SquareMarker(
-        modifier = modifier,
-        text = "+"
-    )
-  }
+private fun CocktailPortions(
+    modifier: Modifier,
+    viewModel: DetailScreenCocktailViewModel,
+    data: DetailItemUiState
+) {
+    Row {
+        SquareMarker(
+        modifier = modifier
+            .clickable {
+                viewModel.decPortion()
+            },
+            text = "-",
+        )
+        Spacer(modifier = modifier.padding(5.dp))
+        SquareMarker(
+            modifier = modifier,
+            text = data.portions.toString(),
+            isBackground = false,
+            textColor = MaterialTheme.colors.primary
+        )
+        Spacer(modifier = modifier.padding(5.dp))
+        SquareMarker(
+            modifier = modifier
+                .clickable {
+                    viewModel.addPortion()
+                },
+            text = "+"
+        )
+    }
 }
 
 @Composable

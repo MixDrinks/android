@@ -28,13 +28,17 @@ import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescriptionItemBody1
 
 @Suppress("MagicNumber")
 @Composable
-fun GoodsListItem(modifier: Modifier, goods: List<CocktailFull.Good>, onClick: (id :Int) -> Unit) {
+fun GoodsListItem(
+    modifier: Modifier,
+    data: DetailItemUiState,
+    onClick: (id :Int) -> Unit
+) {
     LazyHorizontalGrid(
         rows = GridCells.Fixed(1),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier.height(240.dp)
     ) {
-        items(goods) { item ->
+        items(data.cocktail.goods) { item ->
             Card(
                 modifier = modifier
                     .clickable { onClick(item.id.id) },
@@ -53,7 +57,7 @@ fun GoodsListItem(modifier: Modifier, goods: List<CocktailFull.Good>, onClick: (
                     )
                     HeaderDescriptionItem(
                         modifier = modifier,
-                        text = "${item.amount} ${item.unit}",
+                        text = "${item.amount * data.portions} ${item.unit}",
                     )
 
                 }

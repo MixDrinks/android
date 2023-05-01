@@ -1,6 +1,5 @@
 package org.mixdrinks.mixdrinks.features.detail.ui.cocktail
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,20 +18,32 @@ class DetailScreenCocktailViewModel(
     private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
     val uiState: StateFlow<DetailUiState> = _uiState
 
+    private lateinit  var cocktail: CocktailFull
+    private var portions: Int = 1
+
+
     init {
         _uiState.value = DetailUiState.Loading
         viewModelScope.launch {
             try {
-                val result = roomDatabase.cocktailDao().getById(cocktailId).toCocktailFull()
-                Log.d("DetailViewModel", result.goods.toString())
-
-                _uiState.value = DetailUiState.Loaded(DetailItemUiState(result))
+                cocktail = roomDatabase.cocktailDao().getById(cocktailId).toCocktailFull()
+                _uiState.value = DetailUiState.Loaded(DetailItemUiState(cocktail, portions))
             } catch (error: IOException) {
                 _uiState.value = DetailUiState.Error(error.toString())
             } catch (error: Exception) {
                 _uiState.value = DetailUiState.Error(error.toString())
             }
         }
+    }
+
+    fun addPortion() {
+        portions++
+        _uiState.value = DetailUiState.Loaded(DetailItemUiState(cocktail, portions))
+    }
+
+    fun decPortion() {
+        if(portions > 1) portions--
+        _uiState.value = DetailUiState.Loaded(DetailItemUiState(cocktail, portions))
     }
 
     sealed class DetailUiState {
@@ -43,5 +54,6 @@ class DetailScreenCocktailViewModel(
 }
 
 data class DetailItemUiState(
-    val cocktail: CocktailFull
+    val cocktail: CocktailFull,
+    val portions: Int
 )
