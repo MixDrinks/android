@@ -40,7 +40,6 @@ class App : Application() {
       viewModel { FilterScreenViewModel(get()) }
 
       single { Fetcher(get(), get()) }
-
     }
 
     startKoin {

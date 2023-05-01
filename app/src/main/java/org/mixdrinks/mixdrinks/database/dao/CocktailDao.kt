@@ -110,6 +110,7 @@ interface CocktailDao {
     @Query("SELECT cocktail_id, name FROM cocktails")
     suspend fun getAllShortCocktail(): List<CocktailShort>
 }
+
 data class CocktailSnapshotDatabase(
     @Embedded
     val cocktail: Cocktail,
@@ -180,7 +181,6 @@ data class CocktailSnapshotDatabase(
             glassware = CocktailFull.Glassware(GlasswareId(1), "mock")
         )
     }
-
 }
 
 data class CocktailShort(
