@@ -65,7 +65,7 @@ fun DetailScreen(
     }
 }
 
-@Suppress("MagicNumber")
+@Suppress("LongParameterList")
 @Composable
 fun DetailsScreenData(
     modifier: Modifier,
