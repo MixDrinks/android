@@ -1,7 +1,9 @@
 package org.mixdrinks.mixdrinks.features.detail.ui.good
 
 import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,9 +28,7 @@ import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.data.DetailGood
-import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescription
-import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescriptionH3
-import org.mixdrinks.mixdrinks.features.detail.ui.HeaderScreen
+import org.mixdrinks.mixdrinks.features.detail.ui.Header
 
 @Composable
 fun DetailScreenGood(
@@ -63,7 +65,7 @@ fun DetailScreenGoodData(modifier: Modifier, good: DetailGood, onBack: () -> Uni
             .fillMaxHeight(1f)
             .padding(10.dp)
     ) {
-        HeaderScreen(
+        Header(
             modifier = modifier,
             text = good.name,
             onClick = onBack
@@ -83,15 +85,27 @@ fun DetailScreenGoodData(modifier: Modifier, good: DetailGood, onBack: () -> Uni
         )
         Spacer(modifier = modifier.padding(top = 20.dp))
 
-        HeaderDescription(
-            modifier = modifier,
-            text = "${stringResource(R.string.description)} ${good.name}",
-        )
+        Row(
+            modifier = modifier
+                .fillMaxWidth(1f),
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Text(
+                style = MaterialTheme.typography.h2,
+                text = "${stringResource(R.string.description)} ${good.name}"
+            )
+        }
         Spacer(modifier = modifier.padding(15.dp))
 
-        HeaderDescriptionH3(
-            modifier = modifier,
-            text = good.about,
-        )
+        Row(
+            modifier = modifier
+                .fillMaxWidth(1f),
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Text(
+                style = MaterialTheme.typography.h3,
+                text = good.about,
+            )
+        }
     }
 }

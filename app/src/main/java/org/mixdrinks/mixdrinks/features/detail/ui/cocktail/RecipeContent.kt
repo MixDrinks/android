@@ -2,8 +2,10 @@ package org.mixdrinks.mixdrinks.features.detail.ui.cocktail
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -22,14 +24,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.app.ui.theme.Green700
-import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescription
 
 @Composable
 fun CocktailRecipeContent(modifier: Modifier, cocktailName: String, cocktailReceipt: List<String>) {
-    HeaderDescription(
-        modifier = modifier,
-        text = "${stringResource(R.string.cocktail_recipe)} $cocktailName",
-    )
+    Row(
+        modifier = modifier
+            .fillMaxWidth(1f),
+        horizontalArrangement = Arrangement.Start
+    ) {
+        Text(
+            style = MaterialTheme.typography.h2,
+            text = "${stringResource(R.string.cocktail_recipe)} $cocktailName",
+        )
+    }
     Spacer(modifier = modifier.padding(top = 5.dp))
     ListCocktailRecipe(modifier = modifier, receipt = cocktailReceipt)
 }

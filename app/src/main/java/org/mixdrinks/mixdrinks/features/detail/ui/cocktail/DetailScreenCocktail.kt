@@ -2,6 +2,7 @@ package org.mixdrinks.mixdrinks.features.detail.ui.cocktail
 
 import android.util.Log
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,8 +29,7 @@ import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
-import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescription
-import org.mixdrinks.mixdrinks.features.detail.ui.HeaderScreen
+import org.mixdrinks.mixdrinks.features.detail.ui.Header
 
 @Suppress("LongParameterList")
 @Composable
@@ -82,7 +83,7 @@ fun DetailsScreenData(
             .fillMaxHeight(1f)
             .padding(10.dp)
     ) {
-        HeaderScreen(
+        Header(
             modifier = modifier,
             text = data.cocktail.name,
             onClick = onBack
@@ -140,10 +141,17 @@ private fun CocktailIngredientsContent(
     viewModel: DetailScreenCocktailViewModel,
     data: DetailItemUiState
 ) {
-    HeaderDescription(
-        modifier = modifier,
-        text = "${stringResource(R.string.cocktail_ingredients)} ${data.cocktail.name}",
-    )
+    Row(
+        modifier = modifier
+            .fillMaxWidth(1f),
+        horizontalArrangement = Arrangement.Start
+    ) {
+        Text(
+            style = MaterialTheme.typography.h2,
+            text = "${stringResource(R.string.cocktail_ingredients)} ${data.cocktail.name}"
+        )
+    }
+
     Spacer(modifier = modifier.padding(top = 15.dp))
     CocktailPortions(modifier = modifier, viewModel = viewModel, data = data )
     Spacer(modifier = modifier.padding(bottom = 15.dp))
@@ -193,10 +201,16 @@ fun CocktailNeedToolsContent(
     cocktailTools: List<CocktailFull.Tool>,
     onClick: (id: Int) -> Unit
 ) {
-    HeaderDescription(
-        modifier = modifier,
-        text = "${stringResource(R.string.need_tools)} $cocktailName",
-    )
+    Row(
+        modifier = modifier
+            .fillMaxWidth(1f),
+        horizontalArrangement = Arrangement.Start
+    ) {
+        Text(
+            style = MaterialTheme.typography.h2,
+            text = "${stringResource(R.string.need_tools)} $cocktailName"
+        )
+    }
     Spacer(modifier = modifier.padding(bottom = 15.dp))
     ToolsListItem(
         modifier = modifier,

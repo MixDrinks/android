@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import org.mixdrinks.mixdrinks.R
 
 @Composable
-fun HeaderScreen(modifier: Modifier, text: String, onClick: () -> Unit) {
+fun Header(modifier: Modifier, text: String, onClick: () -> Unit) {
     Row(
         modifier = modifier
             .fillMaxWidth(1f),
@@ -41,63 +41,3 @@ fun HeaderScreen(modifier: Modifier, text: String, onClick: () -> Unit) {
         )
     }
 }
-
-@Composable
-fun HeaderDescription(modifier: Modifier, text: String) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth(1f),
-        horizontalArrangement = Arrangement.Start
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.h2
-        )
-    }
-}
-
-@Composable
-fun HeaderDescriptionH3(modifier: Modifier, text: String) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth(1f),
-        horizontalArrangement = Arrangement.Start
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.h3
-        )
-    }
-}
-
-@Composable
-fun HeaderDescriptionItem(modifier: Modifier, text: String) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth(1f),
-        horizontalArrangement = Arrangement.Start
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.h4
-        )
-    }
-}
-
-@Composable
-fun HeaderDescriptionItemBody1(modifier: Modifier, text: String) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth(1f),
-        horizontalArrangement = Arrangement.Start
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.body1
-        )
-    }
-}
-
-
-
-

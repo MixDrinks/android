@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,8 +25,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import org.mixdrinks.domain.ImageUrlCreators
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
-import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescriptionItem
-import org.mixdrinks.mixdrinks.features.detail.ui.HeaderDescriptionItemBody1
 
 @Suppress("MagicNumber")
 @Composable
@@ -51,15 +51,26 @@ fun GoodsListItem(
                     ImageItem(modifier = modifier,
                         ImageUrlCreators.createUrl(item.id, ImageUrlCreators.Size.SIZE_320)
                     )
-                    HeaderDescriptionItemBody1(
-                        modifier = modifier,
-                        text = item.name,
-                    )
-                    HeaderDescriptionItem(
-                        modifier = modifier,
-                        text = "${item.amount * data.portions} ${item.unit}",
-                    )
-
+                    Row(
+                        modifier = modifier
+                            .fillMaxWidth(1f),
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        Text(
+                            style = MaterialTheme.typography.body1,
+                            text = item.name
+                        )
+                    }
+                    Row(
+                        modifier = modifier
+                            .fillMaxWidth(1f),
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        Text(
+                            text = "${item.amount * data.portions} ${item.unit}",
+                            style = MaterialTheme.typography.h4
+                        )
+                    }
                 }
             }
         }
@@ -90,10 +101,16 @@ fun ToolsListItem(modifier: Modifier, tools: List<CocktailFull.Tool>, onCLick: (
                             ImageUrlCreators.Size.SIZE_320
                         )
                     )
-                    HeaderDescriptionItemBody1(
-                        modifier = modifier,
-                        text = item.name,
-                    )
+                    Row(
+                        modifier = modifier
+                            .fillMaxWidth(1f),
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        Text(
+                            style = MaterialTheme.typography.body1,
+                            text = item.name,
+                        )
+                    }
                 }
             }
         }
