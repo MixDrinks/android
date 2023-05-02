@@ -11,7 +11,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Relation
 import androidx.room.Transaction
-import org.mixdrinks.dto.CocktailDto
 import org.mixdrinks.dto.CocktailId
 import org.mixdrinks.dto.GlasswareId
 import org.mixdrinks.dto.GoodId
@@ -32,55 +31,6 @@ import org.mixdrinks.mixdrinks.features.data.CocktailFull
 
 @Dao
 interface CocktailDao {
-    suspend fun insertAllCocktails(cocktails: List<CocktailDto>) {
-        addAllCocktails(
-            cocktails.map { cocktail ->
-                Cocktail(
-                    cocktailId = cocktail.id.id,
-                    name = cocktail.name,
-                    receipt = cocktail.receipt.joinToString("|"),
-                    glasswareId = cocktail.glassware.value
-                )
-            }
-        )
-        cocktails.map { cocktail ->
-            addCocktailToGoodRelation(
-                cocktail.goods.map { good ->
-                    CocktailToGoodRelation(
-                        cocktailId = cocktail.id.id,
-                        goodId = good.goodId.id,
-                        amount = good.amount,
-                        unit = good.unit
-                    )
-                }
-            )
-            addCocktailToTool(
-                cocktail.tools.map { tool ->
-                    CocktailToTool(
-                        cocktailId = cocktail.id.id,
-                        toolId = tool.id
-                    )
-                }
-            )
-            addCocktailToTag(
-                cocktail.tags.map { tag ->
-                    CocktailToTag(
-                        cocktailId = cocktail.id.id,
-                        tagId = tag.id
-                    )
-                }
-            )
-            addCocktailToTaste(
-                cocktail.tastes.map { taste ->
-                    CocktailToTaste(
-                        cocktailId = cocktail.id.id,
-                        tasteId = taste.id
-                    )
-                }
-            )
-        }
-    }
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     @Transaction
     suspend fun addAllCocktails(cocktail: List<Cocktail>)
