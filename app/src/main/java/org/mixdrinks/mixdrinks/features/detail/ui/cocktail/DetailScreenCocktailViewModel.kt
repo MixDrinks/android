@@ -1,36 +1,49 @@
-package org.mixdrinks.mixdrinks.features.detail.ui
+package org.mixdrinks.mixdrinks.features.detail.ui.cocktail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.mixdrinks.mixdrinks.features.data.cocktail.CocktailProvider
-import org.mixdrinks.mixdrinks.features.data.cocktail.DetailCocktailResponse
+import org.mixdrinks.mixdrinks.database.AppDatabase
+import org.mixdrinks.mixdrinks.features.data.CocktailFull
 import java.io.IOException
 
 @Suppress("TooGenericExceptionCaught")
-class DetailScreenViewModel(
+class DetailScreenCocktailViewModel(
     private val cocktailId: Int,
-    private val cocktailProvider: CocktailProvider,
+    private val roomDatabase: AppDatabase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
     val uiState: StateFlow<DetailUiState> = _uiState
 
+    private lateinit  var cocktail: CocktailFull
+    private var portions: Int = 1
+
+
     init {
         _uiState.value = DetailUiState.Loading
-
         viewModelScope.launch {
             try {
-                val result = cocktailProvider.getCocktail(cocktailId)
-                _uiState.value = DetailUiState.Loaded(DetailItemUiState(result))
+                cocktail = roomDatabase.cocktailDao().getById(cocktailId).toCocktailFull()
+                _uiState.value = DetailUiState.Loaded(DetailItemUiState(cocktail, portions))
             } catch (error: IOException) {
                 _uiState.value = DetailUiState.Error(error.toString())
             } catch (error: Exception) {
                 _uiState.value = DetailUiState.Error(error.toString())
             }
         }
+    }
+
+    fun addPortion() {
+        portions++
+        _uiState.value = DetailUiState.Loaded(DetailItemUiState(cocktail, portions))
+    }
+
+    fun decPortion() {
+        if(portions > 1) portions--
+        _uiState.value = DetailUiState.Loaded(DetailItemUiState(cocktail, portions))
     }
 
     sealed class DetailUiState {
@@ -41,5 +54,6 @@ class DetailScreenViewModel(
 }
 
 data class DetailItemUiState(
-    val cocktail: DetailCocktailResponse
+    val cocktail: CocktailFull,
+    val portions: Int
 )

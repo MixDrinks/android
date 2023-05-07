@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.detail.ui
+package org.mixdrinks.mixdrinks.features.detail.ui.cocktail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.height
@@ -12,19 +12,19 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.mixdrinks.mixdrinks.features.data.cocktail.Tag
+import org.mixdrinks.mixdrinks.features.data.CocktailFull
 
 @Composable
-fun TagListItem(modifier: Modifier, listTags: List<Tag>, onClickAction: (id: Int) -> Unit) {
+fun TagListItem(modifier: Modifier, listTags: List<CocktailFull.Tag>, onClickAction: (id: Int) -> Unit) {
     LazyHorizontalGrid(
         rows = GridCells.Fixed(1),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier.height(50.dp)
+        modifier = modifier.height(40.dp)
     ) {
         items(listTags) { item ->
             Button(
-                onClick = { onClickAction(item.id) },
-                colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primaryVariant),
+                onClick = { onClickAction(item.id.id) },
+                colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
             ) {
                 Text(item.name)
             }

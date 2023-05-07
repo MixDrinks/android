@@ -29,7 +29,7 @@ fun SearchHintContent(modifier: Modifier, listHints: List<String> = listItems, o
                 }
             ) {
                 Text(
-                    color = MaterialTheme.colors.primaryVariant,
+                    color = MaterialTheme.colors.primary,
                     style = MaterialTheme.typography.h3,
                     text = item
                 )
