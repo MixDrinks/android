@@ -1,11 +1,10 @@
-package org.mixdrinks.mixdrinks.features.start.ui
+package org.mixdrinks.mixdrinks.features.start.ui.main
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CornerSize
@@ -23,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import org.mixdrinks.domain.ImageUrlCreators
 import org.mixdrinks.dto.CocktailId
-import org.mixdrinks.mixdrinks.database.dao.CocktailShort
+import org.mixdrinks.mixdrinks.features.data.CocktailShort
 
 @Composable
 fun CocktailListItem(modifier: Modifier, item: CocktailShort, onClickAction: (id: Int) -> Unit) {
@@ -51,7 +50,7 @@ private fun ListItemImage(id: Int) {
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .clip(RoundedCornerShape(corner = CornerSize(16.dp)))
-            .size(200.dp),
+            .size(100.dp),
     )
 }
 
@@ -59,16 +58,14 @@ private fun ListItemImage(id: Int) {
 private fun ListItemInfo(modifier: Modifier, item: CocktailShort) {
     Column(
         modifier = modifier
-            .fillMaxWidth(1f)
-            .height(200.dp),
-        verticalArrangement = Arrangement.SpaceBetween
+            .fillMaxWidth(1f), verticalArrangement = Arrangement.SpaceBetween
     ) {
         Row(
             modifier = modifier
                 .padding(start = 10.dp)
         ) {
             Text(
-                text =  item.name,
+                text = item.name,
                 fontWeight = FontWeight.W700,
                 fontSize = 18.sp,
                 color = MaterialTheme.colors.primary,

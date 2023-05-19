@@ -7,12 +7,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.mixdrinks.mixdrinks.database.AppDatabase
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
+import org.mixdrinks.mixdrinks.features.start.ui.filter.SelectedFilterStorage
 import java.io.IOException
 
 @Suppress("TooGenericExceptionCaught")
 class DetailScreenCocktailViewModel(
     private val cocktailId: Int,
     private val roomDatabase: AppDatabase,
+    private val filterStorage: SelectedFilterStorage
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
@@ -20,7 +22,6 @@ class DetailScreenCocktailViewModel(
 
     private lateinit  var cocktail: CocktailFull
     private var portions: Int = 1
-
 
     init {
         _uiState.value = DetailUiState.Loading
@@ -44,6 +45,10 @@ class DetailScreenCocktailViewModel(
     fun decPortion() {
         if(portions > 1) portions--
         _uiState.value = DetailUiState.Loaded(DetailItemUiState(cocktail, portions))
+    }
+
+    fun onClickTag(id: Int) {
+        filterStorage.onClickTag(id)
     }
 
     sealed class DetailUiState {

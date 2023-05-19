@@ -1,5 +1,6 @@
 package org.mixdrinks.mixdrinks.features.data
 
+import androidx.room.ColumnInfo
 import org.mixdrinks.dto.CocktailId
 import org.mixdrinks.dto.GlasswareId
 import org.mixdrinks.dto.GoodId
@@ -42,4 +43,12 @@ data class CocktailFull(
         val name: String,
     )
 }
+
+
+
+data class CocktailShort(
+    @ColumnInfo(name = "cocktail_id")
+    val cocktailId: Int,
+    val name: String,
+)
 

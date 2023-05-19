@@ -9,20 +9,23 @@ import org.koin.core.context.GlobalContext.startKoin
 import org.koin.dsl.module
 import org.mixdrinks.mixdrinks.app.RetrofitClient
 import org.mixdrinks.mixdrinks.database.AppDatabase
-import org.mixdrinks.mixdrinks.features.data.CocktailProvider
+import org.mixdrinks.mixdrinks.features.data.MixDrinkService
 import org.mixdrinks.mixdrinks.features.detail.ui.cocktail.DetailScreenCocktailViewModel
 import org.mixdrinks.mixdrinks.features.detail.ui.good.DetailScreenGoodViewModel
 import org.mixdrinks.mixdrinks.features.detail.ui.tool.DetailScreenToolViewModel
 import org.mixdrinks.mixdrinks.features.fetcher.Fetcher
-import org.mixdrinks.mixdrinks.features.filter.ui.FilterScreenViewModel
-import org.mixdrinks.mixdrinks.features.start.ui.StartScreenViewModel
+import org.mixdrinks.mixdrinks.features.start.StartRepository
+import org.mixdrinks.mixdrinks.features.start.ui.filter.ui.main.FilterScreenViewModel
+import org.mixdrinks.mixdrinks.features.start.ui.filter.SelectedFilterStorage
+import org.mixdrinks.mixdrinks.features.start.ui.main.StartScreenViewModel
+import org.mixdrinks.mixdrinks.features.start.ui.filter.FilterRepository
+import org.mixdrinks.mixdrinks.features.start.ui.filter.ui.search.FilterSearchViewModel
 
 class App : Application() {
   override fun onCreate() {
     super.onCreate()
 
     val appModule = module {
-
       single {
         Room.databaseBuilder(
           androidContext(),
@@ -30,16 +33,23 @@ class App : Application() {
           "mix-drinks-database"
         ).build()
       }
+      single<MixDrinkService> { RetrofitClient.retrofit.create(MixDrinkService::class.java) }
 
-      single<CocktailProvider> { RetrofitClient.retrofit.create(CocktailProvider::class.java) }
+      single { Fetcher (get(), get()) }
+
+        // Repository
+      single { StartRepository(get(), get()) }
+      single { FilterRepository (get(), get()) }
+
+      single { SelectedFilterStorage() }
+
       viewModel { StartScreenViewModel(get()) }
-      viewModel { (id: Int) -> DetailScreenCocktailViewModel(cocktailId = id, get()) }
+      viewModel { (id: Int) -> DetailScreenCocktailViewModel(cocktailId = id, get(), get()) }
       viewModel { (id: Int) -> DetailScreenGoodViewModel(goodId = id, get())}
       viewModel { (id: Int) -> DetailScreenToolViewModel(toolId = id, get()) }
 
-      viewModel { FilterScreenViewModel(get()) }
-
-      single { Fetcher(get(), get()) }
+      viewModel { FilterScreenViewModel(get(), get()) }
+      viewModel { FilterSearchViewModel(get(), get()) }
     }
 
     startKoin {

@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.filter.ui
+package org.mixdrinks.mixdrinks.features.start.ui.filter.ui.main
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
@@ -13,9 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -26,9 +23,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,12 +34,14 @@ import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.data.FilterGroupFull
-
+import java.util.Locale
 
 @Composable
 fun FilterScreen(
     modifier: Modifier,
     viewModel: FilterScreenViewModel = koinViewModel(),
+    onNavigateToStart: () -> Unit,
+    onNavigateToFilterSearch: () -> Unit
 ) {
     val filters by viewModel.uiState.collectAsState()
     when(filters) {
@@ -54,7 +50,9 @@ fun FilterScreen(
             FilterScreenData(
                 modifier = modifier,
                 filters = data.filters,
-                viewModel = viewModel
+                viewModel = viewModel,
+                onClickButtonApplyAction = onNavigateToStart,
+                onClickButtonAddAction = onNavigateToFilterSearch
             )
         }
         is FilterScreenViewModel.FilterUiState.Loading -> {
@@ -73,6 +71,8 @@ fun FilterScreenData(
     modifier: Modifier,
     filters: List<FilterGroupFull>,
     viewModel: FilterScreenViewModel,
+    onClickButtonApplyAction: () -> Unit,
+    onClickButtonAddAction: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -102,39 +102,68 @@ fun FilterScreenData(
             }
         }
         Spacer(modifier = modifier.padding(top = 10.dp))
+
         Box(
             modifier = modifier.weight(1f)
         ) {
             LazyColumn {
                 items(
-                    items = filters,
-                    itemContent = {
+                    items = filters.sortedBy { it.filters.size },
+                    itemContent = { it ->
                         Text(
                             text = it.name,
                             style = MaterialTheme.typography.h2
                         )
-                        FilterCategoryItems(
-                            modifier = modifier,
-                            items = it.filters,
-                            viewModel = viewModel
-                        )
+                        when(true) {
+                            (it.filters.size < 10) -> {
+                                it.filters.forEach { item ->
+                                    FilterItem(item, onClick = {id -> viewModel.checkedAction(id) })
+                                }
+                            }
+                            else -> {
+                                it.filters.filter { it.checked }.forEach {item ->
+                                    FilterItem(item, onClick = {id -> viewModel.checkedAction(id) })
+                                }
+                                AddButton(modifier = modifier, text = it.name, onClick = onClickButtonAddAction)
+                            }
+                        }
                     }
                 )
             }
         }
-        ApplyButton(modifier = modifier)
+        ApplyButton(modifier = modifier, onClick = onClickButtonApplyAction)
     }
 }
 
 @Composable
-fun ApplyButton(modifier: Modifier) {
+private fun FilterItem(item: FilterGroupFull.Filter, onClick: (id: Int) -> Unit) {
+    OutlinedButton(
+        border = BorderStroke(1.dp, MaterialTheme.colors.primary),
+        shape = RoundedCornerShape(18.dp),
+        onClick = {
+            onClick(item.id)
+        },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = if(item.checked) MaterialTheme.colors.primary else Color.Transparent,
+        )
+    ) {
+        Text(
+            text = item.name,
+            style = MaterialTheme.typography.h4,
+            color = if(item.checked) Color.White else MaterialTheme.colors.primary
+        )
+    }
+}
+
+@Composable
+fun ApplyButton(modifier: Modifier, onClick: () -> Unit) {
     Box(
         modifier = modifier
             .background(Color.White)
             .fillMaxWidth()
     ) {
         Button(
-            onClick = {  },
+            onClick = { onClick() },
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
             modifier = Modifier
@@ -152,48 +181,29 @@ fun ApplyButton(modifier: Modifier) {
     }
 }
 
-@Suppress("MagicNumber")
 @Composable
-fun FilterCategoryItems(
-    modifier: Modifier,
-    items: List<FilterGroupFull.Filters>,
-    viewModel: FilterScreenViewModel
-) {
-    //val listCheckedFilter by viewModel.listCheckedFilter
-
-    val countRow = if(items.size < 5) 1 else 2
-    val heightRow = if(countRow == 1) 40 else 80 // dp
-    LazyVerticalGrid (
-        columns = GridCells.Fixed(4),
-        verticalArrangement = Arrangement.spacedBy(2.dp),
+fun AddButton(modifier: Modifier, text: String, onClick: () -> Unit) {
+    Box(
         modifier = modifier
-            .height(heightRow.dp)
-            .fillMaxWidth(1f),
-
+            .background(Color.White)
+            .fillMaxWidth()
     ) {
-        items(
-            items = items,
-            itemContent = { item ->
-                var isSelected by remember { mutableStateOf(false) }
-                OutlinedButton(
-                    border = BorderStroke(1.dp, MaterialTheme.colors.primary),
-                    shape = RoundedCornerShape(18.dp),
-                    onClick = {
-                        isSelected = !isSelected
-                        viewModel.checkedAction(item.id)
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = if(isSelected) MaterialTheme.colors.primary else Color.Transparent,
-                    )
-                ) {
-                    Text(
-                        text = item.name,
-                        style = MaterialTheme.typography.h4,
-                        color = if(isSelected) Color.White else MaterialTheme.colors.primary
-                    )
-                }
-            }
-        )
+        OutlinedButton(
+            onClick = { onClick()  },
+            border = BorderStroke(1.dp, MaterialTheme.colors.primary),
+            shape = RoundedCornerShape(18.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .height(40.dp)
+                .align(Alignment.Center)
+        ) {
+            Text(
+                text = "${stringResource(id = R.string.add)} ${text.lowercase(Locale.ROOT)} ${stringResource(id = R.string.to_filter).lowercase()}",
+                style = MaterialTheme.typography.h5,
+                color = Color.Black
+            )
+        }
     }
 }
 

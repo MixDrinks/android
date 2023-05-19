@@ -39,6 +39,7 @@ fun DetailScreen(
     onNavigateToDetailGood: (id: Int) -> Unit,
     onNavigateToDetailTool: (id: Int) -> Unit,
     onBack: () -> Unit,
+    onNavigateToStart: () -> Unit,
     viewModel: DetailScreenCocktailViewModel = koinViewModel { parametersOf(cocktailId) },
 ) {
     val cocktail by viewModel.uiState.collectAsState()
@@ -52,7 +53,8 @@ fun DetailScreen(
                 onNavigateToDetailTool = onNavigateToDetailTool,
                 onNavigateToDetailGood = onNavigateToDetailGood,
                 onBack = onBack,
-                viewModel = viewModel
+                viewModel = viewModel,
+                onClickTagAction = onNavigateToStart
             )
         }
         is DetailScreenCocktailViewModel.DetailUiState.Loading -> {
@@ -74,7 +76,8 @@ fun DetailsScreenData(
     onNavigateToDetailGood: (id: Int) -> Unit,
     onNavigateToDetailTool: (id: Int) -> Unit,
     onBack: () -> Unit,
-    viewModel: DetailScreenCocktailViewModel
+    viewModel: DetailScreenCocktailViewModel,
+    onClickTagAction: () -> Unit,
     ) {
     Column(
         modifier = modifier
@@ -93,7 +96,10 @@ fun DetailsScreenData(
         TagListItem(
             modifier = modifier,
             listTags = data.cocktail.tags,
-            onClickAction = { Log.d("MyLog", it.toString()) }
+            onClickAction = {tagId ->
+                viewModel.onClickTag(tagId)
+                onClickTagAction()
+            }
         )
         Spacer(modifier = modifier.padding(5.dp))
 

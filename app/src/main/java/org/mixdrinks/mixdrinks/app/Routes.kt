@@ -3,6 +3,7 @@ package org.mixdrinks.mixdrinks.app
 object Routes {
     const val start = "start"
     const val filter = "filter"
+    const val filterSearch = "filter_search"
     const val notFound = "not_found"
 
     const val cocktail = "cocktail"

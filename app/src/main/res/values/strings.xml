@@ -16,6 +16,8 @@
     <string name="filter">Filters</string>
     <string name="description">Description</string>
     <string name="apply">Застосувати</string>
+    <string name="add">Add</string>
+    <string name="to_filter">to filter</string>
 
 
 </resources>

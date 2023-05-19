@@ -1,7 +1,6 @@
 package org.mixdrinks.mixdrinks.database.dao
 
 
-import android.util.Log
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Embedded
@@ -22,12 +21,14 @@ import org.mixdrinks.mixdrinks.database.entities.CocktailToGoodRelation
 import org.mixdrinks.mixdrinks.database.entities.CocktailToTag
 import org.mixdrinks.mixdrinks.database.entities.CocktailToTaste
 import org.mixdrinks.mixdrinks.database.entities.CocktailToTool
+import org.mixdrinks.mixdrinks.database.entities.FilterWithCocktailIds
 import org.mixdrinks.mixdrinks.database.entities.Glassware
 import org.mixdrinks.mixdrinks.database.entities.Good
 import org.mixdrinks.mixdrinks.database.entities.Tag
 import org.mixdrinks.mixdrinks.database.entities.Taste
 import org.mixdrinks.mixdrinks.database.entities.Tool
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
+import org.mixdrinks.mixdrinks.features.data.CocktailShort
 
 @Dao
 interface CocktailDao {
@@ -58,8 +59,17 @@ interface CocktailDao {
     @Query("SELECT * FROM cocktails WHERE cocktail_id = :id")
     suspend fun getById(id: Int): CocktailSnapshotDatabase
 
+    @Query("SELECT co.cocktail_id, co.name FROM cocktails AS co " +
+            "JOIN filter_with_cocktail_ids AS fi " +
+            "ON co.cocktail_id = fi.cocktail_id WHERE fi.filter_id IN (:filtersId) ")
+    suspend fun getCocktailWithFiltersShort(filtersId: List<Int>): List<CocktailShort>
+
     @Query("SELECT cocktail_id, name FROM cocktails")
-    suspend fun getAllShortCocktail(): List<CocktailShort>
+    suspend fun getAllCocktailShort(): List<CocktailShort>
+
+    @Query("SELECT * FROM cocktails")
+    suspend fun getAllCocktailShort2(): List<CocktailShort2>
+
 }
 
 data class CocktailSnapshotDatabase(
@@ -111,7 +121,6 @@ data class CocktailSnapshotDatabase(
     }
 
     fun toCocktailFull(): CocktailFull {
-        Log.d("good", goods.size.toString() +  goods.toString())
         return CocktailFull(
             id = CocktailId(cocktail.cocktailId),
             name = cocktail.name,
@@ -150,8 +159,27 @@ data class CocktailSnapshotDatabase(
     }
 }
 
-data class CocktailShort(
+data class CocktailShort2(
     @ColumnInfo(name = "cocktail_id")
     val cocktailId: Int,
     val name: String,
+    @Relation(
+        parentColumn = "cocktail_id",
+        entityColumn = "cocktail_id",
+    )
+    val filters: List<FilterWithCocktailIds>
+) {
+    fun toCocktailsWithFilters(): CocktailsWithFilters {
+        return CocktailsWithFilters(
+            cocktailId = cocktailId,
+            name = name,
+            filters = filters.map { it.filterId }
+        )
+    }
+}
+
+data class CocktailsWithFilters(
+    val cocktailId: Int,
+    val name: String,
+    val filters: List<Int>
 )

@@ -17,17 +17,23 @@ interface FilterGroupDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     @Transaction
     suspend fun addAllFilterGroups(filterGroup: List<FilterGroup>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Transaction
+    suspend fun addFilterGroup(filterGroup: FilterGroup)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     @Transaction
     suspend fun addAllFilters(filterGroup: List<Filters>)
-
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Transaction
+    suspend fun addFilter(filterGroup: Filters)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     @Transaction
     suspend fun addAllFilterWithCocktailId(filterWithCocktailId: List<FilterWithCocktailIds>)
 
     @Query("SELECT * FROM filter_groups")
     suspend fun getAllFilterGroups() : List<FilterGroups>
+
 }
 
 data class FilterGroups(
@@ -37,6 +43,13 @@ data class FilterGroups(
         parentColumn = "id",
         entityColumn = "filter_group_id",
     )
-    val filters: List<Filters>
+    val filters: List<Filters>,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "filter_id",
+    )
+    val cocktailIds: List<FilterWithCocktailIds>,
+
+
 )
 

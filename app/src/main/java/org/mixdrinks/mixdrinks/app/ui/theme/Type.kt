@@ -46,6 +46,12 @@ val Typography = Typography(
         fontSize = 14.sp,
         color = Green700
     ),
+    h5 = TextStyle(
+        fontSize = 12.sp,
+        fontWeight = FontWeight.W400,
+        lineHeight = 18.sp,
+       // letterSpacing =
+    ),
     button = TextStyle(
         fontSize = 14.sp,
         color = Color.White,

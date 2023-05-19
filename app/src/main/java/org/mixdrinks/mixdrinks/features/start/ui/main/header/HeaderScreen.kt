@@ -1,6 +1,5 @@
-package org.mixdrinks.mixdrinks.features.header.ui
+package org.mixdrinks.mixdrinks.features.start.ui.main.header
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,9 +20,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import org.mixdrinks.mixdrinks.R
+import org.mixdrinks.mixdrinks.features.start.ui.main.StartScreenViewModel
 
 @Composable
-fun HeaderScreen(modifier: Modifier, onNavigateToFilter: () -> Unit) {
+fun HeaderScreen(
+    modifier: Modifier,
+    onNavigateToFilter: () -> Unit,
+    viewModel: StartScreenViewModel,
+    searchText: String
+) {
     var isFocusedSearchTextField by remember { mutableStateOf(false) }
 
     Column {
@@ -35,19 +40,20 @@ fun HeaderScreen(modifier: Modifier, onNavigateToFilter: () -> Unit) {
                 .padding(start = 8.dp, end = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            SearchTextField(modifier = modifier) { isFocusedSearchTextField = it }
+            SearchTextField(
+                modifier = modifier,
+                onFocusChanged = { isFocusedSearchTextField = it },
+                searchAction = { viewModel.searchAction(it) },
+                searchText = searchText
+            )
             FilterAction(modifier = modifier, onNavigateToFilter = onNavigateToFilter)
         }
-        if(isFocusedSearchTextField)
-            SearchHintContent(modifier = modifier, onClickAction = { Log.d("MyLog", it) })
     }
 }
+
 @Composable
 private fun FilterAction(modifier: Modifier, onNavigateToFilter: () -> Unit) {
-    IconButton(
-        modifier = modifier.height(24.dp),
-        onClick = { onNavigateToFilter() }
-    ) {
+    IconButton(modifier = modifier.height(24.dp), onClick = { onNavigateToFilter() }) {
         Icon(
             painter = painterResource(id = R.drawable.baseline_tune_24),
             tint = Color.White,
