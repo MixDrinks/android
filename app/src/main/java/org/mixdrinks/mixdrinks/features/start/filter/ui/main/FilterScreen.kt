@@ -36,6 +36,7 @@ import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.data.FilterGroupFull
 import java.util.Locale
 
+@Suppress("LongMethod")
 @Composable
 fun FilterScreen(
     modifier: Modifier,
@@ -67,6 +68,7 @@ fun FilterScreen(
         }
     }
 }
+
 
 @Composable
 fun FilterScreenData(
