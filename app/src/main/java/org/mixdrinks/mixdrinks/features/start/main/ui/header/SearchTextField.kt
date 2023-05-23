@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.start.ui.main.header
+package org.mixdrinks.mixdrinks.features.start.main.ui.header
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height

@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.start.ui.main
+package org.mixdrinks.mixdrinks.features.start.main.ui
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +15,7 @@ import org.koin.androidx.compose.koinViewModel
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.common.ui.NotFoundScreen
-import org.mixdrinks.mixdrinks.features.start.ui.main.header.HeaderScreen
+import org.mixdrinks.mixdrinks.features.start.main.ui.header.HeaderScreen
 
 @Composable
 fun StartScreen(

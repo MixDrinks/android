@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.start.ui.main
+package org.mixdrinks.mixdrinks.features.start.main.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

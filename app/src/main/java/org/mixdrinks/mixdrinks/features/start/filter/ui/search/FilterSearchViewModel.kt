@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.start.ui.filter.ui.search
+package org.mixdrinks.mixdrinks.features.start.filter.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.mixdrinks.mixdrinks.features.data.FilterGroupFull
-import org.mixdrinks.mixdrinks.features.start.ui.filter.FilterRepository
-import org.mixdrinks.mixdrinks.features.start.ui.filter.SelectedFilterStorage
-import org.mixdrinks.mixdrinks.features.start.ui.filter.ui.main.FilterItemUiState
+import org.mixdrinks.mixdrinks.features.start.filter.FilterRepository
+import org.mixdrinks.mixdrinks.features.start.filter.SelectedFilterStorage
+import org.mixdrinks.mixdrinks.features.start.filter.ui.main.FilterItemUiState
 
 class FilterSearchViewModel(
     private val filterRepository: FilterRepository,

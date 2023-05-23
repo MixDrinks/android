@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.start.ui.main
+package org.mixdrinks.mixdrinks.features.start.main.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

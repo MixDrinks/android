@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.start.ui.filter
+package org.mixdrinks.mixdrinks.features.start.filter
 
 import org.mixdrinks.mixdrinks.database.AppDatabase
 import org.mixdrinks.mixdrinks.database.dao.FilterGroups
@@ -11,7 +11,7 @@ class FilterRepository(
 ) {
     private var filters: List<FilterGroups> = listOf()
 
-    suspend fun getFilters(groupId: Int? = null): List<FilterGroupFull> {
+    suspend fun getFilters(): List<FilterGroupFull> {
         if (filters.isEmpty()) {
             filters = getFiltersFromDatabase()
         }
@@ -38,3 +38,4 @@ class FilterRepository(
     }
 
 }
+

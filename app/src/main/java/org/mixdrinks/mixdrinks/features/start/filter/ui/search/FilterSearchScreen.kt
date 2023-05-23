@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.start.ui.filter.ui.search
+package org.mixdrinks.mixdrinks.features.start.filter.ui.search
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
@@ -47,7 +47,7 @@ import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.common.ui.widgets.IconTextFieldIcon
 import org.mixdrinks.mixdrinks.features.data.FilterGroupFull
-import org.mixdrinks.mixdrinks.features.start.ui.filter.ui.main.ApplyButton
+import org.mixdrinks.mixdrinks.features.start.filter.ui.main.ApplyButton
 
 @Composable
 fun FilterSearchScreen(

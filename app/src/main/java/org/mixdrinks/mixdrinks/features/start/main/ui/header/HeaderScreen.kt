@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.start.ui.main.header
+package org.mixdrinks.mixdrinks.features.start.main.ui.header
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import org.mixdrinks.mixdrinks.R
-import org.mixdrinks.mixdrinks.features.start.ui.main.StartScreenViewModel
+import org.mixdrinks.mixdrinks.features.start.main.ui.StartScreenViewModel
 
 @Composable
 fun HeaderScreen(

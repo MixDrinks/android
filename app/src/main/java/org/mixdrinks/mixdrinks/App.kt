@@ -15,11 +15,11 @@ import org.mixdrinks.mixdrinks.features.detail.ui.good.DetailScreenGoodViewModel
 import org.mixdrinks.mixdrinks.features.detail.ui.tool.DetailScreenToolViewModel
 import org.mixdrinks.mixdrinks.features.fetcher.Fetcher
 import org.mixdrinks.mixdrinks.features.start.StartRepository
-import org.mixdrinks.mixdrinks.features.start.ui.filter.ui.main.FilterScreenViewModel
-import org.mixdrinks.mixdrinks.features.start.ui.filter.SelectedFilterStorage
-import org.mixdrinks.mixdrinks.features.start.ui.main.StartScreenViewModel
-import org.mixdrinks.mixdrinks.features.start.ui.filter.FilterRepository
-import org.mixdrinks.mixdrinks.features.start.ui.filter.ui.search.FilterSearchViewModel
+import org.mixdrinks.mixdrinks.features.start.filter.ui.main.FilterScreenViewModel
+import org.mixdrinks.mixdrinks.features.start.filter.SelectedFilterStorage
+import org.mixdrinks.mixdrinks.features.start.main.ui.StartScreenViewModel
+import org.mixdrinks.mixdrinks.features.start.filter.FilterRepository
+import org.mixdrinks.mixdrinks.features.start.filter.ui.search.FilterSearchViewModel
 
 class App : Application() {
   override fun onCreate() {

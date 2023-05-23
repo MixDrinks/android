@@ -12,9 +12,9 @@ import org.mixdrinks.mixdrinks.features.detail.ui.cocktail.DetailScreen
 import org.mixdrinks.mixdrinks.features.detail.ui.good.DetailScreenGood
 import org.mixdrinks.mixdrinks.features.detail.ui.tool.DetailScreenTool
 import org.mixdrinks.mixdrinks.features.fetcher.Fetcher
-import org.mixdrinks.mixdrinks.features.start.ui.main.StartScreen
-import org.mixdrinks.mixdrinks.features.start.ui.filter.ui.main.FilterScreen
-import org.mixdrinks.mixdrinks.features.start.ui.filter.ui.search.FilterSearchScreen
+import org.mixdrinks.mixdrinks.features.start.main.ui.StartScreen
+import org.mixdrinks.mixdrinks.features.start.filter.ui.main.FilterScreen
+import org.mixdrinks.mixdrinks.features.start.filter.ui.search.FilterSearchScreen
 
 @Suppress("LongMethod")
 @Composable

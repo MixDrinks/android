@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.start.ui.filter
+package org.mixdrinks.mixdrinks.features.start.filter
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

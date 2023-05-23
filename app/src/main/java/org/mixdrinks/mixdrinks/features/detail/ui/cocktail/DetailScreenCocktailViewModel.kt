@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.mixdrinks.mixdrinks.database.AppDatabase
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
-import org.mixdrinks.mixdrinks.features.start.ui.filter.SelectedFilterStorage
+import org.mixdrinks.mixdrinks.features.start.filter.SelectedFilterStorage
 import java.io.IOException
 
 @Suppress("TooGenericExceptionCaught")

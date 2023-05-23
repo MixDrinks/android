@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.start.ui.filter.ui.main
+package org.mixdrinks.mixdrinks.features.start.filter.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.mixdrinks.mixdrinks.features.data.FilterGroupFull
-import org.mixdrinks.mixdrinks.features.start.ui.filter.FilterRepository
-import org.mixdrinks.mixdrinks.features.start.ui.filter.SelectedFilterStorage
+import org.mixdrinks.mixdrinks.features.start.filter.FilterRepository
+import org.mixdrinks.mixdrinks.features.start.filter.SelectedFilterStorage
 import java.io.IOException
 
 @Suppress("TooGenericExceptionCaught")

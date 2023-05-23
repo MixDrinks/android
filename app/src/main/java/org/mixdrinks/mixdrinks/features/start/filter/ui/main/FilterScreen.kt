@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.start.ui.filter.ui.main
+package org.mixdrinks.mixdrinks.features.start.filter.ui.main
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke

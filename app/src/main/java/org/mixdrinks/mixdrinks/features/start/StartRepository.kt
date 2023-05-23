@@ -1,9 +1,9 @@
-package org.mixdrinks.mixdrinks.features.start;
+package org.mixdrinks.mixdrinks.features.start
 
 import org.mixdrinks.mixdrinks.database.AppDatabase
 import org.mixdrinks.mixdrinks.database.dao.CocktailsWithFilters
 import org.mixdrinks.mixdrinks.features.data.CocktailShort
-import org.mixdrinks.mixdrinks.features.start.ui.filter.SelectedFilterStorage
+import org.mixdrinks.mixdrinks.features.start.filter.SelectedFilterStorage
 
 
 class StartRepository(
