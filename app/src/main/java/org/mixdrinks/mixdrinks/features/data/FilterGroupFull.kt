@@ -13,7 +13,7 @@ data class FilterGroupFull(
         val name: String,
         val enabled: Boolean,
         val checked: Boolean,
-        val cocktailIds: Set<Int>
+        val cocktailIds: List<Int>
     )
 }
 

@@ -42,6 +42,7 @@ import coil.compose.AsyncImage
 import org.koin.androidx.compose.koinViewModel
 import org.mixdrinks.domain.ImageUrlCreators
 import org.mixdrinks.dto.CocktailId
+import org.mixdrinks.mixdrinks.app.ui.theme.GreenAlfa
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.common.ui.widgets.IconTextFieldIcon
@@ -52,8 +53,8 @@ import org.mixdrinks.mixdrinks.features.start.ui.filter.ui.main.ApplyButton
 fun FilterSearchScreen(
     modifier: Modifier,
     viewModel: FilterSearchViewModel = koinViewModel(),
+    groupId: Int,
     onNavigateToFilter: () -> Unit
-
 ) {
     val filters by viewModel.uiState.collectAsState()
     when (filters) {
@@ -61,8 +62,9 @@ fun FilterSearchScreen(
             val data = (filters as FilterSearchViewModel.FilterUiState.Loaded).itemState
             FilterSearchScreenData(
                 modifier = modifier,
-                filters = data.filters,
-                onNavigateToFilter = onNavigateToFilter
+                filters = data.filters.first { it.id == groupId }.filters,
+                onNavigateToFilter = onNavigateToFilter,
+                viewModel = viewModel
             )
         }
 
@@ -82,7 +84,8 @@ fun FilterSearchScreen(
 fun FilterSearchScreenData(
     modifier: Modifier,
     onNavigateToFilter: () -> Unit,
-    filters: List<FilterGroupFull>
+    filters: List<FilterGroupFull.Filter>,
+    viewModel: FilterSearchViewModel
 ) {
     Box(
         modifier = modifier
@@ -112,22 +115,19 @@ fun FilterSearchScreenData(
             ) {
                 LazyColumn {
                     items(
-                        items = filters.filter { it.id == 1 }.first().filters,
-                        itemContent = {
+                        items = filters,
+                        itemContent = { filters ->
                             FilterItem(
-                                modifier = modifier,
-                                filter = it,
-                                { }
+                                modifier = modifier, filter = filters,
+                                onClick = { viewModel.checkedAction(it) }
                             )
-                        }
-                    )
+                        })
                 }
             }
             ApplyButton(modifier = modifier, onClick = { onNavigateToFilter() })
         }
     }
 }
-
 
 @Composable
 fun SearchTextField(modifier: Modifier) {
@@ -143,10 +143,12 @@ fun SearchTextField(modifier: Modifier) {
             focusedLabelColor = MaterialTheme.colors.primary,
         ),
         value = textState,
-        onValueChange = { textState = it },
+        onValueChange = {
+            textState = it
+        },
         modifier = modifier
             .fillMaxWidth()
-            .height(60.dp),
+            .height(50.dp),
         singleLine = true,
         trailingIcon = {
             IconTextFieldIcon(text = textState, onClick = {
@@ -161,7 +163,9 @@ private fun FilterItem(
     modifier: Modifier, filter: FilterGroupFull.Filter, onClick: (id: Int) -> Unit
 ) {
     OutlinedButton(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 5.dp),
         contentPadding = PaddingValues(0.dp),
         border = BorderStroke(1.dp, MaterialTheme.colors.primary),
         shape = RoundedCornerShape(8.dp),
@@ -169,7 +173,7 @@ private fun FilterItem(
             onClick(filter.id)
         },
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = if (filter.checked) MaterialTheme.colors.primary else Color.Transparent,
+            backgroundColor = if (filter.checked) GreenAlfa else Color.Transparent,
         )
     ) {
         Row(
@@ -183,9 +187,8 @@ private fun FilterItem(
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .padding(1.dp)
                     .clip(RoundedCornerShape(corner = CornerSize(8.dp)))
-                    .size(50.dp),
+                    .size(70.dp),
             )
             Spacer(modifier = modifier.width(10.dp))
             Text(
@@ -199,8 +202,7 @@ private fun FilterItem(
                     .widthIn(min = 48.dp)
                     .padding(end = 8.dp)
                     .clip(shape = RoundedCornerShape(size = 16.dp))
-                    .background(MaterialTheme.colors.primary),
-                contentAlignment = Alignment.Center
+                    .background(MaterialTheme.colors.primary), contentAlignment = Alignment.Center
             ) {
                 Text(
                     modifier = modifier.padding(horizontal = 2.dp),

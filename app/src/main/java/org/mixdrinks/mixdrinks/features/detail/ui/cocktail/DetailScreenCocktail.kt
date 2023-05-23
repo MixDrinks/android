@@ -135,6 +135,7 @@ fun DetailsScreenData(
             modifier = modifier,
             cocktailName = data.cocktail.name,
             cocktailTools = data.cocktail.tools,
+            glassware = data.cocktail.glassware,
             onClick = onNavigateToDetailTool
         )
     }
@@ -205,6 +206,7 @@ fun CocktailNeedToolsContent(
     modifier: Modifier,
     cocktailName: String,
     cocktailTools: List<CocktailFull.Tool>,
+    glassware: CocktailFull.Glassware,
     onClick: (id: Int) -> Unit
 ) {
     Row(
@@ -221,7 +223,8 @@ fun CocktailNeedToolsContent(
     ToolsListItem(
         modifier = modifier,
         tools = cocktailTools,
-        onCLick = onClick
+        glassware = glassware,
+        onClick = onClick
     )
 }
 

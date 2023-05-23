@@ -11,20 +11,20 @@ class FilterRepository(
 ) {
     private var filters: List<FilterGroups> = listOf()
 
-    suspend fun getFilters(): List<FilterGroupFull> {
+    suspend fun getFilters(groupId: Int? = null): List<FilterGroupFull> {
         if (filters.isEmpty()) {
             filters = getFiltersFromDatabase()
         }
-        return filters.map {
+        return filters.map { item ->
             FilterGroupFull(
-                id = it.filterGroup.id,
-                name = it.filterGroup.name,
-                selectionType = it.filterGroup.selectionType,
-                filters = it.filters.map { filter ->
+                id = item.filterGroup.id,
+                name = item.filterGroup.name,
+                selectionType = item.filterGroup.selectionType,
+                filters = item.filters.map { filter ->
                     FilterGroupFull.Filter(
                         id = filter.filterId,
                         name = filter.name,
-                        cocktailIds = setOf(),
+                        cocktailIds = item.cocktailIds.filter{ it.filterId == filter.filterId }.map { it.cocktailId },
                         checked = (filterStorage.selectedFilters.value.find { f -> f == filter.filterId } != null),
                         enabled = true
                     )

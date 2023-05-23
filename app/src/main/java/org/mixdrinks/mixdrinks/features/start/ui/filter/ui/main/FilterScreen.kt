@@ -41,10 +41,10 @@ fun FilterScreen(
     modifier: Modifier,
     viewModel: FilterScreenViewModel = koinViewModel(),
     onNavigateToStart: () -> Unit,
-    onNavigateToFilterSearch: () -> Unit
+    onNavigateToFilterSearch: (groupId: Int) -> Unit
 ) {
     val filters by viewModel.uiState.collectAsState()
-    when(filters) {
+    when (filters) {
         is FilterScreenViewModel.FilterUiState.Loaded -> {
             val data = (filters as FilterScreenViewModel.FilterUiState.Loaded).itemState
             FilterScreenData(
@@ -55,9 +55,11 @@ fun FilterScreen(
                 onClickButtonAddAction = onNavigateToFilterSearch
             )
         }
+
         is FilterScreenViewModel.FilterUiState.Loading -> {
             LoaderIndicatorScreen(modifier = modifier)
         }
+
         else -> {
             val error = filters as FilterScreenViewModel.FilterUiState.Error
             Log.d("Exception", error.message)
@@ -72,7 +74,7 @@ fun FilterScreenData(
     filters: List<FilterGroupFull>,
     viewModel: FilterScreenViewModel,
     onClickButtonApplyAction: () -> Unit,
-    onClickButtonAddAction: () -> Unit
+    onClickButtonAddAction: (groupId: Int) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -89,7 +91,7 @@ fun FilterScreenData(
             Text(
                 modifier = modifier,
                 text = stringResource(id = R.string.filter),
-                style = MaterialTheme.typography.h1.copy(fontWeight = FontWeight.W700,),
+                style = MaterialTheme.typography.h1.copy(fontWeight = FontWeight.W700),
             )
             OutlinedButton(
                 onClick = { viewModel.clearFilters() }
@@ -114,17 +116,24 @@ fun FilterScreenData(
                             text = it.name,
                             style = MaterialTheme.typography.h2
                         )
-                        when(true) {
+                        when (true) {
                             (it.filters.size < 10) -> {
                                 it.filters.forEach { item ->
-                                    FilterItem(item, onClick = {id -> viewModel.checkedAction(id) })
+                                    FilterItem(
+                                        item,
+                                        onClick = { id -> viewModel.checkedAction(id) })
                                 }
                             }
                             else -> {
-                                it.filters.filter { it.checked }.forEach {item ->
-                                    FilterItem(item, onClick = {id -> viewModel.checkedAction(id) })
+                                it.filters.filter { it.checked }.forEach { item ->
+                                    FilterItem(
+                                        item,
+                                        onClick = { id -> viewModel.checkedAction(id) })
                                 }
-                                AddButton(modifier = modifier, text = it.name, onClick = onClickButtonAddAction)
+                                AddButton(
+                                    modifier = modifier,
+                                    text = it.name,
+                                    onClick = { onClickButtonAddAction(it.id) })
                             }
                         }
                     }
@@ -144,13 +153,13 @@ private fun FilterItem(item: FilterGroupFull.Filter, onClick: (id: Int) -> Unit)
             onClick(item.id)
         },
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = if(item.checked) MaterialTheme.colors.primary else Color.Transparent,
+            backgroundColor = if (item.checked) MaterialTheme.colors.primary else Color.Transparent,
         )
     ) {
         Text(
             text = item.name,
             style = MaterialTheme.typography.h4,
-            color = if(item.checked) Color.White else MaterialTheme.colors.primary
+            color = if (item.checked) Color.White else MaterialTheme.colors.primary
         )
     }
 }
@@ -189,7 +198,7 @@ fun AddButton(modifier: Modifier, text: String, onClick: () -> Unit) {
             .fillMaxWidth()
     ) {
         OutlinedButton(
-            onClick = { onClick()  },
+            onClick = { onClick() },
             border = BorderStroke(1.dp, MaterialTheme.colors.primary),
             shape = RoundedCornerShape(18.dp),
             modifier = Modifier
@@ -199,7 +208,11 @@ fun AddButton(modifier: Modifier, text: String, onClick: () -> Unit) {
                 .align(Alignment.Center)
         ) {
             Text(
-                text = "${stringResource(id = R.string.add)} ${text.lowercase(Locale.ROOT)} ${stringResource(id = R.string.to_filter).lowercase()}",
+                text = "${stringResource(id = R.string.add)} ${text.lowercase(Locale.ROOT)} ${
+                    stringResource(
+                        id = R.string.to_filter
+                    ).lowercase()
+                }",
                 style = MaterialTheme.typography.h5,
                 color = Color.Black
             )

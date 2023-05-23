@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.mixdrinks.mixdrinks.features.data.FilterGroupFull
 import org.mixdrinks.mixdrinks.features.start.ui.filter.FilterRepository
 import org.mixdrinks.mixdrinks.features.start.ui.filter.SelectedFilterStorage
 import org.mixdrinks.mixdrinks.features.start.ui.filter.ui.main.FilterItemUiState
@@ -14,13 +15,18 @@ class FilterSearchViewModel(
     private val filterRepository: FilterRepository,
     private val filterStorage: SelectedFilterStorage
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<FilterUiState>(
-        FilterUiState.Loading)
-    val uiState: StateFlow<FilterUiState> = _uiState
+    private lateinit var filtersByGroup: List<FilterGroupFull.Filter>
 
+    private val _uiState = MutableStateFlow<FilterUiState>(
+        FilterUiState.Loading
+    )
+    val uiState: StateFlow<FilterUiState> = _uiState
 
     init {
         viewModelScope.launch {
+            val data = filterRepository.getFilters()
+            filtersByGroup = data.first { it.id == 1 }.filters
+
             filterStorage.selectedFilters.collect {
                 updateFilters()
             }
@@ -36,6 +42,13 @@ class FilterSearchViewModel(
     fun checkedAction(id: Int) {
         filterStorage.add(id)
     }
+
+//    fun searchAction(search: String) {
+//        val result = filterRepository.searchCocktail(search)
+//        _uiState.update {
+//            StartScreenViewModel.StartUiState.Loaded(StartItemUiState(search, result))
+//        }
+//    }
 
     sealed class FilterUiState {
         object Loading : FilterUiState()

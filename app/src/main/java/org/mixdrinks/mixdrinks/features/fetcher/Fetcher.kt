@@ -1,6 +1,5 @@
 package org.mixdrinks.mixdrinks.features.fetcher
 
-import android.util.Log
 import androidx.room.Transaction
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -35,15 +34,11 @@ class Fetcher(
     private val scope = MainScope()
 
     init {
-        Log.d("init", "init")
         scope.launch {
-            if (roomDatabase.cocktailDao().getAll().isEmpty()) {
-                insertToDataBase(cocktailProvider.getAllCocktails())
-            }
-            //insertToDataBase(cocktailProvider.getAllCocktails())
-
-            //  Log.d("init", "launch")
-
+            /* if (roomDatabase.cocktailDao().getAll().isEmpty()) {
+                 insertToDataBase(cocktailProvider.getAllCocktails())
+             }*/
+            insertToDataBase(cocktailProvider.getAllCocktails())
         }
     }
 
@@ -160,7 +155,7 @@ class Fetcher(
         }
     }
 
-    //    @Transaction
+    @Transaction
     private suspend fun insertAllFilters(filterGroup: List<FilterGroupDto>) {
         filterGroup.map { item ->
             roomDatabase.filterGroupDao().addFilterGroup(
@@ -188,38 +183,5 @@ class Fetcher(
                 )
             }
         }
-
-//        roomDatabase.filterGroupDao().addAllFilterGroups(
-//            filterGroup.map {
-//                FilterGroup(
-//                    id = it.id.value,
-//                    name = it.name,
-//                    selectionType = it.selectionType
-//                )
-//            }
-//        )
-//        filterGroup.map {
-//            roomDatabase.filterGroupDao().addAllFilters(
-//                it.filters.map { filter ->
-//                    Filters(
-//                        filterId = filter.id.value,
-//                        filterGroupId = it.id.value,
-//                        name = filter.name
-//                    )
-//                }
-//            )
-//        }
-//        filterGroup.map {
-//            it.filters.map { filter ->
-//                roomDatabase.filterGroupDao().addAllFilterWithCocktailId(
-//                    filter.cocktailIds.map { cocktailId ->
-//                        FilterWithCocktailIds(
-//                            filterId = filter.id.value,
-//                            cocktailId = cocktailId.id
-//                        )
-//                    }
-//                )
-//            }
-//        }
     }
 }

@@ -26,7 +26,6 @@ fun MixDrinksApp(modifier: Modifier = Modifier) {
             navController = navController, startDestination = Routes.start
         ) {
             composable(Routes.start) {
-//                FilterSearchScreen(Modifier)
                 StartScreen(modifier = modifier,
                     onNavigateToDetail = { navController.navigate("${Routes.cocktail}/$it") },
                     onNavigateToFilter = { navController.navigate(Routes.filter) },
@@ -64,13 +63,18 @@ fun MixDrinksApp(modifier: Modifier = Modifier) {
             composable(Routes.filter) {
                 FilterScreen(modifier = modifier,
                     onNavigateToStart = { navController.navigate(Routes.start) },
-                    onNavigateToFilterSearch = { navController.navigate(Routes.filterSearch) })
-            }
-            composable(Routes.filterSearch) {
-                FilterSearchScreen(
-                    modifier = modifier,
-                    onNavigateToFilter = { navController.navigate(Routes.filter) },
+                    onNavigateToFilterSearch = { navController.navigate("${Routes.filterSearch}/${it}") }
                 )
+            }
+            composable("${Routes.filterSearch}/{${Routes.groupFilterId}}") { backStackEntry ->
+                val groupId = backStackEntry.arguments?.getString(Routes.groupFilterId)
+                groupId?.toInt()?.let {
+                    FilterSearchScreen(
+                        modifier = modifier,
+                        groupId = it,
+                        onNavigateToFilter = { navController.navigate(Routes.filter) },
+                    )
+                }
             }
             composable(Routes.notFound) {
                 NotFoundScreen(modifier = modifier,

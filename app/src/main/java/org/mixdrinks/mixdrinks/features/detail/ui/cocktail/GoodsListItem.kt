@@ -31,12 +31,12 @@ import org.mixdrinks.mixdrinks.features.data.CocktailFull
 fun GoodsListItem(
     modifier: Modifier,
     data: DetailItemUiState,
-    onClick: (id :Int) -> Unit
+    onClick: (id: Int) -> Unit
 ) {
     LazyHorizontalGrid(
         rows = GridCells.Fixed(1),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier.height(240.dp)
+        modifier = modifier.height(200.dp)
     ) {
         items(data.cocktail.goods) { item ->
             Card(
@@ -48,7 +48,8 @@ fun GoodsListItem(
                         .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    ImageItem(modifier = modifier,
+                    ImageItem(
+                        modifier = modifier,
                         ImageUrlCreators.createUrl(item.id, ImageUrlCreators.Size.SIZE_320)
                     )
                     Row(
@@ -78,16 +79,21 @@ fun GoodsListItem(
 }
 
 @Composable
-fun ToolsListItem(modifier: Modifier, tools: List<CocktailFull.Tool>, onCLick: (id: Int) -> Unit) {
+fun ToolsListItem(
+    modifier: Modifier,
+    tools: List<CocktailFull.Tool>,
+    glassware: CocktailFull.Glassware,
+    onClick: (id: Int) -> Unit
+) {
     LazyHorizontalGrid(
         rows = GridCells.Fixed(1),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier.height(220.dp)
+        modifier = modifier.height(180.dp)
     ) {
         items(tools) { item ->
             Card(
                 modifier = modifier
-                    .clickable { onCLick(item.id.id) },
+                    .clickable { onClick(item.id.id) },
             ) {
                 Column(
                     modifier = modifier
@@ -117,15 +123,16 @@ fun ToolsListItem(modifier: Modifier, tools: List<CocktailFull.Tool>, onCLick: (
     }
 }
 
+
 @Composable
-fun ImageItem(modifier:Modifier, url: String) {
+fun ImageItem(modifier: Modifier, url: String) {
     AsyncImage(
         modifier = modifier
             .border(
                 BorderStroke(2.dp, MaterialTheme.colors.primary),
                 shape = RoundedCornerShape(16.dp),
             )
-            .size(190.dp)
+            .size(150.dp)
             .padding(5.dp),
         model = url,
         contentDescription = null,
