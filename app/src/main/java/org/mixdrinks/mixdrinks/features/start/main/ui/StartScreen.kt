@@ -50,6 +50,7 @@ fun StartScreen(
         }
     }
 }
+@Suppress("LongParameterList")
 @Composable
 fun StartScreenData(
     modifier: Modifier,

@@ -42,14 +42,6 @@ class FilterSearchViewModel(
     fun checkedAction(id: Int) {
         filterStorage.add(id)
     }
-
-//    fun searchAction(search: String) {
-//        val result = filterRepository.searchCocktail(search)
-//        _uiState.update {
-//            StartScreenViewModel.StartUiState.Loaded(StartItemUiState(search, result))
-//        }
-//    }
-
     sealed class FilterUiState {
         object Loading : FilterUiState()
         class Loaded(val itemState: FilterItemUiState) : FilterUiState()
@@ -57,3 +49,4 @@ class FilterSearchViewModel(
     }
 
 }
+

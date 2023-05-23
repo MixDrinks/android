@@ -78,6 +78,7 @@ fun GoodsListItem(
     }
 }
 
+@Suppress("UnusedPrivateMember")
 @Composable
 fun ToolsListItem(
     modifier: Modifier,

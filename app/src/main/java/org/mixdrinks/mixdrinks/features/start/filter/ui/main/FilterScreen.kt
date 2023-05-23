@@ -36,7 +36,6 @@ import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.data.FilterGroupFull
 import java.util.Locale
 
-@Suppress("LongMethod")
 @Composable
 fun FilterScreen(
     modifier: Modifier,
@@ -69,7 +68,7 @@ fun FilterScreen(
     }
 }
 
-
+@Suppress("LongMethod", "MagicNumber")
 @Composable
 fun FilterScreenData(
     modifier: Modifier,
@@ -113,7 +112,7 @@ fun FilterScreenData(
             LazyColumn {
                 items(
                     items = filters.sortedBy { it.filters.size },
-                    itemContent = { it ->
+                    itemContent = {
                         Text(
                             text = it.name,
                             style = MaterialTheme.typography.h2
@@ -126,6 +125,7 @@ fun FilterScreenData(
                                         onClick = { id -> viewModel.checkedAction(id) })
                                 }
                             }
+
                             else -> {
                                 it.filters.filter { it.checked }.forEach { item ->
                                     FilterItem(
