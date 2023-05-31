@@ -35,10 +35,9 @@ class Fetcher(
 
     init {
         scope.launch {
-            /* if (roomDatabase.cocktailDao().getAll().isEmpty()) {
-                 insertToDataBase(cocktailProvider.getAllCocktails())
-             }*/
-            insertToDataBase(cocktailProvider.getAllCocktails())
+            if (roomDatabase.cocktailDao().getAll().isEmpty()) {
+                insertToDataBase(cocktailProvider.getAllCocktails())
+            }
         }
     }
 

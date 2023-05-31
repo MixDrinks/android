@@ -117,7 +117,7 @@ fun FilterScreenData(
                             text = it.name,
                             style = MaterialTheme.typography.h2
                         )
-                        when (true) {
+                        when {
                             (it.filters.size < 10) -> {
                                 it.filters.forEach { item ->
                                     FilterItem(

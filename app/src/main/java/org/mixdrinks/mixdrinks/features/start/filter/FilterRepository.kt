@@ -25,7 +25,7 @@ class FilterRepository(
                         id = filter.filterId,
                         name = filter.name,
                         cocktailIds = item.cocktailIds.filter{ it.filterId == filter.filterId }.map { it.cocktailId },
-                        checked = (filterStorage.selectedFilters.value.find { f -> f == filter.filterId } != null),
+                        checked = (filterStorage.selectedFilters.value.find { id -> id == filter.filterId } != null),
                         enabled = true
                     )
                 }
