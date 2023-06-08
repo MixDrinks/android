@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import org.mixdrinks.mixdrinks.features.data.SelectedFilter
 
-class SelectedFilterStorage() {
+class SelectedFilterStorage {
     private val _selectedFilters = MutableStateFlow(mutableListOf<SelectedFilter>())
     val selectedFilters: StateFlow<MutableList<SelectedFilter>> = _selectedFilters
 
