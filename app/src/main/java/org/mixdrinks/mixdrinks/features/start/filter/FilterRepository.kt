@@ -9,13 +9,19 @@ class FilterRepository(
     private val filterStorage: SelectedFilterStorage
 
 ) {
-    private var filters: List<FilterGroups> = listOf()
+    private var filterGroups: List<FilterGroups> = listOf()
+
+    suspend fun getFiltersByGroupId(groupId: Int, search: String): List<FilterGroupFull.Filter> {
+        return getFilters().first { it.id == groupId }.filters.filter {
+            it.name.lowercase().contains(search.lowercase())
+        }
+    }
 
     suspend fun getFilters(): List<FilterGroupFull> {
-        if (filters.isEmpty()) {
-            filters = getFiltersFromDatabase()
+        if (filterGroups.isEmpty()) {
+            filterGroups = getFiltersFromDatabase()
         }
-        return filters.map { item ->
+        return filterGroups.map { item ->
             FilterGroupFull(
                 id = item.filterGroup.id,
                 name = item.filterGroup.name,
@@ -24,8 +30,12 @@ class FilterRepository(
                     FilterGroupFull.Filter(
                         id = filter.filterId,
                         name = filter.name,
-                        cocktailIds = item.cocktailIds.filter{ it.filterId == filter.filterId }.map { it.cocktailId },
-                        checked = (filterStorage.selectedFilters.value.find { id -> id == filter.filterId } != null),
+                        cocktailIds = item.cocktailIds.filter {
+                            it.filterId == filter.filterId && it.filterGroupId == filter.filterGroupId
+                        }.map { it.cocktailId },
+                        checked = (filterStorage.selectedFilters.value.find { item ->
+                            item.filterId == filter.filterId && item.filterGroupId == filter.filterGroupId
+                        } != null),
                         enabled = true
                     )
                 }

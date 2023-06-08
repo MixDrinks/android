@@ -34,6 +34,7 @@ import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.data.FilterGroupFull
+import org.mixdrinks.mixdrinks.features.data.SelectedFilter
 import java.util.Locale
 
 @Composable
@@ -112,30 +113,44 @@ fun FilterScreenData(
             LazyColumn {
                 items(
                     items = filters.sortedBy { it.filters.size },
-                    itemContent = {
+                    itemContent = { filterGroup ->
                         Text(
-                            text = it.name,
+                            text = filterGroup.name,
                             style = MaterialTheme.typography.h2
                         )
                         when {
-                            (it.filters.size < 10) -> {
-                                it.filters.forEach { item ->
+                            (filterGroup.filters.size < 10) -> {
+                                filterGroup.filters.forEach { item ->
                                     FilterItem(
                                         item,
-                                        onClick = { id -> viewModel.checkedAction(id) })
+                                        onClick = { filterId ->
+                                            viewModel.checkedAction(
+                                                SelectedFilter(
+                                                    filterId = filterId,
+                                                    filterGroupId = filterGroup.id,
+                                                )
+                                            )
+                                        })
                                 }
                             }
 
                             else -> {
-                                it.filters.filter { it.checked }.forEach { item ->
+                                filterGroup.filters.filter { it.checked }.forEach { item ->
                                     FilterItem(
                                         item,
-                                        onClick = { id -> viewModel.checkedAction(id) })
+                                        onClick = { filterId ->
+                                            viewModel.checkedAction(
+                                                SelectedFilter(
+                                                    filterId = filterId,
+                                                    filterGroupId = filterGroup.id,
+                                                )
+                                            )
+                                        })
                                 }
                                 AddButton(
                                     modifier = modifier,
-                                    text = it.name,
-                                    onClick = { onClickButtonAddAction(it.id) })
+                                    text = filterGroup.name,
+                                    onClick = { onClickButtonAddAction(filterGroup.id) })
                             }
                         }
                     }

@@ -7,25 +7,28 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.mixdrinks.mixdrinks.features.data.CocktailShort
+import org.mixdrinks.mixdrinks.features.fetcher.Fetcher
 import org.mixdrinks.mixdrinks.features.start.StartRepository
 import java.io.IOException
 
 @Suppress("TooGenericExceptionCaught", "MagicNumber")
 class StartScreenViewModel(
     private val startRepository: StartRepository,
+    private val fetcher: Fetcher
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<StartUiState>(StartUiState.Loading)
     val uiState: StateFlow<StartUiState> = _uiState
 
     init {
-        getCocktail()
+        getCocktails()
     }
 
-    private fun getCocktail() {
+    private fun getCocktails() {
         _uiState.value = StartUiState.Loading
 
         viewModelScope.launch {
             try {
+                fetcher.startFetch()
                 _uiState.value =
                     StartUiState.Loaded(StartItemUiState("", startRepository.getCocktails()))
             } catch (error: IOException) {

@@ -10,38 +10,37 @@ class StartRepository(
     private val roomDatabase: AppDatabase,
     private val filterStorage: SelectedFilterStorage,
 ) {
-    private var cocktails: List<CocktailsWithFilters> = listOf()
-
+    private var cocktailsFromDatabase: List<CocktailsWithFilters> = listOf()
+    private var cocktails: List<CocktailShort> = listOf()
     suspend fun getCocktails(): List<CocktailShort> {
-        if (cocktails.isEmpty()) {
-            cocktails = getCocktailFromDatabase()
+        if (cocktailsFromDatabase.isEmpty()) {
+            cocktailsFromDatabase = getCocktailFromDatabase()
         }
-        if (filterStorage.selectedFilters.value.isNotEmpty()) {
-            return filterCocktail(cocktails).map { CocktailShort(it.cocktailId, it.name) }
+        cocktails = if (filterStorage.selectedFilters.value.isNotEmpty()) {
+            filterCocktail(cocktailsFromDatabase).map { CocktailShort(it.cocktailId, it.name) }
+        } else {
+            cocktailsFromDatabase.map { CocktailShort(it.cocktailId, it.name) }
         }
 
-        return cocktails.map { CocktailShort(it.cocktailId, it.name) }
+        return cocktails
     }
 
     fun searchCocktail(search: String): List<CocktailShort> {
-        return cocktails
-            .filter { it.name.lowercase().contains(search.lowercase()) }
-            .map { CocktailShort(it.cocktailId, it.name) }
+        return cocktails.filter { it.name.lowercase().contains(search.lowercase()) }
     }
-
 
     private fun filterCocktail(cocktails: List<CocktailsWithFilters>): List<CocktailsWithFilters> {
         return cocktails.filter { cocktail ->
-            cocktail.filters.find { filterId ->
-                filterStorage.selectedFilters.value.find { it == filterId } != null
+            cocktail.filters.find { filters ->
+                filterStorage.selectedFilters.value.find {
+                    it.filterId == filters.filterId && it.filterGroupId == filters.filterGroupId
+                } != null
             } != null
         }
     }
 
     private suspend fun getCocktailFromDatabase(): List<CocktailsWithFilters> {
-        return roomDatabase.cocktailDao().getAllCocktailShort2().map { it.toCocktailsWithFilters() }
+        return roomDatabase.cocktailDao().getAllCocktailShort().map { it.toCocktailsWithFilters() }
     }
-
-
 }
 

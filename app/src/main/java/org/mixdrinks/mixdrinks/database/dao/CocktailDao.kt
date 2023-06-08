@@ -28,7 +28,7 @@ import org.mixdrinks.mixdrinks.database.entities.Tag
 import org.mixdrinks.mixdrinks.database.entities.Taste
 import org.mixdrinks.mixdrinks.database.entities.Tool
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
-import org.mixdrinks.mixdrinks.features.data.CocktailShort
+import org.mixdrinks.mixdrinks.features.data.SelectedFilter
 
 @Dao
 interface CocktailDao {
@@ -59,16 +59,8 @@ interface CocktailDao {
     @Query("SELECT * FROM cocktails WHERE cocktail_id = :id")
     suspend fun getById(id: Int): CocktailSnapshotDatabase
 
-    @Query("SELECT co.cocktail_id, co.name FROM cocktails AS co " +
-            "JOIN filter_with_cocktail_ids AS fi " +
-            "ON co.cocktail_id = fi.cocktail_id WHERE fi.filter_id IN (:filtersId) ")
-    suspend fun getCocktailWithFiltersShort(filtersId: List<Int>): List<CocktailShort>
-
     @Query("SELECT cocktail_id, name FROM cocktails")
-    suspend fun getAllCocktailShort(): List<CocktailShort>
-
-    @Query("SELECT * FROM cocktails")
-    suspend fun getAllCocktailShort2(): List<CocktailShort2>
+    suspend fun getAllCocktailShort(): List<Cocktails>
 
 }
 
@@ -131,9 +123,11 @@ data class CocktailSnapshotDatabase(
                     id = GoodId(good.goodId),
                     name = good.name,
                     amount = goodsUnit.filter {
-                        it.goodId == good.goodId }.first().amount,
+                        it.goodId == good.goodId
+                    }.first().amount,
                     unit = goodsUnit.filter {
-                        it.goodId == good.goodId }.first().unit,
+                        it.goodId == good.goodId
+                    }.first().unit,
                 )
             },
             tools = tools.map { tool ->
@@ -154,12 +148,15 @@ data class CocktailSnapshotDatabase(
                     name = taste.name
                 )
             },
-            glassware = CocktailFull.Glassware(id = GlasswareId(glassware.glasswareId), name = glassware.name)
+            glassware = CocktailFull.Glassware(
+                id = GlasswareId(glassware.glasswareId),
+                name = glassware.name
+            )
         )
     }
 }
 
-data class CocktailShort2(
+data class Cocktails(
     @ColumnInfo(name = "cocktail_id")
     val cocktailId: Int,
     val name: String,
@@ -173,7 +170,7 @@ data class CocktailShort2(
         return CocktailsWithFilters(
             cocktailId = cocktailId,
             name = name,
-            filters = filters.map { it.filterId }
+            filters = filters.map { SelectedFilter(it.filterId, it.filterGroupId) }
         )
     }
 }
@@ -181,5 +178,5 @@ data class CocktailShort2(
 data class CocktailsWithFilters(
     val cocktailId: Int,
     val name: String,
-    val filters: List<Int>
+    val filters: List<SelectedFilter>
 )

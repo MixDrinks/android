@@ -19,44 +19,50 @@ import org.mixdrinks.mixdrinks.features.start.filter.ui.main.FilterScreenViewMod
 import org.mixdrinks.mixdrinks.features.start.filter.SelectedFilterStorage
 import org.mixdrinks.mixdrinks.features.start.main.ui.StartScreenViewModel
 import org.mixdrinks.mixdrinks.features.start.filter.FilterRepository
-import org.mixdrinks.mixdrinks.features.start.filter.ui.search.FilterSearchViewModel
+import org.mixdrinks.mixdrinks.features.start.filter.ui.search.FilterSearchScreenViewModel
 
 class App : Application() {
-  override fun onCreate() {
-    super.onCreate()
+    override fun onCreate() {
+        super.onCreate()
 
-    val appModule = module {
-      single {
-        Room.databaseBuilder(
-          androidContext(),
-          AppDatabase::class.java,
-          "mix-drinks-database"
-        ).build()
-      }
-      single<MixDrinkService> { RetrofitClient.retrofit.create(MixDrinkService::class.java) }
+        val appModule = module {
+            single {
+                Room.databaseBuilder(
+                    androidContext(),
+                    AppDatabase::class.java,
+                    "mix-drinks-database"
+                ).build()
+            }
+            single<MixDrinkService> { RetrofitClient.retrofit.create(MixDrinkService::class.java) }
 
-      single { Fetcher (get(), get()) }
+            single { Fetcher(get(), get()) }
 
-        // Repository
-      single { StartRepository(get(), get()) }
-      single { FilterRepository (get(), get()) }
+            // Repository
+            single { StartRepository(get(), get()) }
+            single { FilterRepository(get(), get()) }
 
-      single { SelectedFilterStorage() }
+            single { SelectedFilterStorage() }
 
-      viewModel { StartScreenViewModel(get()) }
-      viewModel { (id: Int) -> DetailScreenCocktailViewModel(cocktailId = id, get(), get()) }
-      viewModel { (id: Int) -> DetailScreenGoodViewModel(goodId = id, get())}
-      viewModel { (id: Int) -> DetailScreenToolViewModel(toolId = id, get()) }
+            viewModel { StartScreenViewModel(get(), get()) }
+            viewModel { (id: Int) -> DetailScreenCocktailViewModel(cocktailId = id, get(), get()) }
+            viewModel { (id: Int) -> DetailScreenGoodViewModel(goodId = id, get()) }
+            viewModel { (id: Int) -> DetailScreenToolViewModel(toolId = id, get()) }
 
-      viewModel { FilterScreenViewModel(get(), get()) }
-      viewModel { FilterSearchViewModel(get(), get()) }
+            viewModel { FilterScreenViewModel(get(), get()) }
+            viewModel { (groupId: Int) ->
+                FilterSearchScreenViewModel(
+                    groupId = groupId,
+                    get(),
+                    get()
+                )
+            }
+        }
+
+        startKoin {
+            androidLogger()
+            androidContext(applicationContext)
+            modules(appModule)
+        }
     }
-
-    startKoin {
-      androidLogger()
-      androidContext(applicationContext)
-      modules(appModule)
-    }
-  }
 }
 

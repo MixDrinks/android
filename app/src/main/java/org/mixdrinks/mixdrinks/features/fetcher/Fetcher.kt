@@ -1,8 +1,6 @@
 package org.mixdrinks.mixdrinks.features.fetcher
 
 import androidx.room.Transaction
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import org.mixdrinks.dto.CocktailDto
 import org.mixdrinks.dto.FilterGroupDto
 import org.mixdrinks.dto.GlasswareDto
@@ -31,16 +29,11 @@ class Fetcher(
     private val cocktailProvider: MixDrinkService,
     private val roomDatabase: AppDatabase,
 ) {
-    private val scope = MainScope()
-
-    init {
-        scope.launch {
-            if (roomDatabase.cocktailDao().getAll().isEmpty()) {
-                insertToDataBase(cocktailProvider.getAllCocktails())
-            }
+    suspend fun startFetch() {
+        if (roomDatabase.cocktailDao().getAll().isEmpty()) {
+            insertToDataBase(cocktailProvider.getAllCocktails())
         }
     }
-
     private suspend fun insertToDataBase(snapshot: SnapshotDto) {
         insertAllGlasswares(snapshot.glassware)
         insertAllGoods(snapshot.goods)
@@ -176,7 +169,8 @@ class Fetcher(
                     it.cocktailIds.map { cocktailId ->
                         FilterWithCocktailIds(
                             filterId = it.id.value,
-                            cocktailId = cocktailId.id
+                            cocktailId = cocktailId.id,
+                            filterGroupId = item.id.value
                         )
                     }
                 )

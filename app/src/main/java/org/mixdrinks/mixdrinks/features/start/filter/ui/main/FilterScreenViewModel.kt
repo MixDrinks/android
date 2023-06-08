@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.mixdrinks.mixdrinks.features.data.FilterGroupFull
+import org.mixdrinks.mixdrinks.features.data.SelectedFilter
 import org.mixdrinks.mixdrinks.features.start.filter.FilterRepository
 import org.mixdrinks.mixdrinks.features.start.filter.SelectedFilterStorage
 import java.io.IOException
@@ -50,8 +51,8 @@ class FilterScreenViewModel(
         class Error(val message: String) : FilterUiState()
     }
 
-    fun checkedAction(id: Int) {
-        filterStorage.add(id)
+    fun checkedAction(selectedFilter: SelectedFilter) {
+        filterStorage.add(selectedFilter)
     }
 
     fun clearFilters() {

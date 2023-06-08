@@ -3,18 +3,22 @@ package org.mixdrinks.mixdrinks.features.start.filter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import org.mixdrinks.mixdrinks.features.data.SelectedFilter
 
-class SelectedFilterStorage {
-    private val _selectedFilters = MutableStateFlow(mutableListOf<Int>())
-    val selectedFilters: StateFlow<MutableList<Int>> = _selectedFilters
+class SelectedFilterStorage() {
+    private val _selectedFilters = MutableStateFlow(mutableListOf<SelectedFilter>())
+    val selectedFilters: StateFlow<MutableList<SelectedFilter>> = _selectedFilters
 
-    fun add(id: Int) {
-        val list = mutableListOf<Int>()
+    fun add(selectedFilter: SelectedFilter) {
+        val list = mutableListOf<SelectedFilter>()
         list.addAll((_selectedFilters.value))
-        if(list.find { it == id } == null) {
-            list.add(id)
+        if (list.find {
+                it.filterId == selectedFilter.filterId && it.filterGroupId == selectedFilter.filterGroupId
+            } == null
+        ) {
+            list.add(selectedFilter)
         } else {
-            list.remove(id)
+            list.remove(selectedFilter)
         }
 
         _selectedFilters.update {
@@ -28,10 +32,11 @@ class SelectedFilterStorage {
         }
     }
 
-    fun onClickTag(id: Int) {
+    fun onClickTag(selectedFilter: SelectedFilter) {
         _selectedFilters.update {
-            mutableListOf(id)
+            mutableListOf(selectedFilter)
         }
     }
+
 }
 

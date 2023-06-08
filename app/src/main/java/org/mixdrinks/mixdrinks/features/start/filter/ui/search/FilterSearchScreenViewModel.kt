@@ -7,46 +7,55 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.mixdrinks.mixdrinks.features.data.FilterGroupFull
+import org.mixdrinks.mixdrinks.features.data.SelectedFilter
 import org.mixdrinks.mixdrinks.features.start.filter.FilterRepository
 import org.mixdrinks.mixdrinks.features.start.filter.SelectedFilterStorage
-import org.mixdrinks.mixdrinks.features.start.filter.ui.main.FilterItemUiState
 
-class FilterSearchViewModel(
+class FilterSearchScreenViewModel(
+    private val groupId: Int,
     private val filterRepository: FilterRepository,
     private val filterStorage: SelectedFilterStorage
 ) : ViewModel() {
-    private lateinit var filtersByGroup: List<FilterGroupFull.Filter>
-
     private val _uiState = MutableStateFlow<FilterUiState>(
         FilterUiState.Loading
     )
     val uiState: StateFlow<FilterUiState> = _uiState
+    private var searchText = ""
 
     init {
         viewModelScope.launch {
-            val data = filterRepository.getFilters()
-            filtersByGroup = data.first { it.id == 1 }.filters
-
             filterStorage.selectedFilters.collect {
                 updateFilters()
             }
         }
     }
 
-    private suspend fun updateFilters() {
-        _uiState.update {
-            FilterUiState.Loaded(FilterItemUiState(filterRepository.getFilters()))
+    private fun updateFilters() {
+        viewModelScope.launch {
+            _uiState.update {
+                FilterUiState.Loaded(FilterSearchItemUiState(filterRepository.getFiltersByGroupId(groupId,searchText)))
+            }
         }
     }
 
-    fun checkedAction(id: Int) {
-        filterStorage.add(id)
-    }
-    sealed class FilterUiState {
-        object Loading : FilterUiState()
-        class Loaded(val itemState: FilterItemUiState) : FilterUiState()
-        class Error(val message: String) : FilterUiState()
+    fun searchAction(search: String) {
+        searchText = search
+        updateFilters()
     }
 
+
+    fun checkedAction(selectedFilter: SelectedFilter) {
+        filterStorage.add(selectedFilter)
+    }
+
+    sealed class FilterUiState {
+        object Loading : FilterUiState()
+        class Loaded(val itemState: FilterSearchItemUiState) : FilterUiState()
+        class Error(val message: String) : FilterUiState()
+    }
 }
+
+data class FilterSearchItemUiState(
+    val filters: List<FilterGroupFull.Filter>
+)
 

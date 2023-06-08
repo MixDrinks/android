@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.mixdrinks.mixdrinks.database.AppDatabase
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
+import org.mixdrinks.mixdrinks.features.data.SelectedFilter
 import org.mixdrinks.mixdrinks.features.start.filter.SelectedFilterStorage
 import java.io.IOException
 
@@ -48,7 +49,9 @@ class DetailScreenCocktailViewModel(
     }
 
     fun onClickTag(id: Int) {
-        filterStorage.onClickTag(id)
+        // Filter group for tags is 0 in Database
+        val filterGroupId = 0
+        filterStorage.onClickTag(SelectedFilter(filterId = id, filterGroupId = filterGroupId))
     }
 
     sealed class DetailUiState {

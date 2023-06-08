@@ -5,21 +5,18 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import org.koin.androidx.compose.get
 import org.mixdrinks.mixdrinks.app.ui.theme.MixDrinksTheme
 import org.mixdrinks.mixdrinks.features.common.ui.NotFoundScreen
 import org.mixdrinks.mixdrinks.features.detail.ui.cocktail.DetailScreen
 import org.mixdrinks.mixdrinks.features.detail.ui.good.DetailScreenGood
 import org.mixdrinks.mixdrinks.features.detail.ui.tool.DetailScreenTool
-import org.mixdrinks.mixdrinks.features.fetcher.Fetcher
-import org.mixdrinks.mixdrinks.features.start.main.ui.StartScreen
 import org.mixdrinks.mixdrinks.features.start.filter.ui.main.FilterScreen
 import org.mixdrinks.mixdrinks.features.start.filter.ui.search.FilterSearchScreen
+import org.mixdrinks.mixdrinks.features.start.main.ui.StartScreen
 
 @Suppress("LongMethod")
 @Composable
 fun MixDrinksApp(modifier: Modifier = Modifier) {
-    Fetcher(get(), get())
     MixDrinksTheme {
         val navController = rememberNavController()
         NavHost(

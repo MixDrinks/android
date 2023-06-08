@@ -44,8 +44,6 @@ data class CocktailFull(
     )
 }
 
-
-
 data class CocktailShort(
     @ColumnInfo(name = "cocktail_id")
     val cocktailId: Int,

@@ -40,6 +40,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 import org.mixdrinks.domain.ImageUrlCreators
 import org.mixdrinks.dto.CocktailId
 import org.mixdrinks.mixdrinks.app.ui.theme.GreenAlfa
@@ -47,33 +48,36 @@ import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.common.ui.widgets.IconTextFieldIcon
 import org.mixdrinks.mixdrinks.features.data.FilterGroupFull
+import org.mixdrinks.mixdrinks.features.data.SelectedFilter
 import org.mixdrinks.mixdrinks.features.start.filter.ui.main.ApplyButton
 
 @Composable
 fun FilterSearchScreen(
     modifier: Modifier,
-    viewModel: FilterSearchViewModel = koinViewModel(),
     groupId: Int,
+    viewModel: FilterSearchScreenViewModel = koinViewModel { parametersOf(groupId) },
     onNavigateToFilter: () -> Unit
 ) {
     val filters by viewModel.uiState.collectAsState()
     when (filters) {
-        is FilterSearchViewModel.FilterUiState.Loaded -> {
-            val data = (filters as FilterSearchViewModel.FilterUiState.Loaded).itemState
+        is FilterSearchScreenViewModel.FilterUiState.Loaded -> {
+            val data = (filters as FilterSearchScreenViewModel.FilterUiState.Loaded).itemState
+
             FilterSearchScreenData(
                 modifier = modifier,
-                filters = data.filters.first { it.id == groupId }.filters,
+                filters = data.filters,
+                filterGroupId = groupId,
                 onNavigateToFilter = onNavigateToFilter,
                 viewModel = viewModel
             )
         }
 
-        is FilterSearchViewModel.FilterUiState.Loading -> {
+        is FilterSearchScreenViewModel.FilterUiState.Loading -> {
             LoaderIndicatorScreen(modifier = modifier)
         }
 
         else -> {
-            val error = filters as FilterSearchViewModel.FilterUiState.Error
+            val error = filters as FilterSearchScreenViewModel.FilterUiState.Error
             Log.d("Exception", error.message)
             ErrorLoadingScreen(modifier = modifier)
         }
@@ -85,7 +89,8 @@ fun FilterSearchScreenData(
     modifier: Modifier,
     onNavigateToFilter: () -> Unit,
     filters: List<FilterGroupFull.Filter>,
-    viewModel: FilterSearchViewModel
+    filterGroupId: Int,
+    viewModel: FilterSearchScreenViewModel
 ) {
     Box(
         modifier = modifier
@@ -100,7 +105,9 @@ fun FilterSearchScreenData(
                 .fillMaxSize()
                 .padding(horizontal = 12.dp),
         ) {
-            SearchTextField(modifier = modifier)
+            SearchTextField(modifier = modifier,
+                searchAction = { viewModel.searchAction(it) }
+            )
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -119,7 +126,14 @@ fun FilterSearchScreenData(
                         itemContent = { filters ->
                             FilterItem(
                                 modifier = modifier, filter = filters,
-                                onClick = { viewModel.checkedAction(it) }
+                                onClick = {
+                                    viewModel.checkedAction(
+                                        SelectedFilter(
+                                            filterId = it,
+                                            filterGroupId = filterGroupId
+                                        )
+                                    )
+                                }
                             )
                         })
                 }
@@ -130,7 +144,10 @@ fun FilterSearchScreenData(
 }
 
 @Composable
-fun SearchTextField(modifier: Modifier) {
+fun SearchTextField(
+    modifier: Modifier,
+    searchAction: (searchText: String) -> Unit,
+) {
     var textState by rememberSaveable { mutableStateOf("") }
 
     TextField(
@@ -145,6 +162,7 @@ fun SearchTextField(modifier: Modifier) {
         value = textState,
         onValueChange = {
             textState = it
+            searchAction(textState)
         },
         modifier = modifier
             .fillMaxWidth()
@@ -153,6 +171,7 @@ fun SearchTextField(modifier: Modifier) {
         trailingIcon = {
             IconTextFieldIcon(text = textState, onClick = {
                 textState = ""
+                searchAction(textState)
             })
         },
     )
