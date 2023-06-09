@@ -118,7 +118,6 @@ fun DetailsScreenData(
 
         CocktailRecipeContent(
             modifier = modifier,
-            cocktailName = data.cocktail.name,
             cocktailReceipt = data.cocktail.receipt
         )
         Spacer(modifier = modifier.padding(top = 10.dp))
@@ -131,9 +130,8 @@ fun DetailsScreenData(
         )
         Spacer(modifier = modifier.padding(top = 15.dp))
 
-        CocktailNeedToolsContent(
+        CocktailToolsContent(
             modifier = modifier,
-            cocktailName = data.cocktail.name,
             cocktailTools = data.cocktail.tools,
             glassware = data.cocktail.glassware,
             onClick = onNavigateToDetailTool
@@ -155,14 +153,14 @@ private fun CocktailIngredientsContent(
     ) {
         Text(
             style = MaterialTheme.typography.h2,
-            text = "${stringResource(R.string.cocktail_ingredients)} ${data.cocktail.name}"
+            text = stringResource(R.string.cocktail_ingredients)
         )
     }
 
     Spacer(modifier = modifier.padding(top = 15.dp))
     CocktailPortions(modifier = modifier, viewModel = viewModel, data = data )
     Spacer(modifier = modifier.padding(bottom = 15.dp))
-    GoodsListItem(
+    GoodsListItems(
         modifier = modifier,
         onClick = onClick,
         data = data
@@ -202,9 +200,8 @@ private fun CocktailPortions(
 }
 
 @Composable
-fun CocktailNeedToolsContent(
+fun CocktailToolsContent(
     modifier: Modifier,
-    cocktailName: String,
     cocktailTools: List<CocktailFull.Tool>,
     glassware: CocktailFull.Glassware,
     onClick: (id: Int) -> Unit
@@ -216,11 +213,11 @@ fun CocktailNeedToolsContent(
     ) {
         Text(
             style = MaterialTheme.typography.h2,
-            text = "${stringResource(R.string.need_tools)} $cocktailName"
+            text = stringResource(R.string.need_tools)
         )
     }
     Spacer(modifier = modifier.padding(bottom = 15.dp))
-    ToolsListItem(
+    ToolsListItems(
         modifier = modifier,
         tools = cocktailTools,
         glassware = glassware,

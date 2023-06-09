@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="failure_connecting">Помилка підключення</string>
-    <string name="cocktail_recipe">Рецепт Коктейлю</string>
-    <string name="cocktail_ingredients">Склад коктейлю</string>
-    <string name="need_tools">Потрібні штучки для пригоування</string>
+    <string name="cocktail_recipe">Рецепт</string>
+    <string name="cocktail_ingredients">Склад</string>
+    <string name="need_tools">Інструменти</string>
     <string name="visit_count">Перегляди</string>
     <string name="search_hint">Пошук</string>
     <string name="error_loading">Помилка завантаження. Перевірте підключення до Інтернету</string>

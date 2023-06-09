@@ -24,11 +24,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import org.mixdrinks.domain.ImageUrlCreators
+import org.mixdrinks.dto.GoodId
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
 
 @Suppress("MagicNumber")
 @Composable
-fun GoodsListItem(
+fun GoodsListItems(
     modifier: Modifier,
     data: DetailItemUiState,
     onClick: (id: Int) -> Unit
@@ -78,9 +79,8 @@ fun GoodsListItem(
     }
 }
 
-@Suppress("UnusedPrivateMember")
 @Composable
-fun ToolsListItem(
+fun ToolsListItems(
     modifier: Modifier,
     tools: List<CocktailFull.Tool>,
     glassware: CocktailFull.Glassware,
@@ -91,34 +91,48 @@ fun ToolsListItem(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier.height(180.dp)
     ) {
+        item {
+            ToolsListItem(modifier = modifier, id = glassware.id.value, name = glassware.name, onClick = onClick)
+
+        }
         items(tools) { item ->
-            Card(
+            ToolsListItem(modifier = modifier, id = item.id.id, name = item.name, onClick = onClick)
+        }
+    }
+}
+
+@Composable
+fun ToolsListItem(
+    modifier: Modifier,
+    id: Int,
+    name: String,
+    onClick: (id: Int) -> Unit
+) {
+    Card(
+        modifier = modifier
+            .clickable { onClick(id) },
+    ) {
+        Column(
+            modifier = modifier
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            ImageItem(
+                modifier = modifier,
+                ImageUrlCreators.createUrl(
+                    GoodId(id),
+                    ImageUrlCreators.Size.SIZE_320
+                )
+            )
+            Row(
                 modifier = modifier
-                    .clickable { onClick(item.id.id) },
+                    .fillMaxWidth(1f),
+                horizontalArrangement = Arrangement.Start
             ) {
-                Column(
-                    modifier = modifier
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    ImageItem(
-                        modifier = modifier,
-                        ImageUrlCreators.createUrl(
-                            item.id,
-                            ImageUrlCreators.Size.SIZE_320
-                        )
-                    )
-                    Row(
-                        modifier = modifier
-                            .fillMaxWidth(1f),
-                        horizontalArrangement = Arrangement.Start
-                    ) {
-                        Text(
-                            style = MaterialTheme.typography.body1,
-                            text = item.name,
-                        )
-                    }
-                }
+                Text(
+                    style = MaterialTheme.typography.body1,
+                    text = name,
+                )
             }
         }
     }

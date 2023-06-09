@@ -2,9 +2,9 @@
     <string name="app_name" translatable="false">MixDrinks</string>
 
     <string name="failure_connecting">Failure connecting</string>
-    <string name="cocktail_recipe">Cocktail recipe</string>
-    <string name="cocktail_ingredients">Ingredients of the cocktail</string>
-    <string name="need_tools">Need tools for cooking cocktail</string>
+    <string name="cocktail_recipe">Recipe</string>
+    <string name="cocktail_ingredients">Ingredients</string>
+    <string name="need_tools">Tools</string>
     <string name="visit_count">Visit count</string>
     <string name="search_hint">Search</string>
     <string name="error_loading">Error loading. Please check internet connection</string>
