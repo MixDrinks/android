@@ -39,18 +39,18 @@ fun DetailScreenGood(
     onBack: () -> Unit,
     viewModel: DetailScreenGoodViewModel = koinViewModel { parametersOf(goodType) },
 ) {
-    val cocktail by viewModel.uiState.collectAsState()
+    val good by viewModel.uiState.collectAsState()
 
-    when(cocktail) {
+    when(good) {
         is DetailScreenGoodViewModel.DetailGoodUiState.Loaded -> {
-            val data = (cocktail as DetailScreenGoodViewModel.DetailGoodUiState.Loaded).itemState
+            val data = (good as DetailScreenGoodViewModel.DetailGoodUiState.Loaded).itemState
             DetailScreenGoodData(modifier = modifier, data.good, onBack = onBack)
         }
         is DetailScreenGoodViewModel.DetailGoodUiState.Loading -> {
             LoaderIndicatorScreen(modifier = modifier)
         }
         else -> {
-            val error = cocktail as DetailScreenGoodViewModel.DetailGoodUiState.Error
+            val error = good as DetailScreenGoodViewModel.DetailGoodUiState.Error
             Log.d("Exception", error.message)
             ErrorLoadingScreen(modifier = modifier)
         }
