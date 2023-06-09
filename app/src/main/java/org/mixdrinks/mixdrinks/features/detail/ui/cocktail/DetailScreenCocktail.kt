@@ -44,7 +44,7 @@ fun DetailScreen(
 ) {
     val cocktail by viewModel.uiState.collectAsState()
 
-    when(cocktail) {
+    when (cocktail) {
         is DetailScreenCocktailViewModel.DetailUiState.Loaded -> {
             val data = (cocktail as DetailScreenCocktailViewModel.DetailUiState.Loaded).itemState
             DetailsScreenData(
@@ -57,9 +57,11 @@ fun DetailScreen(
                 onClickTagAction = onNavigateToStart
             )
         }
+
         is DetailScreenCocktailViewModel.DetailUiState.Loading -> {
             LoaderIndicatorScreen(modifier = modifier)
         }
+
         else -> {
             val error = cocktail as DetailScreenCocktailViewModel.DetailUiState.Error
             Log.d("Exception", error.message)
@@ -78,7 +80,7 @@ fun DetailsScreenData(
     onBack: () -> Unit,
     viewModel: DetailScreenCocktailViewModel,
     onClickTagAction: () -> Unit,
-    ) {
+) {
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
@@ -96,7 +98,7 @@ fun DetailsScreenData(
         TagListItem(
             modifier = modifier,
             listTags = data.cocktail.tags,
-            onClickAction = {tagId ->
+            onClickAction = { tagId ->
                 viewModel.onClickTag(tagId)
                 onClickTagAction()
             }
@@ -158,7 +160,7 @@ private fun CocktailIngredientsContent(
     }
 
     Spacer(modifier = modifier.padding(top = 15.dp))
-    CocktailPortions(modifier = modifier, viewModel = viewModel, data = data )
+    CocktailPortions(modifier = modifier, viewModel = viewModel, data = data)
     Spacer(modifier = modifier.padding(bottom = 15.dp))
     GoodsListItems(
         modifier = modifier,
@@ -175,10 +177,10 @@ private fun CocktailPortions(
 ) {
     Row {
         SquareMarker(
-        modifier = modifier
-            .clickable {
-                viewModel.decPortion()
-            },
+            modifier = modifier
+                .clickable {
+                    viewModel.decPortion()
+                },
             text = "-",
         )
         Spacer(modifier = modifier.padding(5.dp))
