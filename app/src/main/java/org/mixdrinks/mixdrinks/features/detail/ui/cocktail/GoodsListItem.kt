@@ -26,13 +26,14 @@ import coil.compose.AsyncImage
 import org.mixdrinks.domain.ImageUrlCreators
 import org.mixdrinks.dto.GoodId
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
+import org.mixdrinks.mixdrinks.features.data.GoodType
 
 @Suppress("MagicNumber")
 @Composable
 fun GoodsListItems(
     modifier: Modifier,
     data: DetailItemUiState,
-    onClick: (id: Int) -> Unit
+    onClick: (goodType: GoodType) -> Unit
 ) {
     LazyHorizontalGrid(
         rows = GridCells.Fixed(1),
@@ -42,7 +43,7 @@ fun GoodsListItems(
         items(data.cocktail.goods) { item ->
             Card(
                 modifier = modifier
-                    .clickable { onClick(item.id.id) },
+                    .clickable { onClick(GoodType(id = item.id.id, type = GoodType.Type.GOOD)) },
             ) {
                 Column(
                     modifier = modifier
@@ -84,7 +85,7 @@ fun ToolsListItems(
     modifier: Modifier,
     tools: List<CocktailFull.Tool>,
     glassware: CocktailFull.Glassware,
-    onClick: (id: Int) -> Unit
+    onClick: (goodType: GoodType) -> Unit
 ) {
     LazyHorizontalGrid(
         rows = GridCells.Fixed(1),
@@ -92,11 +93,19 @@ fun ToolsListItems(
         modifier = modifier.height(180.dp)
     ) {
         item {
-            ToolsListItem(modifier = modifier, id = glassware.id.value, name = glassware.name, onClick = onClick)
-
+            ToolsListItem(
+                modifier = modifier,
+                id = glassware.id.value,
+                name = glassware.name,
+                type = GoodType.Type.GLASSWARE,
+                onClick = onClick
+            )
         }
         items(tools) { item ->
-            ToolsListItem(modifier = modifier, id = item.id.id, name = item.name, onClick = onClick)
+            ToolsListItem(
+                modifier = modifier, id = item.id.id,
+                name = item.name, type = GoodType.Type.TOOL, onClick = onClick
+            )
         }
     }
 }
@@ -106,11 +115,14 @@ fun ToolsListItem(
     modifier: Modifier,
     id: Int,
     name: String,
-    onClick: (id: Int) -> Unit
+    type: GoodType.Type,
+    onClick: (goodType: GoodType) -> Unit
 ) {
     Card(
         modifier = modifier
-            .clickable { onClick(id) },
+            .clickable {
+                onClick(GoodType(id = id, type))
+            },
     ) {
         Column(
             modifier = modifier

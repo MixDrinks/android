@@ -24,18 +24,20 @@ import coil.compose.AsyncImage
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import org.mixdrinks.domain.ImageUrlCreators
+import org.mixdrinks.dto.GoodId
 import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.data.DetailGood
+import org.mixdrinks.mixdrinks.features.data.GoodType
 import org.mixdrinks.mixdrinks.features.detail.ui.Header
 
 @Composable
 fun DetailScreenGood(
     modifier: Modifier,
-    goodId: Int,
+    goodType: GoodType,
     onBack: () -> Unit,
-    viewModel: DetailScreenGoodViewModel = koinViewModel { parametersOf(goodId) },
+    viewModel: DetailScreenGoodViewModel = koinViewModel { parametersOf(goodType) },
 ) {
     val cocktail by viewModel.uiState.collectAsState()
 
@@ -74,7 +76,7 @@ fun DetailScreenGoodData(modifier: Modifier, good: DetailGood, onBack: () -> Uni
 
         AsyncImage(
             model = ImageUrlCreators.createUrl(
-                good.id,
+                GoodId(good.id),
                 ImageUrlCreators.Size.SIZE_320
             ),
             contentDescription = null,

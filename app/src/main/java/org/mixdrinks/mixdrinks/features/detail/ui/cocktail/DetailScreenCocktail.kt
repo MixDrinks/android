@@ -29,6 +29,7 @@ import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
+import org.mixdrinks.mixdrinks.features.data.GoodType
 import org.mixdrinks.mixdrinks.features.detail.ui.Header
 
 @Suppress("LongParameterList")
@@ -36,8 +37,7 @@ import org.mixdrinks.mixdrinks.features.detail.ui.Header
 fun DetailScreen(
     modifier: Modifier,
     cocktailId: Int,
-    onNavigateToDetailGood: (id: Int) -> Unit,
-    onNavigateToDetailTool: (id: Int) -> Unit,
+    onNavigateToDetailGood: (goodType: GoodType) -> Unit,
     onBack: () -> Unit,
     onNavigateToStart: () -> Unit,
     viewModel: DetailScreenCocktailViewModel = koinViewModel { parametersOf(cocktailId) },
@@ -50,7 +50,6 @@ fun DetailScreen(
             DetailsScreenData(
                 modifier = modifier,
                 data = data,
-                onNavigateToDetailTool = onNavigateToDetailTool,
                 onNavigateToDetailGood = onNavigateToDetailGood,
                 onBack = onBack,
                 viewModel = viewModel,
@@ -75,8 +74,7 @@ fun DetailScreen(
 fun DetailsScreenData(
     modifier: Modifier,
     data: DetailItemUiState,
-    onNavigateToDetailGood: (id: Int) -> Unit,
-    onNavigateToDetailTool: (id: Int) -> Unit,
+    onNavigateToDetailGood: (goodType: GoodType) -> Unit,
     onBack: () -> Unit,
     viewModel: DetailScreenCocktailViewModel,
     onClickTagAction: () -> Unit,
@@ -136,7 +134,7 @@ fun DetailsScreenData(
             modifier = modifier,
             cocktailTools = data.cocktail.tools,
             glassware = data.cocktail.glassware,
-            onClick = onNavigateToDetailTool
+            onClick = onNavigateToDetailGood
         )
     }
 }
@@ -144,7 +142,7 @@ fun DetailsScreenData(
 @Composable
 private fun CocktailIngredientsContent(
     modifier: Modifier,
-    onClick: (id: Int) -> Unit,
+    onClick: (goodType: GoodType) -> Unit,
     viewModel: DetailScreenCocktailViewModel,
     data: DetailItemUiState
 ) {
@@ -206,7 +204,7 @@ fun CocktailToolsContent(
     modifier: Modifier,
     cocktailTools: List<CocktailFull.Tool>,
     glassware: CocktailFull.Glassware,
-    onClick: (id: Int) -> Unit
+    onClick: (goodType: GoodType) -> Unit
 ) {
     Row(
         modifier = modifier

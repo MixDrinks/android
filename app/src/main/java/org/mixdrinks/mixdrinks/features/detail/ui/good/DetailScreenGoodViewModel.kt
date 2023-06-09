@@ -5,14 +5,14 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.mixdrinks.dto.GoodId
 import org.mixdrinks.mixdrinks.database.AppDatabase
 import org.mixdrinks.mixdrinks.features.data.DetailGood
+import org.mixdrinks.mixdrinks.features.data.GoodType
 import java.io.IOException
 
 @Suppress("TooGenericExceptionCaught")
 class DetailScreenGoodViewModel(
-    private val goodId: Int,
+    private val goodType: GoodType,
     private val roomDatabase: AppDatabase,
 ) : ViewModel() {
 
@@ -24,17 +24,26 @@ class DetailScreenGoodViewModel(
 
         viewModelScope.launch {
             try {
-                val result = roomDatabase.goodDao().getGoodById(goodId)
+                val result = when (goodType.type) {
+                    GoodType.Type.GOOD -> {
+                        val good = roomDatabase.goodDao().getGoodById(goodType.id)
+                        DetailGood(id = good.goodId, name = good.name, about = good.about)
+                    }
 
-                _uiState.value = DetailGoodUiState.Loaded(
-                    DetailGoodItemUiState(
+                    GoodType.Type.TOOL -> {
+                        val tool = roomDatabase.toolDao().getToolById(goodType.id)
+                        DetailGood(id = tool.toolId, name = tool.name, about = tool.about)
+                    }
+
+                    GoodType.Type.GLASSWARE -> {
+                        val glassware = roomDatabase.glasswareDao().getById(goodType.id)
                         DetailGood(
-                            id = GoodId(result.goodId),
-                            name = result.name,
-                            about = result.about
+                            id = glassware.glasswareId, name = glassware.name,
+                            about = glassware.about
                         )
-                    )
-                )
+                    }
+                }
+                _uiState.value = DetailGoodUiState.Loaded(DetailGoodItemUiState(result))
             } catch (error: IOException) {
                 _uiState.value = DetailGoodUiState.Error(error.toString())
             } catch (error: Exception) {

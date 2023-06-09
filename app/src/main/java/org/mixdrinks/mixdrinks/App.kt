@@ -9,10 +9,10 @@ import org.koin.core.context.GlobalContext.startKoin
 import org.koin.dsl.module
 import org.mixdrinks.mixdrinks.app.RetrofitClient
 import org.mixdrinks.mixdrinks.database.AppDatabase
+import org.mixdrinks.mixdrinks.features.data.GoodType
 import org.mixdrinks.mixdrinks.features.data.MixDrinkService
 import org.mixdrinks.mixdrinks.features.detail.ui.cocktail.DetailScreenCocktailViewModel
 import org.mixdrinks.mixdrinks.features.detail.ui.good.DetailScreenGoodViewModel
-import org.mixdrinks.mixdrinks.features.detail.ui.tool.DetailScreenToolViewModel
 import org.mixdrinks.mixdrinks.features.fetcher.Fetcher
 import org.mixdrinks.mixdrinks.features.start.StartRepository
 import org.mixdrinks.mixdrinks.features.start.filter.ui.main.FilterScreenViewModel
@@ -45,8 +45,7 @@ class App : Application() {
 
             viewModel { StartScreenViewModel(get(), get()) }
             viewModel { (id: Int) -> DetailScreenCocktailViewModel(cocktailId = id, get(), get()) }
-            viewModel { (id: Int) -> DetailScreenGoodViewModel(goodId = id, get()) }
-            viewModel { (id: Int) -> DetailScreenToolViewModel(toolId = id, get()) }
+            viewModel { (goodType: GoodType) -> DetailScreenGoodViewModel(goodType = goodType, get()) }
 
             viewModel { FilterScreenViewModel(get(), get()) }
             viewModel { (groupId: Int) ->
