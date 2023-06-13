@@ -9,7 +9,7 @@ import org.mixdrinks.mixdrinks.app.ui.theme.MixDrinksTheme
 import org.mixdrinks.mixdrinks.features.common.ui.NotFoundScreen
 import org.mixdrinks.mixdrinks.features.data.GoodType
 import org.mixdrinks.mixdrinks.features.detail.ui.cocktail.DetailScreen
-import org.mixdrinks.mixdrinks.features.detail.ui.good.DetailScreenGood
+import org.mixdrinks.mixdrinks.features.detail.ui.goods.DetailScreenGoods
 import org.mixdrinks.mixdrinks.features.start.filter.ui.main.FilterScreen
 import org.mixdrinks.mixdrinks.features.start.filter.ui.search.FilterSearchScreen
 import org.mixdrinks.mixdrinks.features.start.main.ui.StartScreen
@@ -45,7 +45,7 @@ fun MixDrinksApp(modifier: Modifier = Modifier) {
                 val goodType = backStackEntry.arguments?.getString(Routes.goodType)
 
                 if (goodId != null && goodType != null)
-                    DetailScreenGood(
+                    DetailScreenGoods(
                         modifier = modifier,
                         goodType = GoodType(id = goodId.toInt(), GoodType.Type.fromString(goodType)),
                         onBack = { navController.popBackStack() })

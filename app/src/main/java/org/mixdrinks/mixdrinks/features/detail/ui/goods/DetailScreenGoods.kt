@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.detail.ui.good
+package org.mixdrinks.mixdrinks.features.detail.ui.goods
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -33,24 +33,24 @@ import org.mixdrinks.mixdrinks.features.data.GoodType
 import org.mixdrinks.mixdrinks.features.detail.ui.Header
 
 @Composable
-fun DetailScreenGood(
+fun DetailScreenGoods(
     modifier: Modifier,
     goodType: GoodType,
     onBack: () -> Unit,
-    viewModel: DetailScreenGoodViewModel = koinViewModel { parametersOf(goodType) },
+    viewModel: DetailScreenGoodsViewModel = koinViewModel { parametersOf(goodType) },
 ) {
     val good by viewModel.uiState.collectAsState()
 
     when(good) {
-        is DetailScreenGoodViewModel.DetailGoodUiState.Loaded -> {
-            val data = (good as DetailScreenGoodViewModel.DetailGoodUiState.Loaded).itemState
-            DetailScreenGoodData(modifier = modifier, data.good, onBack = onBack)
+        is DetailScreenGoodsViewModel.DetailGoodUiState.Loaded -> {
+            val data = (good as DetailScreenGoodsViewModel.DetailGoodUiState.Loaded).itemState
+            DetailScreenGoodsData(modifier = modifier, data.good, onBack = onBack)
         }
-        is DetailScreenGoodViewModel.DetailGoodUiState.Loading -> {
+        is DetailScreenGoodsViewModel.DetailGoodUiState.Loading -> {
             LoaderIndicatorScreen(modifier = modifier)
         }
         else -> {
-            val error = good as DetailScreenGoodViewModel.DetailGoodUiState.Error
+            val error = good as DetailScreenGoodsViewModel.DetailGoodUiState.Error
             Log.d("Exception", error.message)
             ErrorLoadingScreen(modifier = modifier)
         }
@@ -59,7 +59,7 @@ fun DetailScreenGood(
 
 @Suppress("MagicNumber")
 @Composable
-fun DetailScreenGoodData(modifier: Modifier, good: DetailGood, onBack: () -> Unit) {
+fun DetailScreenGoodsData(modifier: Modifier, good: DetailGood, onBack: () -> Unit) {
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())

@@ -1,4 +1,4 @@
-package org.mixdrinks.mixdrinks.features.detail.ui.good
+package org.mixdrinks.mixdrinks.features.detail.ui.goods
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +11,7 @@ import org.mixdrinks.mixdrinks.features.data.GoodType
 import java.io.IOException
 
 @Suppress("TooGenericExceptionCaught")
-class DetailScreenGoodViewModel(
+class DetailScreenGoodsViewModel(
     private val goodType: GoodType,
     private val roomDatabase: AppDatabase,
 ) : ViewModel() {

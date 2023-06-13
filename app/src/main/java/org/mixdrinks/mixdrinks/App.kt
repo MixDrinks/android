@@ -12,7 +12,7 @@ import org.mixdrinks.mixdrinks.database.AppDatabase
 import org.mixdrinks.mixdrinks.features.data.GoodType
 import org.mixdrinks.mixdrinks.features.data.MixDrinkService
 import org.mixdrinks.mixdrinks.features.detail.ui.cocktail.DetailScreenCocktailViewModel
-import org.mixdrinks.mixdrinks.features.detail.ui.good.DetailScreenGoodViewModel
+import org.mixdrinks.mixdrinks.features.detail.ui.goods.DetailScreenGoodsViewModel
 import org.mixdrinks.mixdrinks.features.fetcher.Fetcher
 import org.mixdrinks.mixdrinks.features.start.StartRepository
 import org.mixdrinks.mixdrinks.features.start.filter.ui.main.FilterScreenViewModel
@@ -45,7 +45,7 @@ class App : Application() {
 
             viewModel { StartScreenViewModel(get(), get()) }
             viewModel { (id: Int) -> DetailScreenCocktailViewModel(cocktailId = id, get(), get()) }
-            viewModel { (goodType: GoodType) -> DetailScreenGoodViewModel(goodType = goodType, get()) }
+            viewModel { (goodType: GoodType) -> DetailScreenGoodsViewModel(goodType = goodType, get()) }
 
             viewModel { FilterScreenViewModel(get(), get()) }
             viewModel { (groupId: Int) ->
