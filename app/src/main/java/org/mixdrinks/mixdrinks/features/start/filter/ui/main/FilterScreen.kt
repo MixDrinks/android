@@ -6,6 +6,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -69,6 +71,7 @@ fun FilterScreen(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Suppress("LongMethod", "MagicNumber")
 @Composable
 fun FilterScreenData(
@@ -107,7 +110,7 @@ fun FilterScreenData(
         }
         Spacer(modifier = modifier.padding(top = 10.dp))
 
-        Box(
+        Row(
             modifier = modifier.weight(1f)
         ) {
             LazyColumn {
@@ -118,42 +121,7 @@ fun FilterScreenData(
                             text = filterGroup.name,
                             style = MaterialTheme.typography.h2
                         )
-                        when {
-                            (filterGroup.filters.size < 10) -> {
-                                filterGroup.filters.forEach { item ->
-                                    FilterItem(
-                                        item,
-                                        onClick = { filterId ->
-                                            viewModel.checkedAction(
-                                                SelectedFilter(
-                                                    filterId = filterId,
-                                                    filterGroupId = filterGroup.id,
-                                                )
-                                            )
-                                        })
-                                }
-                            }
-
-                            else -> {
-                                filterGroup.filters.filter { it.checked }.forEach { item ->
-                                    FilterItem(
-                                        item,
-                                        onClick = { filterId ->
-                                            viewModel.checkedAction(
-                                                SelectedFilter(
-                                                    filterId = filterId,
-                                                    filterGroupId = filterGroup.id,
-                                                )
-                                            )
-                                        })
-                                }
-                                AddButton(
-                                    modifier = modifier,
-                                    text = filterGroup.name,
-                                    onClick = { onClickButtonAddAction(filterGroup.id) }
-                                )
-                            }
-                        }
+                        FilterItems(modifier = modifier, filtersGroup = filterGroup, viewModel = viewModel, onClickButtonAddAction = onClickButtonAddAction)
                     }
                 )
             }
@@ -161,6 +129,56 @@ fun FilterScreenData(
         ApplyButton(modifier = modifier, onClick = onClickButtonApplyAction)
     }
 }
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun FilterItems(
+    modifier: Modifier,
+    filtersGroup: FilterGroupFull,
+    viewModel: FilterScreenViewModel,
+    onClickButtonAddAction: (groupId: Int) -> Unit
+) {
+    FlowRow(modifier = modifier) {
+        when {
+            (filtersGroup.filters.size < 20) -> {
+                filtersGroup.filters.forEach { item ->
+                    FilterItem(
+                        item,
+                        onClick = { filterId ->
+                            viewModel.checkedAction(
+                                SelectedFilter(
+                                    filterId = filterId,
+                                    filterGroupId = filtersGroup.id,
+                                )
+                            )
+                        })
+                }
+
+            }
+
+            else -> {
+                filtersGroup.filters.filter { it.checked }.forEach { item ->
+                    FilterItem(
+                        item,
+                        onClick = { filterId ->
+                            viewModel.checkedAction(
+                                SelectedFilter(
+                                    filterId = filterId,
+                                    filterGroupId = filtersGroup.id,
+                                )
+                            )
+                        })
+                }
+                AddButton(
+                    modifier = modifier,
+                    text = filtersGroup.name,
+                    onClick = { onClickButtonAddAction(filtersGroup.id) }
+                )
+            }
+        }
+    }
+}
+
 
 @Composable
 private fun FilterItem(item: FilterGroupFull.Filter, onClick: (id: Int) -> Unit) {
