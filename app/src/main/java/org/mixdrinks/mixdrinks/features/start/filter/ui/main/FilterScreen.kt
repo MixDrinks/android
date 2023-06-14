@@ -70,9 +70,6 @@ fun FilterScreen(
         }
     }
 }
-
-@OptIn(ExperimentalLayoutApi::class)
-@Suppress("LongMethod", "MagicNumber")
 @Composable
 fun FilterScreenData(
     modifier: Modifier,
