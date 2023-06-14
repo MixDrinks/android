@@ -121,7 +121,12 @@ fun FilterScreenData(
                             text = filterGroup.name,
                             style = MaterialTheme.typography.h2
                         )
-                        FilterItems(modifier = modifier, filtersGroup = filterGroup, viewModel = viewModel, onClickButtonAddAction = onClickButtonAddAction)
+                        FiltersItem(
+                            modifier = modifier,
+                            filtersGroup = filterGroup,
+                            viewModel = viewModel,
+                            onClickButtonAddAction = onClickButtonAddAction
+                        )
                     }
                 )
             }
@@ -132,7 +137,7 @@ fun FilterScreenData(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun FilterItems(
+private fun FiltersItem(
     modifier: Modifier,
     filtersGroup: FilterGroupFull,
     viewModel: FilterScreenViewModel,
@@ -142,7 +147,7 @@ private fun FilterItems(
         when {
             (filtersGroup.filters.size < 20) -> {
                 filtersGroup.filters.forEach { item ->
-                    FilterItem(
+                    ItemFlowRow(
                         item,
                         onClick = { filterId ->
                             viewModel.checkedAction(
@@ -151,14 +156,14 @@ private fun FilterItems(
                                     filterGroupId = filtersGroup.id,
                                 )
                             )
-                        })
+                        }
+                    )
                 }
-
             }
 
             else -> {
                 filtersGroup.filters.filter { it.checked }.forEach { item ->
-                    FilterItem(
+                    ItemFlowRow(
                         item,
                         onClick = { filterId ->
                             viewModel.checkedAction(
@@ -167,7 +172,8 @@ private fun FilterItems(
                                     filterGroupId = filtersGroup.id,
                                 )
                             )
-                        })
+                        }
+                    )
                 }
                 AddButton(
                     modifier = modifier,
@@ -181,7 +187,7 @@ private fun FilterItems(
 
 
 @Composable
-private fun FilterItem(item: FilterGroupFull.Filter, onClick: (id: Int) -> Unit) {
+private fun ItemFlowRow(item: FilterGroupFull.Filter, onClick: (id: Int) -> Unit) {
     OutlinedButton(
         border = BorderStroke(1.dp, MaterialTheme.colors.primary),
         shape = RoundedCornerShape(18.dp),
