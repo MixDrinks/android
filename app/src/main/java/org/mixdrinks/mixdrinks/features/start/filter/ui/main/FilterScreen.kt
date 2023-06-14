@@ -150,7 +150,8 @@ fun FilterScreenData(
                                 AddButton(
                                     modifier = modifier,
                                     text = filterGroup.name,
-                                    onClick = { onClickButtonAddAction(filterGroup.id) })
+                                    onClick = { onClickButtonAddAction(filterGroup.id) }
+                                )
                             }
                         }
                     }
