@@ -133,6 +133,7 @@ fun FilterScreenData(
 }
 
 @OptIn(ExperimentalLayoutApi::class)
+@Suppress("MagicNumber")
 @Composable
 private fun FiltersItem(
     modifier: Modifier,
