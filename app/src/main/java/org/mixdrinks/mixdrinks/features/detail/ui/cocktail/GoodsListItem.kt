@@ -52,7 +52,8 @@ fun GoodsListItems(
                 ) {
                     ImageItem(
                         modifier = modifier,
-                        ImageUrlCreators.createUrl(item.id, ImageUrlCreators.Size.SIZE_320)
+                        ImageUrlCreators.createUrl(item.id, ImageUrlCreators.Size.SIZE_320),
+                        description = item.name
                     )
                     Row(
                         modifier = modifier
@@ -131,10 +132,8 @@ fun ToolsListItem(
         ) {
             ImageItem(
                 modifier = modifier,
-                ImageUrlCreators.createUrl(
-                    GoodId(id),
-                    ImageUrlCreators.Size.SIZE_320
-                )
+                ImageUrlCreators.createUrl(GoodId(id), ImageUrlCreators.Size.SIZE_320 ),
+                description = name
             )
             Row(
                 modifier = modifier
@@ -152,7 +151,7 @@ fun ToolsListItem(
 
 
 @Composable
-fun ImageItem(modifier: Modifier, url: String) {
+private fun ImageItem(modifier: Modifier, url: String, description: String) {
     AsyncImage(
         modifier = modifier
             .border(
@@ -162,7 +161,7 @@ fun ImageItem(modifier: Modifier, url: String) {
             .size(150.dp)
             .padding(5.dp),
         model = url,
-        contentDescription = null,
+        contentDescription = description,
         contentScale = ContentScale.Inside,
     )
 }

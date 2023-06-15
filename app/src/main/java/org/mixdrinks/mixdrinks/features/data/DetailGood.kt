@@ -3,7 +3,8 @@ package org.mixdrinks.mixdrinks.features.data
 data class DetailGood(
     val id: Int,
     val name: String,
-    val about: String
+    val about: String,
+
 )
 data class GoodType(
     val id: Int,

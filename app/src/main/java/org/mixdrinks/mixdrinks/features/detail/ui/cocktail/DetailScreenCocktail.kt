@@ -79,64 +79,67 @@ fun DetailsScreenData(
     viewModel: DetailScreenCocktailViewModel,
     onClickTagAction: () -> Unit,
 ) {
-    Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .fillMaxWidth(1f)
-            .fillMaxHeight(1f)
-            .padding(10.dp)
-    ) {
+    Column {
         Header(
             modifier = modifier,
             text = data.cocktail.name,
             onClick = onBack
         )
-        Spacer(modifier = modifier.padding(5.dp))
-
-        TagListItem(
-            modifier = modifier,
-            listTags = data.cocktail.tags,
-            onClickAction = { tagId ->
-                viewModel.onClickTag(tagId)
-                onClickTagAction()
-            }
-        )
-        Spacer(modifier = modifier.padding(5.dp))
-
-        AsyncImage(
-            model = ImageUrlCreators.createUrl(
-                data.cocktail.id,
-                ImageUrlCreators.Size.SIZE_320
-            ),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
+        Column(
+            modifier = modifier
+                .verticalScroll(rememberScrollState())
                 .fillMaxWidth(1f)
-                .size(width = 300.dp, height = 200.dp),
-        )
-        Spacer(modifier = modifier.padding(top = 20.dp))
+                .fillMaxHeight(1f)
+                .padding(10.dp)
+        ) {
+            Spacer(modifier = modifier.padding(5.dp))
 
-        CocktailRecipeContent(
-            modifier = modifier,
-            cocktailReceipt = data.cocktail.receipt
-        )
-        Spacer(modifier = modifier.padding(top = 10.dp))
+            TagListItem(
+                modifier = modifier,
+                listTags = data.cocktail.tags,
+                onClickAction = { tagId ->
+                    viewModel.onClickTag(tagId)
+                    onClickTagAction()
+                }
+            )
+            Spacer(modifier = modifier.padding(5.dp))
 
-        CocktailIngredientsContent(
-            modifier = modifier,
-            onClick = onNavigateToDetailGood,
-            viewModel = viewModel,
-            data = data
-        )
-        Spacer(modifier = modifier.padding(top = 15.dp))
+            AsyncImage(
+                model = ImageUrlCreators.createUrl(
+                    data.cocktail.id, ImageUrlCreators.Size.SIZE_320
+                ),
+                contentDescription = data.cocktail.name,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth(1f)
+                    .size(width = 300.dp, height = 200.dp),
+            )
+            Spacer(modifier = modifier.padding(top = 20.dp))
 
-        CocktailToolsContent(
-            modifier = modifier,
-            cocktailTools = data.cocktail.tools,
-            glassware = data.cocktail.glassware,
-            onClick = onNavigateToDetailGood
-        )
+            CocktailRecipeContent(
+                modifier = modifier,
+                cocktailReceipt = data.cocktail.receipt
+            )
+            Spacer(modifier = modifier.padding(top = 10.dp))
+
+            CocktailIngredientsContent(
+                modifier = modifier,
+                onClick = onNavigateToDetailGood,
+                viewModel = viewModel,
+                data = data
+            )
+            Spacer(modifier = modifier.padding(top = 15.dp))
+
+            CocktailToolsContent(
+                modifier = modifier,
+                cocktailTools = data.cocktail.tools,
+                glassware = data.cocktail.glassware,
+                onClick = onNavigateToDetailGood
+            )
+        }
     }
+
+
 }
 
 @Composable

@@ -17,9 +17,13 @@ class StartRepository(
             cocktailsFromDatabase = getCocktailFromDatabase()
         }
         cocktails = if (filterStorage.selectedFilters.value.isNotEmpty()) {
-            filterCocktail(cocktailsFromDatabase).map { CocktailShort(it.cocktailId, it.name) }
+            filterCocktail(cocktailsFromDatabase).map {
+                CocktailShort(it.cocktailId, it.name)
+            }
         } else {
-            cocktailsFromDatabase.map { CocktailShort(it.cocktailId, it.name) }
+            cocktailsFromDatabase.map {
+                CocktailShort(it.cocktailId, it.name)
+            }
         }
 
         return cocktails

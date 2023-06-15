@@ -203,7 +203,7 @@ private fun FilterItem(
                 model = ImageUrlCreators.createUrl(
                     CocktailId(filter.id), ImageUrlCreators.Size.SIZE_320
                 ),
-                contentDescription = null,
+                contentDescription = filter.name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .clip(RoundedCornerShape(corner = CornerSize(8.dp)))

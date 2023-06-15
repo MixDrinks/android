@@ -23,7 +23,7 @@ import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.start.main.ui.StartScreenViewModel
 
 @Composable
-fun HeaderScreen(
+fun Header(
     modifier: Modifier,
     onNavigateToFilter: () -> Unit,
     viewModel: StartScreenViewModel,

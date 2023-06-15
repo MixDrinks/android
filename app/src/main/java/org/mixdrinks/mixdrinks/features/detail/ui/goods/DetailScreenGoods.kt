@@ -41,14 +41,16 @@ fun DetailScreenGoods(
 ) {
     val good by viewModel.uiState.collectAsState()
 
-    when(good) {
+    when (good) {
         is DetailScreenGoodsViewModel.DetailGoodUiState.Loaded -> {
             val data = (good as DetailScreenGoodsViewModel.DetailGoodUiState.Loaded).itemState
             DetailScreenGoodsData(modifier = modifier, data.good, onBack = onBack)
         }
+
         is DetailScreenGoodsViewModel.DetailGoodUiState.Loading -> {
             LoaderIndicatorScreen(modifier = modifier)
         }
+
         else -> {
             val error = good as DetailScreenGoodsViewModel.DetailGoodUiState.Error
             Log.d("Exception", error.message)
@@ -60,54 +62,56 @@ fun DetailScreenGoods(
 @Suppress("MagicNumber")
 @Composable
 fun DetailScreenGoodsData(modifier: Modifier, good: DetailGood, onBack: () -> Unit) {
-    Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .fillMaxWidth(1f)
-            .fillMaxHeight(1f)
-            .padding(10.dp)
-    ) {
+    Column {
         Header(
             modifier = modifier,
             text = good.name,
             onClick = onBack
         )
-        Spacer(modifier = modifier.padding(5.dp))
-
-        AsyncImage(
-            model = ImageUrlCreators.createUrl(
-                GoodId(good.id),
-                ImageUrlCreators.Size.SIZE_320
-            ),
-            contentDescription = null,
-            contentScale = ContentScale.FillHeight,
-            modifier = Modifier
+        Column(
+            modifier = modifier
+                .verticalScroll(rememberScrollState())
                 .fillMaxWidth(1f)
-                .height(300.dp),
-        )
-        Spacer(modifier = modifier.padding(top = 20.dp))
-
-        Row(
-            modifier = modifier
-                .fillMaxWidth(1f),
-            horizontalArrangement = Arrangement.Start
+                .fillMaxHeight(1f)
+                .padding(10.dp)
         ) {
-            Text(
-                style = MaterialTheme.typography.h2,
-                text = "${stringResource(R.string.description)} ${good.name}"
-            )
-        }
-        Spacer(modifier = modifier.padding(15.dp))
+            Spacer(modifier = modifier.padding(5.dp))
 
-        Row(
-            modifier = modifier
-                .fillMaxWidth(1f),
-            horizontalArrangement = Arrangement.Start
-        ) {
-            Text(
-                style = MaterialTheme.typography.h3,
-                text = good.about,
+            AsyncImage(
+                model = ImageUrlCreators.createUrl(
+                    GoodId(good.id),
+                    ImageUrlCreators.Size.SIZE_320
+                ),
+                contentDescription = null,
+                contentScale = ContentScale.FillHeight,
+                modifier = Modifier
+                    .fillMaxWidth(1f)
+                    .height(300.dp),
             )
+            Spacer(modifier = modifier.padding(top = 20.dp))
+
+            Row(
+                modifier = modifier
+                    .fillMaxWidth(1f),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Text(
+                    style = MaterialTheme.typography.h2,
+                    text = "${stringResource(R.string.description)} ${good.name}"
+                )
+            }
+            Spacer(modifier = modifier.padding(15.dp))
+
+            Row(
+                modifier = modifier
+                    .fillMaxWidth(1f),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Text(
+                    style = MaterialTheme.typography.h3,
+                    text = good.about,
+                )
+            }
         }
     }
 }
