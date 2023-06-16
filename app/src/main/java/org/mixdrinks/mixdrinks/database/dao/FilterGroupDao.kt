@@ -11,16 +11,15 @@ import org.mixdrinks.mixdrinks.database.entities.FilterGroup
 import org.mixdrinks.mixdrinks.database.entities.FilterWithCocktailIds
 import org.mixdrinks.mixdrinks.database.entities.Filters
 
-
 @Dao
 interface FilterGroupDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     @Transaction
-    suspend fun addAllFilterGroups(filterGroup: List<FilterGroup>)
+    suspend fun addFilterGroup(filterGroup: FilterGroup)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     @Transaction
-    suspend fun addAllFilters(filterGroup: List<Filters>)
+    suspend fun addFilter(filterGroup: Filters)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     @Transaction
@@ -28,15 +27,23 @@ interface FilterGroupDao {
 
     @Query("SELECT * FROM filter_groups")
     suspend fun getAllFilterGroups() : List<FilterGroups>
+
 }
 
 data class FilterGroups(
     @Embedded
     val filterGroup: FilterGroup,
     @Relation(
-        parentColumn = "id",
+        parentColumn = "filter_group_id",
         entityColumn = "filter_group_id",
     )
-    val filters: List<Filters>
+    val filters: List<Filters>,
+    @Relation(
+        parentColumn = "filter_group_id",
+        entityColumn = "filter_group_id",
+    )
+    val cocktailIds: List<FilterWithCocktailIds>,
+
+
 )
 

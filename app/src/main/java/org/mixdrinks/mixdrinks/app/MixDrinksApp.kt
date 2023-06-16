@@ -5,78 +5,70 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import org.koin.androidx.compose.get
-import org.mixdrinks.mixdrinks.features.fetcher.Fetcher
 import org.mixdrinks.mixdrinks.app.ui.theme.MixDrinksTheme
 import org.mixdrinks.mixdrinks.features.common.ui.NotFoundScreen
+import org.mixdrinks.mixdrinks.features.data.GoodType
 import org.mixdrinks.mixdrinks.features.detail.ui.cocktail.DetailScreen
-import org.mixdrinks.mixdrinks.features.detail.ui.good.DetailScreenGood
-import org.mixdrinks.mixdrinks.features.detail.ui.tool.DetailScreenTool
-import org.mixdrinks.mixdrinks.features.filter.ui.FilterScreen
-import org.mixdrinks.mixdrinks.features.start.ui.StartScreen
+import org.mixdrinks.mixdrinks.features.detail.ui.goods.DetailScreenGoods
+import org.mixdrinks.mixdrinks.features.start.filter.ui.main.FilterScreen
+import org.mixdrinks.mixdrinks.features.start.filter.ui.search.FilterSearchScreen
+import org.mixdrinks.mixdrinks.features.start.main.ui.StartScreen
+
 @Suppress("LongMethod")
 @Composable
 fun MixDrinksApp(modifier: Modifier = Modifier) {
-    Fetcher(get(), get())
-
     MixDrinksTheme {
         val navController = rememberNavController()
         NavHost(
-            navController = navController,
-            startDestination = Routes.start
+            navController = navController, startDestination = Routes.start
         ) {
             composable(Routes.start) {
-                StartScreen(
-                    modifier = modifier,
+                StartScreen(modifier = modifier,
                     onNavigateToDetail = { navController.navigate("${Routes.cocktail}/$it") },
                     onNavigateToFilter = { navController.navigate(Routes.filter) },
-                )
+                    onNavigateToStart = { navController.navigate(Routes.start) })
             }
-            composable("${Routes.cocktail}/{${Routes.cocktailId}}") {
-                    backStackEntry ->
+            composable("${Routes.cocktail}/{${Routes.cocktailId}}") { backStackEntry ->
                 val cocktailId = backStackEntry.arguments?.getString(Routes.cocktailId)
-                cocktailId?.toInt()?.let {
-                    DetailScreen(
-                        modifier = modifier,
-                        cocktailId = it,
-                        onNavigateToDetailGood = { navController.navigate("${Routes.good}/$it")},
-                        onNavigateToDetailTool = { navController.navigate("${Routes.tool}/$it")},
-                        onBack = { navController.popBackStack() }
-                    )
+                cocktailId?.toInt()?.let { id ->
+                    DetailScreen(modifier = modifier,
+                        cocktailId = id,
+                        onNavigateToStart = { navController.navigate(Routes.start) },
+                        onNavigateToDetailGood = { goodType ->
+                            navController.navigate("${Routes.good}/${goodType.id}/${goodType.type}")
+                        },
+                        onBack = { navController.popBackStack() })
                 }
             }
-            composable("${Routes.good}/{${Routes.goodId}}") {
-                    backStackEntry ->
+            composable("${Routes.good}/{${Routes.goodId}}/{${Routes.goodType}}") { backStackEntry ->
                 val goodId = backStackEntry.arguments?.getString(Routes.goodId)
-                goodId?.toInt()?.let {
-                    DetailScreenGood(
+                val goodType = backStackEntry.arguments?.getString(Routes.goodType)
+
+                if (goodId != null && goodType != null)
+                    DetailScreenGoods(
                         modifier = modifier,
-                        goodId = it,
-                        onBack = { navController.popBackStack() }
-                    )
-                }
-            }
-            composable("${Routes.tool}/{${Routes.toolId}}") {
-                    backStackEntry ->
-                val toolId = backStackEntry.arguments?.getString(Routes.toolId)
-                toolId?.toInt()?.let {
-                    DetailScreenTool(
-                        modifier = modifier,
-                        toolId = it,
-                        onBack = { navController.popBackStack() }
-                    )
-                }
+                        goodType = GoodType(id = goodId.toInt(), GoodType.Type.fromString(goodType)),
+                        onBack = { navController.popBackStack() })
             }
             composable(Routes.filter) {
-                FilterScreen(
-                    modifier = modifier,
+                FilterScreen(modifier = modifier,
+                    onNavigateToStart = { navController.navigate(Routes.start) },
+                    onNavigateToFilterSearch = { navController.navigate("${Routes.filterSearch}/${it}") }
                 )
             }
+            composable("${Routes.filterSearch}/{${Routes.groupFilterId}}") { backStackEntry ->
+                val groupId = backStackEntry.arguments?.getString(Routes.groupFilterId)
+                groupId?.toInt()?.let {
+                    FilterSearchScreen(
+                        modifier = modifier,
+                        groupId = it,
+                        onNavigateToFilter = { navController.navigate(Routes.filter) },
+                    )
+                }
+            }
             composable(Routes.notFound) {
-                NotFoundScreen(
-                    modifier = modifier,
-                    onNavigateToStart = { navController.navigate(Routes.start) }
-                )
+                NotFoundScreen(modifier = modifier,
+                    onNavigateToStart = { navController.navigate(Routes.start) })
             }
         }
     }

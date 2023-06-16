@@ -29,6 +29,7 @@ import org.mixdrinks.mixdrinks.R
 import org.mixdrinks.mixdrinks.features.common.ui.ErrorLoadingScreen
 import org.mixdrinks.mixdrinks.features.common.ui.LoaderIndicatorScreen
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
+import org.mixdrinks.mixdrinks.features.data.GoodType
 import org.mixdrinks.mixdrinks.features.detail.ui.Header
 
 @Suppress("LongParameterList")
@@ -36,28 +37,30 @@ import org.mixdrinks.mixdrinks.features.detail.ui.Header
 fun DetailScreen(
     modifier: Modifier,
     cocktailId: Int,
-    onNavigateToDetailGood: (id: Int) -> Unit,
-    onNavigateToDetailTool: (id: Int) -> Unit,
+    onNavigateToDetailGood: (goodType: GoodType) -> Unit,
     onBack: () -> Unit,
+    onNavigateToStart: () -> Unit,
     viewModel: DetailScreenCocktailViewModel = koinViewModel { parametersOf(cocktailId) },
 ) {
     val cocktail by viewModel.uiState.collectAsState()
 
-    when(cocktail) {
+    when (cocktail) {
         is DetailScreenCocktailViewModel.DetailUiState.Loaded -> {
             val data = (cocktail as DetailScreenCocktailViewModel.DetailUiState.Loaded).itemState
             DetailsScreenData(
                 modifier = modifier,
                 data = data,
-                onNavigateToDetailTool = onNavigateToDetailTool,
                 onNavigateToDetailGood = onNavigateToDetailGood,
                 onBack = onBack,
-                viewModel = viewModel
+                viewModel = viewModel,
+                onClickTagAction = onNavigateToStart
             )
         }
+
         is DetailScreenCocktailViewModel.DetailUiState.Loading -> {
             LoaderIndicatorScreen(modifier = modifier)
         }
+
         else -> {
             val error = cocktail as DetailScreenCocktailViewModel.DetailUiState.Error
             Log.d("Exception", error.message)
@@ -71,91 +74,92 @@ fun DetailScreen(
 fun DetailsScreenData(
     modifier: Modifier,
     data: DetailItemUiState,
-    onNavigateToDetailGood: (id: Int) -> Unit,
-    onNavigateToDetailTool: (id: Int) -> Unit,
+    onNavigateToDetailGood: (goodType: GoodType) -> Unit,
     onBack: () -> Unit,
-    viewModel: DetailScreenCocktailViewModel
-    ) {
-    Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .fillMaxWidth(1f)
-            .fillMaxHeight(1f)
-            .padding(10.dp)
-    ) {
+    viewModel: DetailScreenCocktailViewModel,
+    onClickTagAction: () -> Unit,
+) {
+    Column {
         Header(
             modifier = modifier,
             text = data.cocktail.name,
             onClick = onBack
         )
-        Spacer(modifier = modifier.padding(5.dp))
-
-        TagListItem(
-            modifier = modifier,
-            listTags = data.cocktail.tags,
-            onClickAction = { Log.d("MyLog", it.toString()) }
-        )
-        Spacer(modifier = modifier.padding(5.dp))
-
-        AsyncImage(
-            model = ImageUrlCreators.createUrl(
-                data.cocktail.id,
-                ImageUrlCreators.Size.SIZE_320
-            ),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
+        Column(
+            modifier = modifier
+                .verticalScroll(rememberScrollState())
                 .fillMaxWidth(1f)
-                .size(width = 300.dp, height = 200.dp),
-        )
-        Spacer(modifier = modifier.padding(top = 20.dp))
+                .fillMaxHeight(1f)
+        ) {
+            TagListItem(
+                modifier = modifier.padding(5.dp),
+                listTags = data.cocktail.tags,
+                onClickAction = { tagId ->
+                    viewModel.onClickTag(tagId)
+                    onClickTagAction()
+                }
+            )
 
-        CocktailRecipeContent(
-            modifier = modifier,
-            cocktailName = data.cocktail.name,
-            cocktailReceipt = data.cocktail.receipt
-        )
-        Spacer(modifier = modifier.padding(top = 10.dp))
+            AsyncImage(
+                model = ImageUrlCreators.createUrl(
+                    data.cocktail.id, ImageUrlCreators.Size.SIZE_320
+                ),
+                contentDescription = data.cocktail.name,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth(1f)
+                    .size(width = 300.dp, height = 200.dp),
+            )
+            Column(modifier = modifier.padding(5.dp)) {
+                CocktailRecipeContent(
+                    modifier = modifier,
+                    cocktailReceipt = data.cocktail.receipt
+                )
+                Spacer(modifier = modifier.padding(top = 10.dp))
 
-        CocktailIngredientsContent(
-            modifier = modifier,
-            onClick = onNavigateToDetailGood,
-            viewModel = viewModel,
-            data = data
-        )
-        Spacer(modifier = modifier.padding(top = 15.dp))
+                CocktailIngredientsContent(
+                    modifier = modifier,
+                    onClick = onNavigateToDetailGood,
+                    viewModel = viewModel,
+                    data = data
+                )
+                Spacer(modifier = modifier.padding(top = 15.dp))
 
-        CocktailNeedToolsContent(
-            modifier = modifier,
-            cocktailName = data.cocktail.name,
-            cocktailTools = data.cocktail.tools,
-            onClick = onNavigateToDetailTool
-        )
+                CocktailToolsContent(
+                    modifier = modifier,
+                    cocktailTools = data.cocktail.tools,
+                    glassware = data.cocktail.glassware,
+                    onClick = onNavigateToDetailGood
+                )
+            }
+        }
     }
+
+
 }
 
 @Composable
 private fun CocktailIngredientsContent(
     modifier: Modifier,
-    onClick: (id: Int) -> Unit,
+    onClick: (goodType: GoodType) -> Unit,
     viewModel: DetailScreenCocktailViewModel,
     data: DetailItemUiState
 ) {
     Row(
         modifier = modifier
-            .fillMaxWidth(1f),
+            .fillMaxWidth(1f)
+            .padding(bottom = 15.dp, top = 10.dp),
         horizontalArrangement = Arrangement.Start
     ) {
         Text(
             style = MaterialTheme.typography.h2,
-            text = "${stringResource(R.string.cocktail_ingredients)} ${data.cocktail.name}"
+            text = stringResource(R.string.cocktail_ingredients)
         )
-    }
+        Spacer(modifier.weight(1f))
+        CocktailPortions(modifier = modifier, viewModel = viewModel, data = data)
 
-    Spacer(modifier = modifier.padding(top = 15.dp))
-    CocktailPortions(modifier = modifier, viewModel = viewModel, data = data )
-    Spacer(modifier = modifier.padding(bottom = 15.dp))
-    GoodsListItem(
+    }
+    GoodsListItems(
         modifier = modifier,
         onClick = onClick,
         data = data
@@ -170,10 +174,10 @@ private fun CocktailPortions(
 ) {
     Row {
         SquareMarker(
-        modifier = modifier
-            .clickable {
-                viewModel.decPortion()
-            },
+            modifier = modifier
+                .clickable {
+                    viewModel.decPortion()
+                },
             text = "-",
         )
         Spacer(modifier = modifier.padding(5.dp))
@@ -195,11 +199,11 @@ private fun CocktailPortions(
 }
 
 @Composable
-fun CocktailNeedToolsContent(
+fun CocktailToolsContent(
     modifier: Modifier,
-    cocktailName: String,
     cocktailTools: List<CocktailFull.Tool>,
-    onClick: (id: Int) -> Unit
+    glassware: CocktailFull.Glassware,
+    onClick: (goodType: GoodType) -> Unit
 ) {
     Row(
         modifier = modifier
@@ -208,14 +212,15 @@ fun CocktailNeedToolsContent(
     ) {
         Text(
             style = MaterialTheme.typography.h2,
-            text = "${stringResource(R.string.need_tools)} $cocktailName"
+            text = stringResource(R.string.need_tools)
         )
     }
     Spacer(modifier = modifier.padding(bottom = 15.dp))
-    ToolsListItem(
+    ToolsListItems(
         modifier = modifier,
         tools = cocktailTools,
-        onCLick = onClick
+        glassware = glassware,
+        onClick = onClick
     )
 }
 

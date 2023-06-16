@@ -9,14 +9,17 @@ import org.mixdrinks.dto.SelectionType
 @Entity(tableName = "filter_groups")
 data class FilterGroup(
     @PrimaryKey
+    @ColumnInfo(name = "filter_group_id")
     val id: Int,
     val name: String,
     val selectionType: SelectionType,
 )
 
-@Entity(tableName = "filters")
+@Entity(
+    tableName = "filters",
+    primaryKeys = ["filter_id", "filter_group_id"],
+    )
 data class Filters(
-    @PrimaryKey
     @ColumnInfo(name = "filter_id")
     val filterId : Int,
     @ColumnInfo(name = "filter_group_id")
@@ -30,8 +33,8 @@ data class Filters(
     foreignKeys = [
         ForeignKey(
             entity = Filters::class,
-            parentColumns = arrayOf("filter_id"),
-            childColumns = arrayOf("filter_id"),
+            parentColumns = arrayOf("filter_id", "filter_group_id"),
+            childColumns = arrayOf("filter_id", "filter_group_id"),
             onDelete = ForeignKey.CASCADE,
             onUpdate = ForeignKey.CASCADE
         ),
@@ -47,6 +50,8 @@ data class Filters(
 data class FilterWithCocktailIds(
     @ColumnInfo(name = "filter_id")
     val filterId : Int,
+    @ColumnInfo(name = "filter_group_id")
+    val  filterGroupId: Int,
     @ColumnInfo(name = "cocktail_id")
     val cocktailId: Int,
 )

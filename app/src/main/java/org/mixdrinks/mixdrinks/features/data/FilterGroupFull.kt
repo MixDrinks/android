@@ -6,12 +6,20 @@ data class FilterGroupFull(
     val id: Int,
     val name: String,
     val selectionType: SelectionType,
-    val filters: List<Filters>
-    ) {
-    data class Filters(
+    val filters: List<Filter>
+) {
+    data class Filter(
         val id: Int,
         val name: String,
-        val cocktailIds: Set<Int>
+        val enabled: Boolean,
+        val checked: Boolean,
+        val cocktailIds: List<Int>
     )
 }
+
+data class SelectedFilter(
+    val filterId: Int,
+    val filterGroupId: Int,
+)
+
 

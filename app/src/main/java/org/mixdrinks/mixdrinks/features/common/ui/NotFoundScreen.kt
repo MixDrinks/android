@@ -1,7 +1,6 @@
 package org.mixdrinks.mixdrinks.features.common.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,8 +23,8 @@ import org.mixdrinks.mixdrinks.R
 fun NotFoundScreen(modifier: Modifier, onNavigateToStart: () -> Unit) {
     Column(
         modifier = modifier
+            .padding(top = 50.dp)
             .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(

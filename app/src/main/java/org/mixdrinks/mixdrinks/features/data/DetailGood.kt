@@ -1,17 +1,20 @@
 package org.mixdrinks.mixdrinks.features.data
 
-import org.mixdrinks.dto.GoodId
-import org.mixdrinks.dto.ToolId
-
-data class DetailGood (
-    val id: GoodId,
+data class DetailGood(
+    val id: Int,
     val name: String,
-    val about: String
-)
+    val about: String,
 
-data class DetailTool (
-    val id: ToolId,
-    val name: String,
-    val about: String
 )
+data class GoodType(
+    val id: Int,
+    val type: Type
+) {
+    enum class Type {
+        GOOD, GLASSWARE, TOOL;
+        companion object {
+            fun fromString(value: String) = Type.values().first() { it.toString() == value }
+        }
+    }
+}
 

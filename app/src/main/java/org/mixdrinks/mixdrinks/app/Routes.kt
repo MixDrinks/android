@@ -6,12 +6,14 @@ object Routes {
     const val notFound = "not_found"
 
     const val cocktail = "cocktail"
-    const val cocktailId = "cocktailId"
-
-    const val tool = "tool"
-    const val toolId = "toolId"
+    const val cocktailId = "cocktail_id"
 
     const val good = "good"
-    const val goodId = "goodId"
+    const val goodId = "good_id"
+    const val goodType = "good_type"
+
+    const val filterSearch = "filter_search"
+    const val groupFilterId = "group_filter_id"
+
 }
 

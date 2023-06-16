@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
-    private const val BASE_URL = "https://api.mixdrinks.org/v2/"
+    private const val BASE_URL = "https://api.mixdrinks.org/"
     private const val TIME_OUT: Long = 60
 
     private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)

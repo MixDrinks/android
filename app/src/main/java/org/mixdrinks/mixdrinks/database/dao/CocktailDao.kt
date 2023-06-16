@@ -1,7 +1,6 @@
 package org.mixdrinks.mixdrinks.database.dao
 
 
-import android.util.Log
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Embedded
@@ -22,12 +21,14 @@ import org.mixdrinks.mixdrinks.database.entities.CocktailToGoodRelation
 import org.mixdrinks.mixdrinks.database.entities.CocktailToTag
 import org.mixdrinks.mixdrinks.database.entities.CocktailToTaste
 import org.mixdrinks.mixdrinks.database.entities.CocktailToTool
+import org.mixdrinks.mixdrinks.database.entities.FilterWithCocktailIds
 import org.mixdrinks.mixdrinks.database.entities.Glassware
 import org.mixdrinks.mixdrinks.database.entities.Good
 import org.mixdrinks.mixdrinks.database.entities.Tag
 import org.mixdrinks.mixdrinks.database.entities.Taste
 import org.mixdrinks.mixdrinks.database.entities.Tool
 import org.mixdrinks.mixdrinks.features.data.CocktailFull
+import org.mixdrinks.mixdrinks.features.data.SelectedFilter
 
 @Dao
 interface CocktailDao {
@@ -59,7 +60,8 @@ interface CocktailDao {
     suspend fun getById(id: Int): CocktailSnapshotDatabase
 
     @Query("SELECT cocktail_id, name FROM cocktails")
-    suspend fun getAllShortCocktail(): List<CocktailShort>
+    suspend fun getAllCocktailShort(): List<Cocktails>
+
 }
 
 data class CocktailSnapshotDatabase(
@@ -111,7 +113,6 @@ data class CocktailSnapshotDatabase(
     }
 
     fun toCocktailFull(): CocktailFull {
-        Log.d("good", goods.size.toString() +  goods.toString())
         return CocktailFull(
             id = CocktailId(cocktail.cocktailId),
             name = cocktail.name,
@@ -122,9 +123,11 @@ data class CocktailSnapshotDatabase(
                     id = GoodId(good.goodId),
                     name = good.name,
                     amount = goodsUnit.filter {
-                        it.goodId == good.goodId }.first().amount,
+                        it.goodId == good.goodId
+                    }.first().amount,
                     unit = goodsUnit.filter {
-                        it.goodId == good.goodId }.first().unit,
+                        it.goodId == good.goodId
+                    }.first().unit,
                 )
             },
             tools = tools.map { tool ->
@@ -145,13 +148,35 @@ data class CocktailSnapshotDatabase(
                     name = taste.name
                 )
             },
-            glassware = CocktailFull.Glassware(id = GlasswareId(glassware.glasswareId), name = glassware.name)
+            glassware = CocktailFull.Glassware(
+                id = GlasswareId(glassware.glasswareId),
+                name = glassware.name
+            )
         )
     }
 }
 
-data class CocktailShort(
+data class Cocktails(
     @ColumnInfo(name = "cocktail_id")
     val cocktailId: Int,
     val name: String,
+    @Relation(
+        parentColumn = "cocktail_id",
+        entityColumn = "cocktail_id",
+    )
+    val filters: List<FilterWithCocktailIds>
+) {
+    fun toCocktailsWithFilters(): CocktailsWithFilters {
+        return CocktailsWithFilters(
+            cocktailId = cocktailId,
+            name = name,
+            filters = filters.map { SelectedFilter(it.filterId, it.filterGroupId) }
+        )
+    }
+}
+
+data class CocktailsWithFilters(
+    val cocktailId: Int,
+    val name: String,
+    val filters: List<SelectedFilter>
 )

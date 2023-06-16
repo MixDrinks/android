@@ -1,8 +1,6 @@
 package org.mixdrinks.mixdrinks.features.fetcher
 
 import androidx.room.Transaction
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import org.mixdrinks.dto.CocktailDto
 import org.mixdrinks.dto.FilterGroupDto
 import org.mixdrinks.dto.GlasswareDto
@@ -25,19 +23,15 @@ import org.mixdrinks.mixdrinks.database.entities.Good
 import org.mixdrinks.mixdrinks.database.entities.Tag
 import org.mixdrinks.mixdrinks.database.entities.Taste
 import org.mixdrinks.mixdrinks.database.entities.Tool
-import org.mixdrinks.mixdrinks.features.data.CocktailProvider
+import org.mixdrinks.mixdrinks.features.data.MixDrinkService
 
 class Fetcher(
-    private val cocktailProvider: CocktailProvider,
-    private val roomDatabase: AppDatabase
+    private val cocktailProvider: MixDrinkService,
+    private val roomDatabase: AppDatabase,
 ) {
-    private val scope = MainScope()
-
-    init {
-        scope.launch {
-            if (roomDatabase.cocktailDao().getAll().isEmpty()) {
-                insertToDataBase(cocktailProvider.getAllCocktails())
-            }
+    suspend fun startFetch() {
+        if (roomDatabase.cocktailDao().getAll().isEmpty()) {
+            insertToDataBase(cocktailProvider.getAllCocktails())
         }
     }
     private suspend fun insertToDataBase(snapshot: SnapshotDto) {
@@ -49,6 +43,7 @@ class Fetcher(
         insertAllCocktails(snapshot.cocktails)
         insertAllFilters(snapshot.filterGroups)
     }
+
     @Transaction
     private suspend fun insertAllGlasswares(glasswares: List<GlasswareDto>) {
         roomDatabase.glasswareDao().addAll(glasswares.map { glassware ->
@@ -59,6 +54,7 @@ class Fetcher(
             )
         })
     }
+
     @Transaction
     private suspend fun insertAllGoods(goods: List<GoodDto>) {
         roomDatabase.goodDao().addAll(goods.map { good ->
@@ -69,6 +65,7 @@ class Fetcher(
             )
         })
     }
+
     @Transaction
     private suspend fun insertAllTags(tags: List<TagDto>) {
         roomDatabase.tagDao().addAll(tags.map { tag ->
@@ -78,6 +75,7 @@ class Fetcher(
             )
         })
     }
+
     @Transaction
     private suspend fun insertAllTastes(tastes: List<TasteDto>) {
         roomDatabase.tasteDao().addAll(tastes.map { taste ->
@@ -87,6 +85,7 @@ class Fetcher(
             )
         })
     }
+
     @Transaction
     private suspend fun insertAllTools(tools: List<ToolDto>) {
         roomDatabase.toolDao().addAll(tools.map { tool ->
@@ -97,6 +96,7 @@ class Fetcher(
             )
         })
     }
+
     @Transaction
     private suspend fun insertAllCocktails(cocktails: List<CocktailDto>) {
         roomDatabase.cocktailDao().addAllCocktails(
@@ -146,35 +146,31 @@ class Fetcher(
             )
         }
     }
+
     @Transaction
     private suspend fun insertAllFilters(filterGroup: List<FilterGroupDto>) {
-        roomDatabase.filterGroupDao().addAllFilterGroups(
-            filterGroup.map {
+        filterGroup.map { item ->
+            roomDatabase.filterGroupDao().addFilterGroup(
                 FilterGroup(
-                    id = it.id.value,
-                    name = it.name,
-                    selectionType = it.selectionType
+                    id = item.id.value,
+                    name = item.name,
+                    selectionType = item.selectionType
                 )
-            }
-        )
-        filterGroup.map {
-            roomDatabase.filterGroupDao().addAllFilters(
-                it.filters.map { filter ->
-                    Filters(
-                        filterId = filter.id.value,
-                        filterGroupId = it.id.value,
-                        name = filter.name
-                    )
-                }
             )
-        }
-        filterGroup.map {
-            it.filters.map { filter ->
+            item.filters.map {
+                roomDatabase.filterGroupDao().addFilter(
+                    Filters(
+                        filterId = it.id.value,
+                        filterGroupId = item.id.value,
+                        name = it.name
+                    )
+                )
                 roomDatabase.filterGroupDao().addAllFilterWithCocktailId(
-                    filter.cocktailIds.map { cocktailId ->
+                    it.cocktailIds.map { cocktailId ->
                         FilterWithCocktailIds(
-                            filterId = filter.id.value,
-                            cocktailId = cocktailId.id
+                            filterId = it.id.value,
+                            cocktailId = cocktailId.id,
+                            filterGroupId = item.id.value
                         )
                     }
                 )
