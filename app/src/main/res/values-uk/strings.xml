@@ -2,7 +2,7 @@
 <resources>
     <string name="failure_connecting">Помилка підключення</string>
     <string name="cocktail_recipe">Рецепт</string>
-    <string name="cocktail_ingredients">Склад</string>
+    <string name="cocktail_ingredients">Інградієнти</string>
     <string name="need_tools">Інструменти</string>
     <string name="visit_count">Перегляди</string>
     <string name="search_hint">Пошук</string>

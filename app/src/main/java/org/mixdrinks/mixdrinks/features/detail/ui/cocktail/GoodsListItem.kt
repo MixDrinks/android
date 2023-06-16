@@ -132,7 +132,7 @@ fun ToolsListItem(
         ) {
             ImageItem(
                 modifier = modifier,
-                ImageUrlCreators.createUrl(GoodId(id), ImageUrlCreators.Size.SIZE_320 ),
+                ImageUrlCreators.createUrl(GoodId(id), ImageUrlCreators.Size.SIZE_320),
                 description = name
             )
             Row(

@@ -19,7 +19,7 @@ data class FilterGroupFull(
 
 data class SelectedFilter(
     val filterId: Int,
-    val filterGroupId: Int
+    val filterGroupId: Int,
 )
 
 
